@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root prefHeight="513.0" prefWidth="591.0" styleClass="mainFxmlClass" type="HBox" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/styles/pages/loginpage.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="240.0" layoutY="183.0" text="Login Page" />
+   </children>
+</fx:root>
