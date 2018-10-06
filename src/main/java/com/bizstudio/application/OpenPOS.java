@@ -5,11 +5,11 @@
  */
 package com.bizstudio.application;
 
-import com.bizstudio.data.dtos.xmpp.XMPPMessage;
-import com.bizstudio.data.dtos.xmpp.XMPPPayload;
-import com.bizstudio.enums.xmpp.XmppPayloadAction;
-import com.bizstudio.events.xmpp.XmppMessageEventListener;
-import com.bizstudio.managers.NetworkCommunicationManager;
+import com.bizstudio.xmpp.dtos.XMPPMessage;
+import com.bizstudio.xmpp.dtos.XMPPPayload;
+import com.bizstudio.xmpp.enums.XmppPayloadAction;
+import com.bizstudio.xmpp.events.XmppMessageEventListener;
+import com.bizstudio.application.managers.NetworkCommunicationManager;
 import com.bizstudio.ui.pages.application.ApplicationContainer;
 import com.google.gson.Gson;
 import java.io.ByteArrayInputStream;

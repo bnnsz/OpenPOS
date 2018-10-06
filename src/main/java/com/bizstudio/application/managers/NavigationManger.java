@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bizstudio.managers;
+package com.bizstudio.application.managers;
 
-import com.bizstudio.enums.application.NavigationRoute;
-import static com.bizstudio.enums.application.NavigationRoute.*;
-import com.bizstudio.enums.application.PageState;
+import com.bizstudio.application.enums.NavigationRoute;
+import static com.bizstudio.application.enums.NavigationRoute.*;
+import com.bizstudio.application.enums.PageState;
 import com.bizstudio.ui.components.application.PageStack;
 import com.bizstudio.ui.pages.application.ApplicationPage;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class NavigationManger {
 
     private NavigationManger() {
         this.stackPane = new PageStack();
-        this.applicationPages = FXCollections.observableList(new ArrayList<ApplicationPage>());
+        this.applicationPages = FXCollections.observableList(new ArrayList<>());
         this.applicationPages.addListener(new ListChangeListenerImpl());
     }
 

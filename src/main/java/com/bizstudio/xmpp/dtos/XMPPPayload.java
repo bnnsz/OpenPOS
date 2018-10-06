@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.data.dtos.xmpp;
+package com.bizstudio.xmpp.dtos;
 
-import com.bizstudio.enums.xmpp.XmppPayloadAction;
+import com.bizstudio.xmpp.enums.XmppPayloadAction;
 import org.jivesoftware.smack.util.stringencoder.Base64;
 
 /**

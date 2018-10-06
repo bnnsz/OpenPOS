@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.managers;
+package com.bizstudio.application.managers;
 
-import com.bizstudio.data.dtos.xmpp.XMPPMessage;
-import com.bizstudio.data.dtos.xmpp.XMPPPayload;
-import com.bizstudio.enums.xmpp.XmppPayloadAction;
-import com.bizstudio.events.xmpp.XmppMessageEventListener;
+import com.bizstudio.xmpp.dtos.XMPPMessage;
+import com.bizstudio.xmpp.dtos.XMPPPayload;
+import com.bizstudio.xmpp.enums.XmppPayloadAction;
+import com.bizstudio.xmpp.events.XmppMessageEventListener;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +67,6 @@ public class NetworkCommunicationManager implements IncomingChatMessageListener,
         } catch (SmackException | IOException | XMPPException | InterruptedException ex) {
             Logger.getLogger(NetworkCommunicationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void initComponents() {

@@ -15,8 +15,8 @@
  */
 package com.bizstudio.ui.components.application;
 
-import com.bizstudio.enums.application.NavigationRoute;
-import com.bizstudio.managers.NavigationManger;
+import com.bizstudio.application.enums.NavigationRoute;
+import com.bizstudio.application.managers.NavigationManger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;

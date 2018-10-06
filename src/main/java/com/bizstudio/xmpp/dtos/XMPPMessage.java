@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.data.dtos.xmpp;
+package com.bizstudio.xmpp.dtos;
 
 /**
  *

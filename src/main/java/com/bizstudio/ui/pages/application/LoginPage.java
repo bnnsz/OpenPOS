@@ -15,8 +15,8 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.enums.application.NavigationRoute;
-import com.bizstudio.managers.NavigationManger;
+import com.bizstudio.application.enums.NavigationRoute;
+import com.bizstudio.application.managers.NavigationManger;
 import java.util.Map;
 
 /**

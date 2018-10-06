@@ -15,7 +15,7 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.managers.NavigationManger;
+import com.bizstudio.application.managers.NavigationManger;
 import com.bizstudio.ui.components.application.NavigationBar;
 import java.io.IOException;
 import java.net.URL;

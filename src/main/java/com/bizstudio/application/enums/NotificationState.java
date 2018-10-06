@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.enums.xmpp;
+package com.bizstudio.application.enums;
 
 /**
  *
  * @author ObinnaAsuzu
  */
-public enum XmppPayloadAction {
-    INENTORY_TRANSFER;
+public enum NotificationState {
+    NEW,SEEN,READ
 }

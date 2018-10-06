@@ -15,8 +15,8 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.enums.application.PageState;
-import com.bizstudio.handlers.NavigationHandler;
+import com.bizstudio.application.enums.PageState;
+import com.bizstudio.application.handlers.NavigationHandler;
 import java.util.Map;
 import javafx.scene.layout.HBox;
 

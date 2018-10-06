@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.events.xmpp;
+package com.bizstudio.application.enums;
 
 /**
  *
  * @author ObinnaAsuzu
  */
-public interface XmppEventListener {
-    public void handle();
+public enum NotificationType {
+    INFO,ERROR,SUCCESS,FAILURE
 }
