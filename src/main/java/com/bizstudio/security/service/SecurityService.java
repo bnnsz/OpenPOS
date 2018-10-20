@@ -65,8 +65,8 @@ public class SecurityService  extends AuthorizingRealm implements RolePermission
     Gson gson = new Gson();
 
     public SecurityService() {
-        EntityManagerFactory dataEMF = Persistence.createEntityManagerFactory("dataPU");
-        EntityManagerFactory cacheEMF = Persistence.createEntityManagerFactory("cachePU");
+        EntityManagerFactory dataEMF = PersistenceManger.getInstance().getDataEMF();
+        EntityManagerFactory cacheEMF = PersistenceManger.getInstance().getCacheEMF();
         
         accountEntityJpaController = new UserAccountEntityJpaController(dataEMF);
         roleEntityJpaController = new UserRoleEntityJpaController(dataEMF);

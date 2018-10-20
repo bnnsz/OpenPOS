@@ -18,7 +18,6 @@ package com.bizstudio.application.enums;
 import com.bizstudio.ui.pages.application.ApplicationPage;
 import com.bizstudio.ui.pages.application.HomePage;
 import com.bizstudio.ui.pages.application.LoginPage;
-import java.util.Locale;
 
 /**
  *
