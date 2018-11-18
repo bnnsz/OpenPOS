@@ -171,7 +171,6 @@ public class SecurityService  extends AuthorizingRealm implements RolePermission
 
     @Override
     public SimpleSession readSession(Serializable sessionId) throws UnknownSessionException {
-
         SessionEntity findById = sessionEntityJpaController.findSessionEntity((Long) sessionId);
         if (findById == null || findById.getSession() == null) {
             throw new UnknownSessionException("Session with the id " + sessionId + " was not found");

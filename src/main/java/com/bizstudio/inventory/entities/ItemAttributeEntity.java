@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +24,6 @@ import javax.persistence.OneToOne;
  * @author ObinnaAsuzu
  */
 @Entity
-@EntityListeners(EntityListener.class)
 public class ItemAttributeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,16 +31,19 @@ public class ItemAttributeEntity implements Serializable {
     private Long id;
     
     @OneToOne
-    private ItemPropertyEntity property;
+    private ItemPropEntity property;
     
-    @Column(name="ATTRIBUTE_VALUE")
+    @Column(name="attribute_value")
     private String value;
     
-    @ManyToOne
-    private ItemEntity item;
+    @Enumerated(EnumType.ORDINAL)
+    private ItemAttrModifierType modifierType;
+    
+    @Column
+    private double modifierAmount;
     
     @ManyToOne
-    private ItemVariantEntity itemVariant;
+    private ItemVariantEntity variant;
     
     
 
@@ -54,14 +58,14 @@ public class ItemAttributeEntity implements Serializable {
     /**
      * @return the property
      */
-    public ItemPropertyEntity getProperty() {
+    public ItemPropEntity getProperty() {
         return property;
     }
 
     /**
      * @param property the property to set
      */
-    public void setProperty(ItemPropertyEntity property) {
+    public void setProperty(ItemPropEntity property) {
         this.property = property;
     }
 
@@ -80,31 +84,45 @@ public class ItemAttributeEntity implements Serializable {
     }
 
     /**
-     * @return the item
+     * @return the modifierType
      */
-    public ItemEntity getItem() {
-        return item;
+    public ItemAttrModifierType getModifierType() {
+        return modifierType;
     }
 
     /**
-     * @param item the item to set
+     * @param modifierType the modifierType to set
      */
-    public void setItem(ItemEntity item) {
-        this.item = item;
+    public void setModifierType(ItemAttrModifierType modifierType) {
+        this.modifierType = modifierType;
     }
 
     /**
-     * @return the itemVariant
+     * @return the modifierAmount
      */
-    public ItemVariantEntity getItemVariant() {
-        return itemVariant;
+    public double getModifierAmount() {
+        return modifierAmount;
     }
 
     /**
-     * @param itemVariant the itemVariant to set
+     * @param modifierAmount the modifierAmount to set
      */
-    public void setItemVariant(ItemVariantEntity itemVariant) {
-        this.itemVariant = itemVariant;
+    public void setModifierAmount(double modifierAmount) {
+        this.modifierAmount = modifierAmount;
+    }
+
+    /**
+     * @return the variant
+     */
+    public ItemVariantEntity getVariant() {
+        return variant;
+    }
+
+    /**
+     * @param variant the variant to set
+     */
+    public void setVariant(ItemVariantEntity variant) {
+        this.variant = variant;
     }
 
     @Override

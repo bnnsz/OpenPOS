@@ -5,29 +5,26 @@
  */
 package com.bizstudio.inventory.entities;
 
-import com.bizstudio.inventory.entities.listeners.EntityListener;
 import com.bizstudio.security.entities.AbstractEntity;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
  * @author ObinnaAsuzu
  */
 @Entity
-@EntityListeners(EntityListener.class)
-public class ItemEntity extends AbstractEntity implements Serializable {
+public class LocationEntity extends AbstractEntity implements Serializable {
 
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,18 +33,21 @@ public class ItemEntity extends AbstractEntity implements Serializable {
     @Column
     private String name;
     
-    @ManyToOne
-    private ItemCategoryEntity category;
-    
     @Column
-    private boolean stockable;
+    private String phoneNumber;
     
-    @OneToMany
-    private List<ItemPropEntity> properties = new ArrayList<>();
-
-    @OneToMany(mappedBy = "item")
-    private List<ItemVariantEntity> variants = new ArrayList<>();
-
+    @OneToOne
+    private AddressEntity address;
+    
+    @OneToMany(mappedBy = "parentLocation")
+    private List<LocationEntity> subLocations;
+    
+    @ManyToOne
+    private LocationEntity parentLocation;
+    
+    @OneToMany(mappedBy = "location")
+    private List<ItemStockEntity> stocks;
+    
     @Override
     public Long getId() {
         return id;
@@ -72,59 +72,73 @@ public class ItemEntity extends AbstractEntity implements Serializable {
     }
 
     /**
-     * @return the category
+     * @return the phoneNumber
      */
-    public ItemCategoryEntity getCategory() {
-        return category;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     /**
-     * @param category the category to set
+     * @param phoneNumber the phoneNumber to set
      */
-    public void setCategory(ItemCategoryEntity category) {
-        this.category = category;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     /**
-     * @return the stockable
+     * @return the address
      */
-    public boolean isStockable() {
-        return stockable;
+    public AddressEntity getAddress() {
+        return address;
     }
 
     /**
-     * @param stockable the stockable to set
+     * @param address the address to set
      */
-    public void setStockable(boolean stockable) {
-        this.stockable = stockable;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
     /**
-     * @return the properties
+     * @return the subLocations
      */
-    public List<ItemPropEntity> getProperties() {
-        return properties;
+    public List<LocationEntity> getSubLocations() {
+        return subLocations;
     }
 
     /**
-     * @param properties the properties to set
+     * @param subLocations the subLocations to set
      */
-    public void setProperties(List<ItemPropEntity> properties) {
-        this.properties = properties;
+    public void setSubLocations(List<LocationEntity> subLocations) {
+        this.subLocations = subLocations;
     }
 
     /**
-     * @return the variants
+     * @return the parentLocation
      */
-    public List<ItemVariantEntity> getVariants() {
-        return variants;
+    public LocationEntity getParentLocation() {
+        return parentLocation;
     }
 
     /**
-     * @param variants the variants to set
+     * @param parentLocation the parentLocation to set
      */
-    public void setVariants(List<ItemVariantEntity> variants) {
-        this.variants = variants;
+    public void setParentLocation(LocationEntity parentLocation) {
+        this.parentLocation = parentLocation;
+    }
+
+    /**
+     * @return the stocks
+     */
+    public List<ItemStockEntity> getStocks() {
+        return stocks;
+    }
+
+    /**
+     * @param stocks the stocks to set
+     */
+    public void setStocks(List<ItemStockEntity> stocks) {
+        this.stocks = stocks;
     }
 
     @Override
@@ -137,10 +151,10 @@ public class ItemEntity extends AbstractEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemEntity)) {
+        if (!(object instanceof LocationEntity)) {
             return false;
         }
-        ItemEntity other = (ItemEntity) object;
+        LocationEntity other = (LocationEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -149,9 +163,7 @@ public class ItemEntity extends AbstractEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bizstudio.inventory.entities.ItemEntity[ id=" + id + " ]";
+        return "com.bizstudio.inventory.entities.LocationEntity[ id=" + id + " ]";
     }
-
     
-
 }

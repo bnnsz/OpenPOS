@@ -5,10 +5,15 @@
  */
 package com.bizstudio.inventory.entities;
 
+import com.bizstudio.inventory.entities.listeners.EntityListener;
+import com.bizstudio.security.entities.AbstractEntity;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +25,10 @@ import javax.persistence.OneToMany;
  * @author ObinnaAsuzu
  */
 @Entity
-public class ItemVariantEntity implements Serializable {
+@EntityListeners(EntityListener.class)
+public class ItemVariantEntity extends AbstractEntity implements Serializable {
+
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,10 +36,14 @@ public class ItemVariantEntity implements Serializable {
 
     @ManyToOne
     private ItemEntity item;
-
-    @OneToMany(mappedBy = "itemVariant")
+    
+    @OneToMany(mappedBy = "variant")
     private List<ItemAttributeEntity> attributes = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "variant")
+    private List<ItemStockEntity> stocks = new ArrayList<>();
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -46,7 +58,7 @@ public class ItemVariantEntity implements Serializable {
     public ItemEntity getItem() {
         return item;
     }
-
+    
     /**
      * @param item the item to set
      */
@@ -66,6 +78,20 @@ public class ItemVariantEntity implements Serializable {
      */
     public void setAttributes(List<ItemAttributeEntity> attributes) {
         this.attributes = attributes;
+    }
+
+    /**
+     * @return the stocks
+     */
+    public List<ItemStockEntity> getStocks() {
+        return stocks;
+    }
+
+    /**
+     * @param stocks the stocks to set
+     */
+    public void setStocks(List<ItemStockEntity> stocks) {
+        this.stocks = stocks;
     }
 
     @Override

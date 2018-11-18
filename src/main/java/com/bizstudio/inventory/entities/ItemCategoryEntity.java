@@ -5,26 +5,38 @@
  */
 package com.bizstudio.inventory.entities;
 
+import com.bizstudio.inventory.entities.listeners.EntityListener;
+import com.bizstudio.security.entities.AbstractEntity;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author ObinnaAsuzu
  */
 @Entity
-public class ItemPropertyEntity implements Serializable {
+@EntityListeners(EntityListener.class)
+public class ItemCategoryEntity extends AbstractEntity implements Serializable {
+
+    @OneToMany(mappedBy = "category")
+    private List<ItemEntity> items;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column
     private String name;
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -32,8 +44,8 @@ public class ItemPropertyEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    /**
+    
+     /**
      * @return the name
      */
     public String getName() {
@@ -57,10 +69,10 @@ public class ItemPropertyEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemPropertyEntity)) {
+        if (!(object instanceof ItemCategoryEntity)) {
             return false;
         }
-        ItemPropertyEntity other = (ItemPropertyEntity) object;
+        ItemCategoryEntity other = (ItemCategoryEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -69,7 +81,9 @@ public class ItemPropertyEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bizstudio.inventory.entities.ItemProperty[ id=" + id + " ]";
+        return "com.bizstudio.inventory.entities.ItemCategoryEntity[ id=" + id + " ]";
     }
+
+   
     
 }

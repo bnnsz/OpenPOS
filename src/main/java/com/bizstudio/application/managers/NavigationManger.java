@@ -107,8 +107,10 @@ public class NavigationManger {
                 fxmlLoader.setRoot(newPage);
                 fxmlLoader.setController(newPage);
                 fxmlLoader.load();
+                //TODO PASS PAGE PARAMS
                 newPage.setPageState(PageState.NEW);
                 newPage.onPageCreate();
+                newPage.onNavigateEvent(parameters);
                 applicationPages.add(newPage);
                 handler = newPage;
             } catch (IOException | InstantiationException | IllegalAccessException ex) {

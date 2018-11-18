@@ -6,7 +6,7 @@
 package com.bizstudio.inventory.entities.listeners;
 
 import com.bizstudio.security.entities.AuditLogEntity;
-import com.bizstudio.security.entities.Auditable;
+import com.bizstudio.security.entities.AbstractEntity;
 import com.bizstudio.security.entities.controllers.AuditLogEntityJpaController;
 import com.bizstudio.security.entities.enums.AuditLogAction;
 import static com.bizstudio.security.entities.enums.AuditLogAction.*;
@@ -31,31 +31,30 @@ public class EntityListener {
     }
 
     @PrePersist
-    public void prePersist(Auditable item) {
+    public void prePersist(AbstractEntity item) {
         item.setCreatedTimestamp(LocalDateTime.now());
         item.setUpdatedTimestamp(LocalDateTime.now());
         audit(item, CREATED);
     }
 
     @PreUpdate
-    public void preUpdate(Auditable item) {
+    public void preUpdate(AbstractEntity item) {
         item.setUpdatedTimestamp(LocalDateTime.now());
         audit(item, UPDATED);
     }
 
     @PreRemove
-    public void preRemove(Auditable item) {
+    public void preRemove(AbstractEntity item) {
         audit(item, REMOVED);
     }
 
-    public void audit(Auditable item, AuditLogAction action) {
+    public void audit(AbstractEntity item, AuditLogAction action) {
         AuditLogEntity log = new AuditLogEntity();
         Gson gson = new Gson();
         log.setEntityState(gson.toJson(item));
         log.setTimestamp(LocalDateTime.now());
         log.setEntityRef(String.valueOf(item.getId()));
         log.setEntityName(item.getClass().getSimpleName());
-        log.setEntityState(item.getState());
         log.setAction(action);
         log.setUsername(SecurityUtils.getSubject().getPrincipal().toString());
         controller.create(log);
