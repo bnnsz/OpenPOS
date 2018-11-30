@@ -129,9 +129,38 @@ public class SecurityService extends AuthorizingRealm implements
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        
+        List<UserAccountEntity> users = new ArrayList<>();
+        if (token instanceof PinToken) {
+            PinToken pToken = (PinToken) token;
+            if (pToken.getPin() == null || pToken.getPin().length < 1) {
+                throw new IncorrectCredentialsException("Incorrect credentials");
+            }
+            users = accountEntityJpaController.findByPin(String.copyValueOf(pToken.getPin()));
 
-        return null;
+        } else if (token instanceof UsernamePasswordToken) {
+            UsernamePasswordToken uToken = (UsernamePasswordToken) token;
+            if (uToken.getUsername() == null || uToken.getUsername().isEmpty()) {
+                throw new IncorrectCredentialsException("Incorrect credentials");
+            }
+            users = accountEntityJpaController.findByUsername(uToken.getUsername());
+        }
+
+        if (users.isEmpty()) {
+            throw new IncorrectCredentialsException();
+        }
+
+        UserAccountEntity user = users.get(0);
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo();
+        Map<String, String> credentials = new TreeMap<>();
+        user.getCredentials().forEach(c -> credentials.put(c.getName(), c.getValue()));
+        authenticationInfo.setCredentials(credentials);
+
+        List<Principal> princpals = new ArrayList<>();
+        user.getPrincipals().forEach((p) -> princpals.add(p));
+        PrincipalCollection principalCollection = new SimplePrincipalCollection(princpals, getName());
+        authenticationInfo.setPrincipals(principalCollection);
+
+        return authenticationInfo;
 
     }
 
