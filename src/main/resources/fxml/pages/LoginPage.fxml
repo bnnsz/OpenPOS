@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import java.lang.String?>
 <?import java.net.URL?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="513.0" prefWidth="591.0" styleClass="mainFxmlClass" type="HBox" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" prefHeight="601.0" prefWidth="978.0" styleClass="mainPanel" type="HBox" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/pages/loginpage.css" />
     </stylesheets>
    <children>
-      <Label layoutX="240.0" layoutY="183.0" text="Login Page" />
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES">
+         <children>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" spacing="10.0" styleClass="card-1">
+               <children>
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+                     <children>
+                        <ToggleButton fx:id="passwordToggle" mnemonicParsing="false" selected="true" text="ABC">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="loginInputType" />
+                           </toggleGroup>
+                           <styleClass>
+                              <String fx:value="input-type-toggle" />
+                              <String fx:value="input-type-toggle-l" />
+                           </styleClass>
+                        </ToggleButton>
+                        <ToggleButton fx:id="pinToggle" mnemonicParsing="false" text="123" toggleGroup="$loginInputType">
+                           <styleClass>
+                              <String fx:value="input-type-toggle" />
+                              <String fx:value="input-type-toggle-r" />
+                           </styleClass>
+                        </ToggleButton>
+                     </children>
+                  </HBox>
+                  <StackPane fx:id="inputStack" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <JFXCheckBox fx:id="rememberMe" styleClass="input-label" text="%REMEMBER_ME" />
+                  <Button fx:id="loginButton" mnemonicParsing="false" text="%LOGIN">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-primary" />
+                        <String fx:value="btn-lg" />
+                     </styleClass>
+                  </Button>
+               </children></VBox>
+         </children>
+      </VBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
    </children>
 </fx:root>

@@ -18,15 +18,12 @@ package com.bizstudio.ui.pages.application;
 import com.bizstudio.application.managers.NavigationManger;
 import com.bizstudio.ui.components.application.NavigationBar;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 /**
  * FXML Controller class
@@ -38,20 +35,23 @@ public class ApplicationContainer extends AnchorPane{
     @FXML
     private AnchorPane AnchorPane;
     @FXML
-    private AnchorPane navContainer;
+    private StackPane navContainer;
     @FXML
     private AnchorPane mainContainer;
     
     public ApplicationContainer() {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/fxml/application/Application.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/application/Application.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+        fxmlLoader.setResources(ResourceBundle.getBundle("bundles.application.lang", new Locale("en")));
         
         try {
             fxmlLoader.load();
-            navContainer.getChildren().add(new NavigationBar());
-            mainContainer.getChildren().add(NavigationManger.getInstance().getStackPane());
+            NavigationBar navigationBar = new NavigationBar(navContainer);
+            navContainer.getChildren().add(navigationBar);
+            mainContainer.getChildren().add(NavigationManger.getInstance(navigationBar).getStackPane());
+            navContainer.setManaged(false);
+            navContainer.setVisible(false);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

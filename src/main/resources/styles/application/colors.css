@@ -1,0 +1,53 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 20, 2018, 4:26:54 PM
+    Author     : ObinnaAsuzu
+*/
+
+* {
+    /*APPLICATION COLORS*/
+    -fx-color-app-primary: #2980b9;
+    -fx-color-app-primary-light: #2980b9;
+    -fx-color-app-secondary: #2980b9;
+    -fx-color-app-secondary-light: #2980b9;
+    /*DEFAULT COLORS*/
+   -fx-color-primary: #2980b9;
+   -fx-color-secondary: #7f8c8d;
+   -fx-color-default: #bdc3c7;
+   -fx-color-success: #27ae60;
+   -fx-color-error: #c0392b;
+   -fx-color-warn: #d35400;
+   -fx-color-info: #2980b9;
+   /*LIGHT COLORS*/
+   -fx-color-primary-light: #3498db;
+   -fx-color-secondary-light: #95a5a6;
+   -fx-color-default-light: #ecf0f1;
+   -fx-color-success-light: #2ecc71;
+   -fx-color-error-light: #e74c3c;
+   -fx-color-warn-light: #e67e22;
+   -fx-color-info-light: #3498db;
+}
+
+.text-color-primary{
+    -fx-text-fill: -fx-color-primary;
+}
+.text-color-secondary{
+    -fx-text-fill: -fx-color-secondary;
+}
+.text-color-success{
+    -fx-text-fill: -fx-color-success;
+}
+.text-color-danger{
+    -fx-text-fill: -fx-color-error;
+}
+.text-color-warn{
+    -fx-text-fill: -fx-color-warn;
+}
+.text-color-info{
+    -fx-text-fill: -fx-color-info;
+}
+

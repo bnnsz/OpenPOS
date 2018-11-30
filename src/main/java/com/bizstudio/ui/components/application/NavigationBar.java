@@ -25,44 +25,91 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 
 /**
  * FXML Controller class
  *
  * @author ObinnaAsuzu
  */
-public class NavigationBar extends VBox{
+public class NavigationBar extends VBox {
 
-    public NavigationBar() {
+    @FXML
+    ToggleGroup navToggles;
+    @FXML
+    Button backButton;
+
+    private final StackPane navContainer;
+
+    public NavigationBar(StackPane navContainer) {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/fxml/application/NavigationBar.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
-        
+
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-    } 
-    
+        this.navContainer = navContainer;
+    }
+
     @FXML
     private void gotoHome(ActionEvent event) {
         System.out.println("Go to Home!");
         NavigationManger.getInstance().navigate(NavigationRoute.HOME);
     }
-    
+
     @FXML
     private void gotoLogin(ActionEvent event) {
         System.out.println("Go to Login!");
-        NavigationManger.getInstance().navigate(NavigationRoute.LOGIN);
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null) {
+            System.out.println("Logout user ==> " + event.toString());
+            subject.logout();
+        }
     }
-    
+
     @FXML
     private void goBack(ActionEvent event) {
         System.out.println("Go Back");
         NavigationManger.getInstance().previousPage();
     }
-    
+
+    public ToggleButton getSelectedItem() {
+        return (ToggleButton) navToggles.getSelectedToggle();
+    }
+
+    public void setSelectedItem(ToggleButton navButton) {
+        navToggles.selectToggle(navButton);
+    }
+
+    public void showNavigation() {
+        navContainer.setVisible(true);
+        navContainer.setManaged(true);
+    }
+
+    public void hideNavigation() {
+        navContainer.setVisible(false);
+        navContainer.setManaged(false);
+    }
+
+    public void hideBack() {
+        backButton.setVisible(false);
+        backButton.setManaged(false);
+    }
+
+    public void showBack() {
+        backButton.setVisible(true);
+        backButton.setManaged(true);
+    }
+
 }

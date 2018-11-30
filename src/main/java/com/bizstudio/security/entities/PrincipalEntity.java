@@ -31,6 +31,18 @@ public class PrincipalEntity implements Serializable, Principal {
     @ManyToOne
     private UserAccountEntity userAccount;
 
+    public PrincipalEntity(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public PrincipalEntity() {
+    }
+    
+    
+    
+    
+
     public Long getId() {
         return id;
     }
@@ -92,6 +104,20 @@ public class PrincipalEntity implements Serializable, Principal {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return the userAccount
+     */
+    public UserAccountEntity getUserAccount() {
+        return userAccount;
+    }
+
+    /**
+     * @param userAccount the userAccount to set
+     */
+    public void setUserAccount(UserAccountEntity userAccount) {
+        this.userAccount = userAccount;
     }
     
 }

@@ -5,22 +5,20 @@
  */
 package com.bizstudio.security.entities;
 
+import com.bizstudio.inventory.entities.listeners.EntityListener;
+import com.bizstudio.security.util.CredentialConverter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import javax.persistence.CollectionTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
@@ -31,17 +29,6 @@ import javax.persistence.OneToMany;
  * @author ObinnaAsuzu
  */
 @Entity
-@NamedEntityGraphs({
-    @NamedEntityGraph(name = "credentials", attributeNodes = @NamedAttributeNode("credentials")),
-    @NamedEntityGraph(name = "principals", attributeNodes = @NamedAttributeNode("principals")),
-    @NamedEntityGraph(name = "roles", attributeNodes = @NamedAttributeNode("roles")),
-
-    @NamedEntityGraph(attributeNodes = {
-        @NamedAttributeNode("credentials"),
-        @NamedAttributeNode("principals"),
-        @NamedAttributeNode("roles")
-    }),})
-
 public class UserAccountEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,14 +36,20 @@ public class UserAccountEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private Long id;
-    @Column
+    @Column(unique = true)
     private String username;
-    @OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
-    private List<CredentialEntity> credentials;
-    @OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
-    private List<PrincipalEntity> principals;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<UserRoleEntity> roles;
+    @Column(unique = true)
+    @Convert(converter = CredentialConverter.class)
+    private String pin;
+
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
+    private List<CredentialEntity> credentials = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
+    private List<PrincipalEntity> principals = new ArrayList<>();
+
+    @OneToMany
+    private List<UserRoleEntity> roles = new ArrayList<>();
 
     public UserAccountEntity() {
     }
@@ -87,6 +80,20 @@ public class UserAccountEntity implements Serializable {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * @return the pin
+     */
+    public String getPin() {
+        return pin;
+    }
+
+    /**
+     * @param pin the pin to set
+     */
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     /**
@@ -129,6 +136,11 @@ public class UserAccountEntity implements Serializable {
      */
     public void setRoles(List<UserRoleEntity> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return (username + " => " + credentials.toString());
     }
 
 }

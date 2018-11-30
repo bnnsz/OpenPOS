@@ -21,10 +21,6 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 public class CredentialEntity implements Serializable {
-
-    @ManyToOne
-    private UserAccountEntity userAccount;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +30,18 @@ public class CredentialEntity implements Serializable {
     @Column(name = "CREDENTIAL_VALUE")
     @Convert(converter = CredentialConverter.class)
     private String value;
+    @ManyToOne
+    private UserAccountEntity userAccount;
+
+    public CredentialEntity() {
+    }
+
+    public CredentialEntity(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+    
+    
     
     public Long getId() {
         return id;
@@ -65,7 +73,7 @@ public class CredentialEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "com.bizstudio.BizPortal.security.entities.CredentialEntity[ id=" + id + " ]";
+        return name+ ": "+value;
     }
 
     /**
@@ -94,6 +102,20 @@ public class CredentialEntity implements Serializable {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return the userAccount
+     */
+    public UserAccountEntity getUserAccount() {
+        return userAccount;
+    }
+
+    /**
+     * @param userAccount the userAccount to set
+     */
+    public void setUserAccount(UserAccountEntity userAccount) {
+        this.userAccount = userAccount;
     }
     
 }

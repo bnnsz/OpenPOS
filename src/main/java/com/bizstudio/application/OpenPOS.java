@@ -5,24 +5,17 @@
  */
 package com.bizstudio.application;
 
-import com.bizstudio.xmpp.dtos.XMPPMessage;
-import com.bizstudio.xmpp.dtos.XMPPPayload;
-import com.bizstudio.xmpp.enums.XmppPayloadAction;
-import com.bizstudio.xmpp.events.XmppMessageEventListener;
-import com.bizstudio.application.managers.NetworkCommunicationManager;
+import com.bizstudio.security.service.BasicIniEnvironment;
 import com.bizstudio.ui.pages.application.ApplicationContainer;
-import com.google.gson.Gson;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.EventType;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.env.Environment;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.Session;
 
 /**
  *
@@ -40,17 +33,25 @@ public class OpenPOS extends Application {
 
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
-        
-        
-        NetworkCommunicationManager.getInstance().addIncomingMessageListener(XmppPayloadAction.INENTORY_TRANSFER, (String from, String message, byte[] payload) -> {
-            Test obj = new Gson().fromJson(new String(payload), Test.class);
-            
-            System.out.println("recived me=======>"+obj);
-        });
 
-        byte[] data = new Gson().toJson(new Test()).getBytes();
-       
-        NetworkCommunicationManager.getInstance().sendData(new XMPPMessage("Hi! World", new XMPPPayload(XmppPayloadAction.INENTORY_TRANSFER, data)), "bnnsz@asuzuobinna.com");
+        Environment env = new BasicIniEnvironment("classpath:shiro.ini");
+        SecurityManager securityManager = env.getSecurityManager();
+        // Make the SecurityManager instance available to the entire application
+        // via static memory:
+        SecurityUtils.setSecurityManager(securityManager);
+
+        scene.addEventFilter(EventType.ROOT, event -> {
+            if (event.getEventType() != MouseEvent.MOUSE_MOVED
+                    && event.getEventType() != MouseEvent.MOUSE_ENTERED_TARGET
+                    && event.getEventType() != MouseEvent.MOUSE_EXITED_TARGET) {
+                Session session = SecurityUtils.getSubject().getSession(false);
+                if (session != null) {
+                    System.out.println("Event ==> " + event.toString());
+                    session.touch();
+                }
+            }
+
+        });
         stage.show();
 
     }
@@ -60,48 +61,6 @@ public class OpenPOS extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public class Test implements Serializable{
-
-        /**
-         * @return the name
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * @param name the name to set
-         */
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        /**
-         * @return the id
-         */
-        public long getId() {
-            return id;
-        }
-
-        /**
-         * @param id the id to set
-         */
-        public void setId(long id) {
-            this.id = id;
-        }
-        private String name = "Test Data";
-        private long id = 200;
-
-        public Test() {
-        }
-
-        @Override
-        public String toString() {
-            return new Gson().toJson(Test.this);
-        }
-
     }
 
 }

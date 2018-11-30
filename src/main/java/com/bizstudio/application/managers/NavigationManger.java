@@ -18,14 +18,17 @@ package com.bizstudio.application.managers;
 import com.bizstudio.application.enums.NavigationRoute;
 import static com.bizstudio.application.enums.NavigationRoute.*;
 import com.bizstudio.application.enums.PageState;
+import com.bizstudio.ui.components.application.NavigationBar;
 import com.bizstudio.ui.components.application.PageStack;
 import com.bizstudio.ui.pages.application.ApplicationPage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -37,6 +40,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
 
 /**
@@ -47,6 +51,7 @@ public class NavigationManger {
 
     private final PageStack stackPane;
     ObservableList<ApplicationPage> applicationPages;
+    NavigationBar navigationBar;
 
     ApplicationPage handler;
 
@@ -73,20 +78,41 @@ public class NavigationManger {
         openPage(route.page(), Collections.unmodifiableMap(new HashMap<>()));
     }
 
+    public void showNavigation() {
+        navigationBar.showNavigation();
+    }
+
+    public void hideNavigation() {
+        navigationBar.hideNavigation();
+    }
+
     public void previousPage() {
         if (applicationPages.size() > 1) {
             applicationPages.remove(applicationPages.size() - 1);
         }
     }
 
-    public static NavigationManger getInstance() {
+    public static NavigationManger getInstance(NavigationBar navigationBar) {
         NavigationManger instance = NavigationMangerHolder.INSTANCE;
+        if (navigationBar != null) {
+            instance.navigationBar = navigationBar;
+        }
         if (instance.handler == null) {
             instance.openPage(LOGIN.page(), Collections.unmodifiableMap(new HashMap<>()));
         }
         return instance;
     }
 
+    public static NavigationManger getInstance() {
+        return getInstance(null);
+    }
+
+    /**
+     * Initializes the page if not created and adds to page stack
+     *
+     * @param cls
+     * @param parameters
+     */
     private void openPage(Class<? extends ApplicationPage> cls, Map<String, Object> parameters) {
         Optional<ApplicationPage> page = applicationPages.stream()
                 .filter(p -> p.getClass() == cls)
@@ -106,12 +132,18 @@ public class NavigationManger {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlResource));
                 fxmlLoader.setRoot(newPage);
                 fxmlLoader.setController(newPage);
+                fxmlLoader.setResources(ResourceBundle.getBundle("bundles.application.lang", new Locale("en")));
                 fxmlLoader.load();
                 //TODO PASS PAGE PARAMS
                 newPage.setPageState(PageState.NEW);
                 newPage.onPageCreate();
                 newPage.onNavigateEvent(parameters);
-                applicationPages.add(newPage);
+                newPage.setNavButton(navigationBar.getSelectedItem());
+                if (newPage.isKeepInHistory()) {
+                    applicationPages.add(newPage);
+                } else {
+                    openPage(newPage);
+                }
                 handler = newPage;
             } catch (IOException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(NavigationManger.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,6 +156,59 @@ public class NavigationManger {
         private static final NavigationManger INSTANCE = new NavigationManger();
     }
 
+    private void openPage(ApplicationPage newPage) {
+        if (stackPane.getChildren().isEmpty()) {
+            if (newPage != null) {
+                getStackPane().getChildren().add(newPage);
+                handler = newPage;
+                newPage.setPageState(PageState.ACTIVE);
+            }
+        } else {
+            ApplicationPage previousPage = (ApplicationPage) getStackPane().getChildren().get(getStackPane().getChildren().size() - 1);
+            if (newPage != null && previousPage != null && !newPage.equals(previousPage)) {
+                //ANIMATE IN NEW
+
+                // Set up a Translate Transition for the Text object
+                newPage.setTranslateX(getStackPane().getWidth());
+                newPage.setOpacity(0);
+                newPage.setScaleX(0);
+                newPage.setScaleY(0);
+                getStackPane().getChildren().add(newPage);
+
+                TranslateTransition translateTransition = new TranslateTransition(Duration.millis(200), newPage);
+                translateTransition.setFromX(getStackPane().getWidth());
+                translateTransition.setToX(getStackPane().getLayoutBounds().getMinX());
+
+                FadeTransition fadeTransition = new FadeTransition(Duration.millis(200), newPage);
+                fadeTransition.setFromValue(0);
+                fadeTransition.setToValue(1);
+
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), newPage);
+                scaleTransition.setFromX(0);
+                scaleTransition.setToX(1);
+                scaleTransition.setFromY(0);
+                scaleTransition.setToY(1);
+
+                ParallelTransition parallelTransition = new ParallelTransition();
+                parallelTransition.getChildren().addAll(
+                        fadeTransition,
+                        translateTransition,
+                        scaleTransition
+                );
+
+                parallelTransition.setOnFinished((ActionEvent event) -> {
+                    getStackPane().getChildren().remove(previousPage);
+                });
+                parallelTransition.play();
+
+                handler = newPage;
+                previousPage.setPageState(PageState.PAUSED);
+                previousPage.onPagePause();
+                newPage.setPageState(PageState.ACTIVE);
+            }
+        }
+    }
+
     private class ListChangeListenerImpl implements ListChangeListener<ApplicationPage> {
 
         @Override
@@ -131,56 +216,7 @@ public class NavigationManger {
             c.next();
             if (c.wasAdded()) {
                 ApplicationPage newPage = c.getList().get(c.getList().size() - 1);
-                if (stackPane.getChildren().isEmpty()) {
-                    if (newPage != null) {
-                        getStackPane().getChildren().add(newPage);
-                        handler = newPage;
-                        newPage.setPageState(PageState.ACTIVE);
-                    }
-                } else {
-                    ApplicationPage previousPage = (ApplicationPage) getStackPane().getChildren().get(getStackPane().getChildren().size() - 1);
-                    if (newPage != null && previousPage != null && !newPage.equals(previousPage)) {
-                        //ANIMATE IN NEW
-
-                        // Set up a Translate Transition for the Text object
-                        newPage.setTranslateX(getStackPane().getWidth());
-                        newPage.setOpacity(0);
-                        newPage.setScaleX(0);
-                        newPage.setScaleY(0);
-                        getStackPane().getChildren().add(newPage);
-
-                        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(200), newPage);
-                        translateTransition.setFromX(getStackPane().getWidth());
-                        translateTransition.setToX(getStackPane().getLayoutBounds().getMinX());
-
-                        FadeTransition fadeTransition = new FadeTransition(Duration.millis(200), newPage);
-                        fadeTransition.setFromValue(0);
-                        fadeTransition.setToValue(1);
-
-                        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), newPage);
-                        scaleTransition.setFromX(0);
-                        scaleTransition.setToX(1);
-                        scaleTransition.setFromY(0);
-                        scaleTransition.setToY(1);
-
-                        ParallelTransition parallelTransition = new ParallelTransition();
-                        parallelTransition.getChildren().addAll(
-                                fadeTransition,
-                                translateTransition,
-                                scaleTransition
-                        );
-
-                        parallelTransition.setOnFinished((ActionEvent event) -> {
-                            getStackPane().getChildren().remove(previousPage);
-                        });
-                        parallelTransition.play();
-
-                        handler = newPage;
-                        previousPage.setPageState(PageState.PAUSED);
-                        previousPage.onPagePause();
-                        newPage.setPageState(PageState.ACTIVE);
-                    }
-                }
+                openPage(newPage);
             } else if (c.wasRemoved()) {
                 if (c.getList().isEmpty()) {
                     navigate(NavigationRoute.LOGIN);
@@ -189,6 +225,7 @@ public class NavigationManger {
                     if (!stackPane.getChildren().isEmpty()) {
                         ApplicationPage previousPage = (ApplicationPage) getStackPane().getChildren().get(getStackPane().getChildren().size() - 1);
                         if (previousPage != null && !newPage.equals(previousPage)) {
+                            navigationBar.setSelectedItem(newPage.getNavButton());
                             getStackPane().getChildren().add(getStackPane().getChildren().size() - 1, newPage);
 
                             TranslateTransition translateTransition = new TranslateTransition(Duration.millis(200), previousPage);
@@ -233,6 +270,12 @@ public class NavigationManger {
                         }
                     }
                 }
+            }
+
+            if (c.getList().size() < 2) {
+                navigationBar.hideBack();
+            }else{
+                navigationBar.showBack();
             }
         }
     }

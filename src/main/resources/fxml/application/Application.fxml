@@ -3,15 +3,17 @@
 <?import java.net.URL?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/application/application.css" />
+        <URL value="@/styles/application/Styles.css" />
     </stylesheets>
     <children>
         <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-            <AnchorPane fx:id="navContainer" maxHeight="1.7976931348623157E308" maxWidth="70.0" minWidth="-Infinity" prefWidth="70.0" />
+            <StackPane fx:id="navContainer" maxHeight="1.7976931348623157E308" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
             <AnchorPane fx:id="mainContainer" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>

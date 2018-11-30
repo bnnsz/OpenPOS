@@ -10,11 +10,13 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 /**
  *
  * @author ObinnaAsuzu
  */
+@Converter
 public class CredentialConverter implements AttributeConverter<String, byte[]> {
 
     private static final String ALGORITHM = "AES/ECB/PKCS5Padding";

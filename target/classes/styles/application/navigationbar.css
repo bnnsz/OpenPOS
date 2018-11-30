@@ -1,7 +1,28 @@
 /*
  * Empty Stylesheet file.
  */
+@import "colors.css";
+.nav-bar {
+    -fx-background-color: -fx-color-app-primary;
+}
 
-.mainFxmlClass {
+.nav-button{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-font-weight: lighter;
+    -fx-font-size: 12px;
+}
+.nav-button:hover{
+    -fx-background-color: rgba(255,255,255,0.3);
+}
+.nav-button:selected{
+    -fx-background-color: rgba(255,255,255,0.5);
+    -fx-font-weight: bold;
+}
 
+.icon{
+    -fx-text-fill: white;
+    -fx-font-weight: lighter;
 }

@@ -18,3 +18,99 @@ limitations under the License.
     Author     : ObinnaAsuzu
 */
 
+@font-face {
+    font-family: 'Roboto';
+    src: url('../..//fonts/roboto/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: 'Raleway';
+    src: url('../..//fonts/raleway/Raleway-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../..//fonts/opensan/OpenSans-Regular.ttf');
+}
+
+@import "colors.css";
+
+
+.card {
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+    -fx-background-color:rgba(255,255,255,0.8);
+    -fx-padding: 20;
+}
+
+.input-field{
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+    /*-fx-effect: innershadow(one-pass-box, rgba(200,200,200,0.5), 4, 0.5, 1, 1);*/
+    -fx-background-color:white;
+    -fx-pref-height: 35px;
+    -fx-max-height: 35px; 
+    -fx-min-height: 35px;
+    -fx-font-size: 18px;
+    -fx-padding: 10px;
+}
+
+.input-label{
+    -fx-text-fill: rgba(100,100,100,0.5);
+    -fx-font-size: 11px;
+    -fx-font-family: "Roboto"
+}
+
+.btn{
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+}
+
+.btn-sm{
+    -fx-pref-width:  200px;
+    -fx-pref-height: 25px;
+    -fx-max-width: 300px; 
+    -fx-min-width: 50px; 
+    -fx-max-height: 30px; 
+    -fx-min-height: 30px;
+    -fx-font-size: 12px;
+}
+
+.btn-lg{
+    -fx-pref-width:  200px;
+    -fx-pref-height: 40px;
+    -fx-max-width: 300px; 
+    -fx-min-width: 50px; 
+    -fx-max-height: 40px; 
+    -fx-min-height: 40px;
+    -fx-font-size: 18px;
+}
+
+.btn-default{
+    -fx-background-color: -fx-color-default;
+    -fx-text-fill: -fx-color-secondary;
+}
+.btn-primary{
+    -fx-background-color: -fx-color-primary;
+    -fx-text-fill: whitesmoke;
+}
+.btn-secondary{
+    -fx-background-color: -fx-color-secondary;
+    -fx-text-fill: whitesmoke;
+}
+.btn-success{
+    -fx-background-color: -fx-color-success;
+    -fx-text-fill: whitesmoke;
+}
+.btn-danger{
+    -fx-background-color: -fx-color-failure;
+    -fx-text-fill: whitesmoke;
+}
+.btn-warn{
+    -fx-background-color: -fx-color-warn;
+    -fx-text-fill: whitesmoke;
+}
+.btn-info{
+    -fx-background-color: -fx-color-info;
+    -fx-text-fill: whitesmoke;
+}
+

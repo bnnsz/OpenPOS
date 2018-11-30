@@ -17,7 +17,7 @@ package com.bizstudio.ui.pages.application;
 
 import com.bizstudio.application.enums.PageState;
 import com.bizstudio.application.handlers.NavigationHandler;
-import java.util.Map;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 
 /**
@@ -28,6 +28,9 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
 
     private long pageID;
     private PageState pageState;
+    private boolean keepInHistory = true;
+    private ToggleButton navButton;
+    
     
     
 
@@ -57,6 +60,34 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
      */
     public void setPageState(PageState pageState) {
         this.pageState = pageState;
+    }
+
+    /**
+     * @return the keepInHistory
+     */
+    public boolean isKeepInHistory() {
+        return keepInHistory;
+    }
+
+    /**
+     * @param keepInHistory the keepInHistory to set
+     */
+    public final void setKeepInHistory(boolean keepInHistory) {
+        this.keepInHistory = keepInHistory;
+    }
+
+    /**
+     * @return the navButton
+     */
+    public ToggleButton getNavButton() {
+        return navButton;
+    }
+
+    /**
+     * @param navButton the navButton to set
+     */
+    public void setNavButton(ToggleButton navButton) {
+        this.navButton = navButton;
     }
     
     

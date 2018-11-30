@@ -1,7 +1,66 @@
 /*
  * Empty Stylesheet file.
  */
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../fonts/roboto/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: 'Raleway';
+    src: url('../../fonts/raleway/Raleway-Regular.ttf');
+}
 
-.mainFxmlClass {
-    -fx-background-color: white;
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../../fonts/opensan/OpenSans-Regular.ttf');
+}
+
+@import "colors.css";
+
+.mainPanel {
+    -fx-background-image: url("../../images/pages/login/background.jpg") ;
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+    
+}
+
+.card-1 {
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+    -fx-background-color:rgba(255,255,255,0.8);
+    -fx-padding: 20;
+}
+
+.input-type-toggle{
+    -fx-background-color: -fx-color-default;
+    -fx-text-fill: -fx-color-secondary;
+    -fx-pref-width:  100px;
+    -fx-max-width: 100px; 
+    -fx-min-width: 50px; 
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+
+
+.input-type-toggle:selected{
+    -fx-background-color: -fx-color-primary;
+    -fx-text-fill: whitesmoke;
+}
+
+
+.input-type-toggle-l{
+    -fx-border-radius: 20 0 0 20;
+    -fx-background-radius: 20 0 0 20;
+}
+
+.input-type-toggle-r{
+    -fx-border-radius: 0 20 20 0;
+    -fx-background-radius: 0 20 20 0;
+}
+
+.input-type-toggle-m{
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
 }

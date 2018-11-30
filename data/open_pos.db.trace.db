@@ -1,0 +1,24 @@
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "CREDENTIALENTITY" not found; SQL statement:
+SELECT ID FROM CREDENTIALENTITY WHERE ID <> ID [42102-197]
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRINCIPALENTITY" not found; SQL statement:
+SELECT ID FROM PRINCIPALENTITY WHERE ID <> ID [42102-197]
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERACCOUNTENTITY" not found; SQL statement:
+SELECT ID FROM USERACCOUNTENTITY WHERE ID <> ID [42102-197]
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERPERMISSIONENTITY" not found; SQL statement:
+SELECT ID FROM USERPERMISSIONENTITY WHERE ID <> ID [42102-197]
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERROLEENTITY" not found; SQL statement:
+SELECT ID FROM USERROLEENTITY WHERE ID <> ID [42102-197]
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERACCOUNTENTITY_USERROLEENTITY" not found; SQL statement:
+SELECT roles_ID FROM USERACCOUNTENTITY_USERROLEENTITY WHERE roles_ID <> roles_ID [42102-197]
+2018-11-26 14:40:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERROLEENTITY_PERMISSIONS" not found; SQL statement:
+SELECT UserRoleEntity_ID FROM UserRoleEntity_PERMISSIONS WHERE UserRoleEntity_ID <> UserRoleEntity_ID [42102-197]
+2018-11-26 14:40:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "SEQUENCE" not found; SQL statement:
+SELECT SEQ_NAME FROM SEQUENCE WHERE SEQ_NAME <> SEQ_NAME [42102-197]

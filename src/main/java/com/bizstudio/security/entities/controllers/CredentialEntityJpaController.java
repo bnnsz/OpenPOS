@@ -6,6 +6,7 @@
 package com.bizstudio.security.entities.controllers;
 
 import com.bizstudio.security.entities.CredentialEntity;
+import com.bizstudio.security.entities.UserAccountEntity;
 import com.bizstudio.security.entities.controllers.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -36,7 +37,16 @@ public class CredentialEntityJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            UserAccountEntity userAccount = credentialEntity.getUserAccount();
+            if (userAccount != null) {
+                userAccount = em.getReference(userAccount.getClass(), userAccount.getId());
+                credentialEntity.setUserAccount(userAccount);
+            }
             em.persist(credentialEntity);
+            if (userAccount != null) {
+                userAccount.getCredentials().add(credentialEntity);
+                userAccount = em.merge(userAccount);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +60,22 @@ public class CredentialEntityJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            CredentialEntity persistentCredentialEntity = em.find(CredentialEntity.class, credentialEntity.getId());
+            UserAccountEntity userAccountOld = persistentCredentialEntity.getUserAccount();
+            UserAccountEntity userAccountNew = credentialEntity.getUserAccount();
+            if (userAccountNew != null) {
+                userAccountNew = em.getReference(userAccountNew.getClass(), userAccountNew.getId());
+                credentialEntity.setUserAccount(userAccountNew);
+            }
             credentialEntity = em.merge(credentialEntity);
+            if (userAccountOld != null && !userAccountOld.equals(userAccountNew)) {
+                userAccountOld.getCredentials().remove(credentialEntity);
+                userAccountOld = em.merge(userAccountOld);
+            }
+            if (userAccountNew != null && !userAccountNew.equals(userAccountOld)) {
+                userAccountNew.getCredentials().add(credentialEntity);
+                userAccountNew = em.merge(userAccountNew);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -80,6 +105,11 @@ public class CredentialEntityJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The credentialEntity with id " + id + " no longer exists.", enfe);
             }
+            UserAccountEntity userAccount = credentialEntity.getUserAccount();
+            if (userAccount != null) {
+                userAccount.getCredentials().remove(credentialEntity);
+                userAccount = em.merge(userAccount);
+            }
             em.remove(credentialEntity);
             em.getTransaction().commit();
         } finally {
@@ -89,15 +119,15 @@ public class CredentialEntityJpaController implements Serializable {
         }
     }
 
-    public List<CredentialEntity> findCredentialEntities() {
-        return findCredentialEntities(true, -1, -1);
+    public List<CredentialEntity> findCredentialEntityEntities() {
+        return findCredentialEntityEntities(true, -1, -1);
     }
 
-    public List<CredentialEntity> findCredentialEntities(int maxResults, int firstResult) {
-        return findCredentialEntities(false, maxResults, firstResult);
+    public List<CredentialEntity> findCredentialEntityEntities(int maxResults, int firstResult) {
+        return findCredentialEntityEntities(false, maxResults, firstResult);
     }
 
-    private List<CredentialEntity> findCredentialEntities(boolean all, int maxResults, int firstResult) {
+    private List<CredentialEntity> findCredentialEntityEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
