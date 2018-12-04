@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginPage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.ui.pages.application</a> &gt; <span class="el_source">LoginPage.java</span></div><h1>LoginPage.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 BizStudioSoft.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bizstudio.ui.pages.application;
+
+import com.bizstudio.application.OpenPOS;
+import com.bizstudio.application.enums.NavigationRoute;
+import com.bizstudio.application.managers.NavigationManger;
+import com.bizstudio.application.managers.NetworkCommunicationManager;
+import com.bizstudio.security.entities.interfaces.Principal;
+import com.bizstudio.security.service.PinToken;
+import com.bizstudio.ui.components.login.PinLoginInput;
+import com.bizstudio.ui.components.login.UsernamePasswordInput;
+import com.bizstudio.ui.pages.handlers.InputAuthentcationHandler;
+import com.bizstudio.utils.ApplicationMessageUtil;
+import com.bizstudio.xmpp.dtos.XMPPMessage;
+import com.bizstudio.xmpp.dtos.XMPPPayload;
+import com.bizstudio.xmpp.enums.XmppPayloadAction;
+import com.google.gson.Gson;
+import com.jfoenix.controls.JFXCheckBox;
+import java.util.Map;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+
+/**
+ * FXML Controller class
+ *
+ * @author ObinnaAsuzu
+ */
+public class LoginPage extends ApplicationPage {
+
+    @FXML
+    StackPane inputStack;
+    @FXML
+    ToggleButton passwordToggle;
+    @FXML
+    ToggleButton pinToggle;
+    @FXML
+    ToggleGroup loginInputType;
+    @FXML
+    private JFXCheckBox rememberMe;
+    @FXML
+    private Button loginButton;
+
+    AuthenticationToken token;
+
+<span class="nc" id="L71">    public LoginPage() {</span>
+<span class="nc" id="L72">        setKeepInHistory(false);</span>
+<span class="nc" id="L73">    }</span>
+    
+    
+
+    @Override
+    public void onPageCreate() {
+<span class="nc" id="L79">        PinLoginInput pinLoginInput = new PinLoginInput();</span>
+<span class="nc" id="L80">        UsernamePasswordInput passwordInput = new UsernamePasswordInput();</span>
+
+<span class="nc" id="L82">        pinLoginInput.setValueChangeHandler((AuthenticationToken passwordToken) -&gt; {</span>
+<span class="nc" id="L83">            ((PinToken) passwordToken).setRememberMe(rememberMe.selectedProperty().getValue());</span>
+<span class="nc" id="L84">            token = passwordToken;</span>
+<span class="nc" id="L85">        });</span>
+
+<span class="nc" id="L87">        passwordInput.setValueChangeHandler((AuthenticationToken passwordToken) -&gt; {</span>
+<span class="nc" id="L88">            ((UsernamePasswordToken) passwordToken).setRememberMe(rememberMe.selectedProperty().getValue());</span>
+<span class="nc" id="L89">            token = passwordToken;</span>
+<span class="nc" id="L90">        });</span>
+
+<span class="nc" id="L92">        loginButton.setOnAction((ActionEvent event) -&gt; {</span>
+<span class="nc" id="L93">            login();</span>
+<span class="nc" id="L94">        });</span>
+
+<span class="nc" id="L96">        inputStack.getChildren().clear();</span>
+<span class="nc" id="L97">        inputStack.getChildren().add(passwordInput);</span>
+<span class="nc" id="L98">        passwordToggle.selectedProperty().addListener((ObservableValue&lt;? extends Boolean&gt; observable, Boolean oldValue, Boolean newValue) -&gt; {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (newValue) {</span>
+<span class="nc" id="L100">                inputStack.getChildren().clear();</span>
+<span class="nc" id="L101">                inputStack.getChildren().add(passwordInput);</span>
+            }
+<span class="nc" id="L103">        });</span>
+
+<span class="nc" id="L105">        pinToggle.selectedProperty().addListener((ObservableValue&lt;? extends Boolean&gt; observable, Boolean oldValue, Boolean newValue) -&gt; {</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (newValue) {</span>
+<span class="nc" id="L107">                inputStack.getChildren().clear();</span>
+<span class="nc" id="L108">                inputStack.getChildren().add(pinLoginInput);</span>
+            }
+<span class="nc" id="L110">        });</span>
+
+<span class="nc" id="L112">    }</span>
+
+    public void login() {
+//        NetworkCommunicationManager.getInstance().addIncomingMessageListener(XmppPayloadAction.INENTORY_TRANSFER, (String from, String message, byte[] payload) -&gt; {
+//            OpenPOS.Test obj = new Gson().fromJson(new String(payload), OpenPOS.Test.class);
+//        });
+//        
+//
+//        NetworkCommunicationManager.getInstance().sendData(new XMPPMessage(&quot;Hi! World&quot;, new XMPPPayload(XmppPayloadAction.INENTORY_TRANSFER, data)), &quot;bnnsz@asuzuobinna.com&quot;);
+<span class="nc" id="L121">        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();</span>
+<span class="nc" id="L122">        usernamePasswordToken.setUsername(&quot;superuser&quot;);</span>
+<span class="nc" id="L123">        usernamePasswordToken.setPassword(&quot;password123&quot;.toCharArray());</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (token != null) {</span>
+            try {
+<span class="nc" id="L126">                SecurityUtils.getSubject().login(token);</span>
+<span class="nc" id="L127">                Session session = SecurityUtils.getSubject().getSession(true);</span>
+<span class="nc" id="L128">                session.setAttribute(&quot;user&quot;, ((Principal) SecurityUtils.getSubject().getPrincipal()).getValue());</span>
+<span class="nc" id="L129">                NavigationManger.getInstance().navigate(NavigationRoute.HOME);</span>
+<span class="nc" id="L130">            } catch (AuthenticationException e) {</span>
+<span class="nc" id="L131">                ApplicationMessageUtil.getInstance().addMessage(e.getMessage());</span>
+<span class="nc" id="L132">                System.out.println();</span>
+<span class="nc" id="L133">            }</span>
+        } else {
+<span class="nc" id="L135">            ApplicationMessageUtil.getInstance().addMessage(&quot;Invalid Credential&quot;);</span>
+        }
+
+<span class="nc" id="L138">    }</span>
+
+    @Override
+
+    public void onPageDestroy() {
+<span class="nc" id="L143">    }</span>
+
+    @Override
+    public void onPageResume() {
+<span class="nc" id="L147">    }</span>
+
+    @Override
+    public void onPagePause() {
+<span class="nc" id="L151">    }</span>
+
+    @Override
+    public boolean equals(Object object) {
+<span class="nc" id="L155">        return object instanceof LoginPage;</span>
+    }
+
+    @Override
+    public void onNavigateEvent(Map&lt;String, Object&gt; parameters) {
+
+<span class="nc" id="L161">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

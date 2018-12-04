@@ -7,13 +7,10 @@ package com.bizstudio.application.entities;
 
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.enums.NotificationState;
-import com.bizstudio.security.util.CredentialConverter;
-import com.bizstudio.ui.pages.application.ApplicationPage;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

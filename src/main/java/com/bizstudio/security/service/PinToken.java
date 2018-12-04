@@ -5,31 +5,18 @@
  */
 package com.bizstudio.security.service;
 
-import org.apache.shiro.authc.HostAuthenticationToken;
-import org.apache.shiro.authc.RememberMeAuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
 
 /**
  *
  * @author ObinnaAsuzu
  */
-public class PinToken implements HostAuthenticationToken, RememberMeAuthenticationToken{
+public class PinToken extends UsernamePasswordToken{
 
     /**
      * The pin, in char[] format
      */
     private char[] pin;
-
-    /**
-     * Whether or not 'rememberMe' should be enabled for the corresponding login attempt;
-     * default is <code>false</code>
-     */
-    private boolean rememberMe = false;
-
-    /**
-     * The location from where the login attempt occurs, or <code>null</code> if not known or explicitly
-     * omitted.
-     */
-    private String host;
 
     /*--------------------------------------------
     |         C O N S T R U C T O R S           |
@@ -71,7 +58,6 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
      * Constructs a new PinToken encapsulating the username and pin submitted, the
  inetAddress from where the attempt is occurring, and a default <tt>rememberMe</tt> value of <tt>false</tt>
      *
-     * @param username the username submitted for authentication
      * @param pin the pin string submitted for authentication
      * @param host     the host name or IP string from where the attempt is occurring
      * @since 0.2
@@ -88,7 +74,6 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
  array, i.e. <tt>pin.toCharArray();</tt>.  Note that storing a pin as a String
  in your code could have possible security implications as noted in the class JavaDoc.</p>
      *
-     * @param username the username submitted for authentication
      * @param pin the pin string submitted for authentication
      * @param host     the host name or IP string from where the attempt is occurring
      * @since 1.0
@@ -101,7 +86,6 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
      * Constructs a new PinToken encapsulating the username and pin submitted, as well as if the user
  wishes their identity to be remembered across sessions.
      *
-     * @param username   the username submitted for authentication
      * @param pin   the pin string submitted for authentication
      * @param rememberMe if the user wishes their identity to be remembered across sessions
      * @since 0.9
@@ -118,7 +102,6 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
  array, i.e. <tt>pin.toCharArray();</tt>.  Note that storing a pin as a String
  in your code could have possible security implications as noted in the class JavaDoc.</p>
      *
-     * @param username   the username submitted for authentication
      * @param pin   the pin string submitted for authentication
      * @param rememberMe if the user wishes their identity to be remembered across sessions
      * @since 0.9
@@ -131,18 +114,86 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
      * Constructs a new PinToken encapsulating the username and pin submitted, if the user
  wishes their identity to be remembered across sessions, and the inetAddress from where the attempt is occurring.
      *
-     * @param username   the username submitted for authentication
      * @param pin   the pin character array submitted for authentication
      * @param rememberMe if the user wishes their identity to be remembered across sessions
      * @param host       the host name or IP string from where the attempt is occurring
      * @since 1.0
      */
-    public PinToken( final char[] pin,
-                                 final boolean rememberMe, final String host) {
-
+    public PinToken( final char[] pin,final boolean rememberMe, final String host) {
+        super(null, "".toCharArray(), rememberMe, host);
         this.pin = pin;
-        this.rememberMe = rememberMe;
-        this.host = host;
+    }
+    
+    /**
+     * Constructs a new PinToken encapsulating the username and pin submitted, if the user
+ wishes their identity to be remembered across sessions, and the inetAddress from where the attempt is occurring.
+     *
+     * @param pin   the pin character array submitted for authentication
+     * @param username the username submitted for authentication
+     * @param password the password character array submitted for authentication
+     * @since 1.0
+     */
+    public PinToken( final String pin,final String username,final String password) {
+        this(pin.toCharArray(), username, password.toCharArray(),false, null);
+    }
+    
+    /**
+     * Constructs a new PinToken encapsulating the username and pin submitted, if the user
+ wishes their identity to be remembered across sessions, and the inetAddress from where the attempt is occurring.
+     *
+     * @param pin   the pin character array submitted for authentication
+     * @param username the username submitted for authentication
+     * @param password the password character array submitted for authentication
+     * @param rememberMe if the user wishes their identity to be remembered across sessions
+     * @since 1.0
+     */
+    public PinToken( final String pin,final String username,final String password, final boolean rememberMe) {
+        this(pin.toCharArray(), username, password.toCharArray(),rememberMe, null);
+    }
+    
+    /**
+     * Constructs a new PinToken encapsulating the username and pin submitted, if the user
+ wishes their identity to be remembered across sessions, and the inetAddress from where the attempt is occurring.
+     *
+     * @param pin   the pin character array submitted for authentication
+     * @param username the username submitted for authentication
+     * @param password the password character array submitted for authentication
+     * @param host       the host name or IP string from where the attempt is occurring
+     * @since 1.0
+     */
+    public PinToken( final String pin,final String username,final String password, final String host) {
+        this(pin.toCharArray(), username, password.toCharArray(),false, host);
+    }
+    
+     /**
+     * Constructs a new PinToken encapsulating the username and pin submitted, if the user
+ wishes their identity to be remembered across sessions, and the inetAddress from where the attempt is occurring.
+     *
+     * @param pin   the pin character array submitted for authentication
+     * @param username the username submitted for authentication
+     * @param password the password character array submitted for authentication
+     * @param rememberMe if the user wishes their identity to be remembered across sessions
+     * @param host       the host name or IP string from where the attempt is occurring
+     * @since 1.0
+     */
+    public PinToken( final String pin,final String username,final String password, final boolean rememberMe, final String host) {
+        this(pin.toCharArray(), username, password.toCharArray(),rememberMe, host);
+    }
+    
+     /**
+     * Constructs a new PinToken encapsulating the username and pin submitted, if the user
+ wishes their identity to be remembered across sessions, and the inetAddress from where the attempt is occurring.
+     *
+     * @param pin   the pin character array submitted for authentication
+     * @param username the username submitted for authentication
+     * @param password the password character array submitted for authentication
+     * @param rememberMe if the user wishes their identity to be remembered across sessions
+     * @param host       the host name or IP string from where the attempt is occurring
+     * @since 1.0
+     */
+    public PinToken( final char[] pin,final String username,final char[] password, final boolean rememberMe, final String host) {
+        super(username, password, host);
+        this.pin = pin;
     }
 
 
@@ -154,14 +205,12 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
  array, i.e. <tt>pin.toCharArray();</tt>.  Note that storing a pin as a String
  in your code could have possible security implications as noted in the class JavaDoc.</p>
      *
-     * @param username   the username submitted for authentication
      * @param pin   the pin string submitted for authentication
      * @param rememberMe if the user wishes their identity to be remembered across sessions
      * @param host       the host name or IP string from where the attempt is occurring
      * @since 1.0
      */
-    public PinToken( final String pin,
-                                 final boolean rememberMe, final String host) {
+    public PinToken( final String pin, final boolean rememberMe, final String host) {
         this(pin != null ? pin.toCharArray() : null, rememberMe, host);
     }
 
@@ -210,58 +259,7 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
         return getPin();
     }
 
-    /**
-     * Returns the host name or IP string from where the authentication attempt occurs.  May be <tt>null</tt> if the
-     * host name/IP is unknown or explicitly omitted.  It is up to the Authenticator implementation processing this
-     * token if an authentication attempt without a host is valid or not.
-     * <p/>
-     * <p>(Shiro's default Authenticator allows <tt>null</tt> hosts to support localhost and proxy server environments).</p>
-     *
-     * @return the host from where the authentication attempt occurs, or <tt>null</tt> if it is unknown or
-     *         explicitly omitted.
-     * @since 1.0
-     */
-    public String getHost() {
-        return host;
-    }
-
-    /**
-     * Sets the host name or IP string from where the authentication attempt occurs.  It is up to the Authenticator
-     * implementation processing this token if an authentication attempt without a host is valid or not.
-     * <p/>
-     * <p>(Shiro's default Authenticator
-     * allows <tt>null</tt> hosts to allow localhost and proxy server environments).</p>
-     *
-     * @param host the host name or IP string from where the attempt is occurring
-     * @since 1.0
-     */
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    /**
-     * Returns <tt>true</tt> if the submitting user wishes their identity (principal(s)) to be remembered
-     * across sessions, <tt>false</tt> otherwise.  Unless overridden, this value is <tt>false</tt> by default.
-     *
-     * @return <tt>true</tt> if the submitting user wishes their identity (principal(s)) to be remembered
-     *         across sessions, <tt>false</tt> otherwise (<tt>false</tt> by default).
-     * @since 0.9
-     */
-    public boolean isRememberMe() {
-        return rememberMe;
-    }
-
-    /**
-     * Sets if the submitting user wishes their identity (principal(s)) to be remembered across sessions.  Unless
-     * overridden, the default value is <tt>false</tt>, indicating <em>not</em> to be remembered across sessions.
-     *
-     * @param rememberMe value indicating if the user wishes their identity (principal(s)) to be remembered across
-     *                   sessions.
-     * @since 0.9
-     */
-    public void setRememberMe(boolean rememberMe) {
-        this.rememberMe = rememberMe;
-    }
+    
 
     /*--------------------------------------------
     |               M E T H O D S               |
@@ -272,8 +270,7 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
      * <tt>0x00</tt> before nulling to eliminate the possibility of memory access at a later time.
      */
     public void clear() {
-        this.host = null;
-        this.rememberMe = false;
+        super.clear();
 
         if (this.pin != null) {
             for (int i = 0; i < pin.length; i++) {
@@ -284,22 +281,5 @@ public class PinToken implements HostAuthenticationToken, RememberMeAuthenticati
 
     }
 
-    /**
-     * Returns the String representation.  It does not include the pin in the resulting
-     * string for security reasons to prevent accidentally printing out a pin
-     * that might be widely viewable).
-     *
-     * @return the String representation of the <tt>PinToken</tt>, omitting
-         the pin.
-     */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getName());
-        sb.append(" - ");
-        sb.append(", rememberMe=").append(rememberMe);
-        if (host != null) {
-            sb.append(" (").append(host).append(")");
-        }
-        return sb.toString();
-    }
+    
 }

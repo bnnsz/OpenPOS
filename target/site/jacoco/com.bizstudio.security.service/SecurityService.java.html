@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.service</a> &gt; <span class="el_source">SecurityService.java</span></div><h1>SecurityService.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.service;
+
+import com.bizstudio.application.enums.NavigationRoute;
+import com.bizstudio.application.managers.NavigationManger;
+import com.bizstudio.security.entities.CredentialEntity;
+import com.bizstudio.security.entities.SessionEntity;
+import com.bizstudio.security.entities.UserAccountEntity;
+import com.bizstudio.security.entities.UserRoleEntity;
+import com.bizstudio.security.entities.controllers.SessionEntityJpaController;
+import com.bizstudio.security.entities.controllers.UserAccountEntityJpaController;
+import com.bizstudio.security.entities.controllers.UserRoleEntityJpaController;
+import com.bizstudio.security.entities.controllers.exceptions.NonexistentEntityException;
+import com.bizstudio.security.entities.enums.UserPermissions;
+import com.bizstudio.security.entities.interfaces.Principal;
+import com.google.gson.Gson;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javax.persistence.EntityManagerFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.Permission;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.permission.PermissionResolver;
+import org.apache.shiro.authz.permission.RolePermissionResolver;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.SimpleSession;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+public class SecurityService extends AuthorizingRealm implements
+        RolePermissionResolver,
+        PermissionResolver,
+        SessionDAO,
+        SessionListener {
+
+    UserAccountEntityJpaController accountEntityJpaController;
+
+    UserRoleEntityJpaController roleEntityJpaController;
+
+    SessionEntityJpaController sessionEntityJpaController;
+
+<span class="fc" id="L71">    Gson gson = new Gson();</span>
+
+<span class="fc" id="L73">    public SecurityService() {</span>
+<span class="fc" id="L74">        EntityManagerFactory dataEMF = PersistenceManger.getInstance().getDataEMF();</span>
+<span class="fc" id="L75">        EntityManagerFactory cacheEMF = PersistenceManger.getInstance().getCacheEMF();</span>
+
+<span class="fc" id="L77">        accountEntityJpaController = new UserAccountEntityJpaController(dataEMF);</span>
+<span class="fc" id="L78">        roleEntityJpaController = new UserRoleEntityJpaController(dataEMF);</span>
+
+<span class="fc" id="L80">        sessionEntityJpaController = new SessionEntityJpaController(cacheEMF);</span>
+<span class="fc" id="L81">        initialiseSuperuser();</span>
+<span class="fc" id="L82">    }</span>
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+<span class="fc" id="L86">        String username = (String) principals.getPrimaryPrincipal();</span>
+<span class="fc" id="L87">        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();</span>
+
+<span class="fc" id="L89">        List&lt;UserAccountEntity&gt; users = accountEntityJpaController.findByUsername(username);</span>
+
+<span class="fc" id="L91">        Set&lt;Permission&gt; permisions = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L92">        Set&lt;String&gt; roles = new TreeSet&lt;&gt;();</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (users != null</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">                &amp;&amp; !users.isEmpty()</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                &amp;&amp; users.get(0) != null</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                &amp;&amp; users.get(0).getRoles() != null</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">                &amp;&amp; !users.get(0).getRoles().isEmpty()) {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            for (UserRoleEntity role : users.get(0).getRoles()) {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                if (role != null) {</span>
+<span class="nc" id="L100">                    roles.add(role.getName());</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">                    if (!role.getPermissions().isEmpty()) {</span>
+<span class="nc" id="L102">                        role.getPermissions().forEach(permision -&gt; {</span>
+<span class="nc" id="L103">                            permisions.add(permision);</span>
+<span class="nc" id="L104">                        });</span>
+                    }
+                }
+<span class="nc" id="L107">            }</span>
+        }
+
+<span class="fc" id="L110">        authorizationInfo.setRoles(roles);</span>
+<span class="fc" id="L111">        authorizationInfo.setObjectPermissions(permisions);</span>
+<span class="fc" id="L112">        return authorizationInfo;</span>
+    }
+
+    public final void initialiseSuperuser() {
+<span class="fc" id="L116">        List&lt;UserAccountEntity&gt; users = accountEntityJpaController.findByUsername(&quot;superuser&quot;);</span>
+<span class="pc bpc" id="L117" title="2 of 4 branches missed.">        if (users == null || users.isEmpty()) {</span>
+<span class="nc" id="L118">            UserAccountEntity superuser = new UserAccountEntity();</span>
+<span class="nc" id="L119">            superuser.setUsername(&quot;superuser&quot;);</span>
+<span class="nc" id="L120">            superuser.setPin(&quot;123456&quot;);</span>
+<span class="nc" id="L121">            List&lt;CredentialEntity&gt; credentials = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L122">            credentials.add(new CredentialEntity(&quot;password&quot;, &quot;password123&quot;));</span>
+<span class="nc" id="L123">            superuser.setCredentials(credentials);</span>
+<span class="nc" id="L124">            accountEntityJpaController.create(superuser);</span>
+<span class="nc" id="L125">        } else {</span>
+<span class="fc" id="L126">            System.out.println(&quot;user -&gt; &quot; + users);</span>
+        }
+<span class="fc" id="L128">    }</span>
+
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+<span class="fc" id="L132">        List&lt;UserAccountEntity&gt; users = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (token instanceof PinToken) {</span>
+<span class="nc" id="L134">            PinToken pToken = (PinToken) token;</span>
+<span class="nc bnc" id="L135" title="All 4 branches missed.">            if (pToken.getPin() == null || pToken.getPin().length &lt; 1) {</span>
+<span class="nc" id="L136">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+<span class="nc" id="L138">            users = accountEntityJpaController.findByPin(String.copyValueOf(pToken.getPin()));</span>
+
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">        } else if (token instanceof UsernamePasswordToken) {</span>
+<span class="fc" id="L141">            UsernamePasswordToken uToken = (UsernamePasswordToken) token;</span>
+<span class="pc bpc" id="L142" title="2 of 4 branches missed.">            if (uToken.getUsername() == null || uToken.getUsername().isEmpty()) {</span>
+<span class="nc" id="L143">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+            
+<span class="pc bpc" id="L146" title="2 of 4 branches missed.">            if (uToken.getPassword() == null || uToken.getPassword().length &lt; 1) {</span>
+<span class="nc" id="L147">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+<span class="fc" id="L149">            users = accountEntityJpaController.findByUsername(uToken.getUsername());</span>
+        }
+
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (users.isEmpty()) {</span>
+<span class="fc" id="L153">            throw new IncorrectCredentialsException();</span>
+        }
+
+<span class="nc" id="L156">        UserAccountEntity user = users.get(0);</span>
+<span class="nc" id="L157">        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo();</span>
+<span class="nc" id="L158">        Map&lt;String, String&gt; credentials = new TreeMap&lt;&gt;();</span>
+<span class="nc" id="L159">        user.getCredentials().forEach(c -&gt; credentials.put(c.getName(), c.getValue()));</span>
+<span class="nc" id="L160">        authenticationInfo.setCredentials(credentials);</span>
+
+<span class="nc" id="L162">        List&lt;Principal&gt; princpals = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L163">        user.getPrincipals().forEach((p) -&gt; princpals.add(p));</span>
+<span class="nc" id="L164">        PrincipalCollection principalCollection = new SimplePrincipalCollection(princpals, getName());</span>
+<span class="nc" id="L165">        authenticationInfo.setPrincipals(principalCollection);</span>
+
+<span class="nc" id="L167">        return authenticationInfo;</span>
+
+    }
+
+    @Override
+    public Collection&lt;Permission&gt; resolvePermissionsInRole(String roleString) {
+<span class="fc" id="L173">        UserRoleEntity role = roleEntityJpaController.findFirstByName(roleString);</span>
+<span class="fc" id="L174">        List&lt;Permission&gt; permisions = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L175" title="3 of 4 branches missed.">        if (role != null &amp;&amp; !role.getPermissions().isEmpty()) {</span>
+<span class="nc" id="L176">            role.getPermissions().forEach(permision -&gt; {</span>
+<span class="nc" id="L177">                permisions.add(permision);</span>
+<span class="nc" id="L178">            });</span>
+        }
+<span class="fc" id="L180">        return permisions;</span>
+    }
+
+    @Override
+    public Permission resolvePermission(String permissionString) {
+<span class="fc" id="L185">        return Arrays.asList(UserPermissions.values())</span>
+<span class="fc" id="L186">                .stream()</span>
+<span class="pc" id="L187">                .filter(p -&gt; p.getValue().equalsIgnoreCase(permissionString))</span>
+<span class="fc" id="L188">                .findFirst()</span>
+<span class="fc" id="L189">                .orElse(null);</span>
+    }
+
+    @Override
+    public Serializable create(Session session) {
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">        if (session instanceof SimpleSession) {</span>
+<span class="fc" id="L195">            SessionEntity entity = SessionEntity.create((SimpleSession) session);</span>
+<span class="fc" id="L196">            sessionEntityJpaController.create(entity);</span>
+<span class="fc" id="L197">            ((SimpleSession) session).setId(entity.getId());</span>
+<span class="fc" id="L198">            return entity.getId();</span>
+        } else {
+<span class="nc" id="L200">            throw new UnknownSessionException(&quot;Session is Invalid&quot;);</span>
+        }
+    }
+
+    @Override
+    public SimpleSession readSession(Serializable sessionId) throws UnknownSessionException {
+<span class="fc" id="L206">        SessionEntity findById = sessionEntityJpaController.findSessionEntity((Long) sessionId);</span>
+<span class="pc bpc" id="L207" title="1 of 4 branches missed.">        if (findById == null || findById == null) {</span>
+<span class="fc" id="L208">            throw new UnknownSessionException(&quot;Session with the id &quot; + sessionId + &quot; was not found&quot;);</span>
+        }
+<span class="fc" id="L210">        return findById.toSession();</span>
+    }
+
+    @Override
+    public void update(Session session) throws UnknownSessionException {
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">        if (session instanceof SimpleSession) {</span>
+<span class="fc" id="L216">            SessionEntity findById = sessionEntityJpaController.findSessionEntity((Long) session.getId());</span>
+<span class="pc bpc" id="L217" title="2 of 4 branches missed.">            if (findById == null || findById == null) {</span>
+<span class="nc" id="L218">                throw new UnknownSessionException(&quot;Session with the id &quot; + (Long) session.getId() + &quot; was not found&quot;);</span>
+            }
+<span class="fc" id="L220">            findById.updateSession((SimpleSession) session);</span>
+<span class="fc" id="L221">            System.out.println(&quot;----&gt; Updates session&quot;);</span>
+<span class="fc" id="L222">            System.out.println(&quot;----&gt; save user &quot; + session.getAttribute(&quot;user&quot;));</span>
+            try {
+<span class="fc" id="L224">                sessionEntityJpaController.edit(findById);</span>
+<span class="nc" id="L225">            } catch (Exception ex) {</span>
+<span class="nc" id="L226">                Logger.getLogger(SecurityService.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L227">            }</span>
+<span class="fc" id="L228">        } else {</span>
+<span class="nc" id="L229">            throw new UnknownSessionException(&quot;Session with the id &quot; + session.getId() + &quot; was not found&quot;);</span>
+        }
+<span class="fc" id="L231">    }</span>
+
+    @Override
+    public void delete(Session session) {
+        try {
+<span class="fc" id="L236">            sessionEntityJpaController.destroy((Long) session.getId());</span>
+<span class="nc" id="L237">        } catch (NonexistentEntityException ex) {</span>
+<span class="nc" id="L238">            Logger.getLogger(SecurityService.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L239">        }</span>
+<span class="fc" id="L240">    }</span>
+
+    @Override
+    public Collection&lt;Session&gt; getActiveSessions() {
+<span class="fc" id="L244">        return sessionEntityJpaController.findSessionEntities().stream()</span>
+<span class="fc" id="L245">                .map(entity -&gt; {</span>
+<span class="fc" id="L246">                    return (SimpleSession) entity.toSession();</span>
+                })
+<span class="pc bpc" id="L248" title="2 of 4 branches missed.">                .filter(session -&gt; session != null &amp;&amp; !session.isExpired())</span>
+<span class="fc" id="L249">                .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public void onStart(Session session) {
+<span class="nc" id="L254">        NavigationManger.getInstance().showNavigation();</span>
+<span class="nc" id="L255">    }</span>
+
+    @Override
+    public void onStop(Session session) {
+<span class="nc" id="L259">        NavigationManger.getInstance().hideNavigation();</span>
+<span class="nc" id="L260">        NavigationManger.getInstance().logout();</span>
+<span class="nc" id="L261">    }</span>
+
+    @Override
+    public void onExpiration(Session session) {
+<span class="nc" id="L265">        NavigationManger.getInstance().hideNavigation();</span>
+<span class="nc" id="L266">        NavigationManger.getInstance().logout();</span>
+<span class="nc" id="L267">    }</span>
+
+    @Override
+    protected void assertCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) throws AuthenticationException {
+<span class="fc" id="L271">        SimpleAuthenticationInfo authenticationInfo = (SimpleAuthenticationInfo) info;</span>
+<span class="fc" id="L272">        Map&lt;String, String&gt; credentials = (Map&lt;String, String&gt;) authenticationInfo.getCredentials();</span>
+<span class="fc" id="L273">        System.out.println(&quot;match &quot; + credentials.toString());</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">        if (token instanceof PinToken) {</span>
+<span class="nc" id="L275">            PinToken pToken = (PinToken) token;</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">            if (pToken.getPin() == null</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">                    || pToken.getPin().length &lt; 1) {</span>
+<span class="nc" id="L278">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+<span class="nc bnc" id="L280" title="All 2 branches missed.">            if (!credentials.get(&quot;pin&quot;).endsWith(String.copyValueOf(pToken.getPin()))) {</span>
+<span class="nc" id="L281">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">        } else if (token instanceof UsernamePasswordToken) {</span>
+<span class="fc" id="L285">            UsernamePasswordToken uToken = (UsernamePasswordToken) token;</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">            if (uToken.getUsername() == null</span>
+<span class="pc bpc" id="L287" title="1 of 2 branches missed.">                    || uToken.getUsername().isEmpty()) {</span>
+<span class="nc" id="L288">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">            if (!credentials.get(&quot;password&quot;).endsWith(String.copyValueOf(uToken.getPassword()))) {</span>
+<span class="fc" id="L291">                throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+            }
+<span class="nc" id="L293">        } else {</span>
+<span class="nc" id="L294">            throw new IncorrectCredentialsException(&quot;Incorrect credentials&quot;);</span>
+        }
+<span class="nc" id="L296">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

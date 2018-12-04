@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemPropEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.inventory.entities</a> &gt; <span class="el_source">ItemPropEntity.java</span></div><h1>ItemPropEntity.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.inventory.entities;
+
+import com.bizstudio.inventory.entities.listeners.EntityListener;
+import com.bizstudio.security.entities.AbstractEntity;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+@Entity
+@EntityListeners(EntityListener.class)
+<span class="nc" id="L27">public class ItemPropEntity extends AbstractEntity implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column
+    private String name;
+    
+<span class="nc" id="L37">    @ElementCollection</span>
+    private List&lt;String&gt; values = new ArrayList&lt;&gt;();
+    
+    @Override
+    public Long getId() {
+<span class="nc" id="L42">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L46">        this.id = id;</span>
+<span class="nc" id="L47">    }</span>
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+<span class="nc" id="L53">        return name;</span>
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+<span class="nc" id="L60">        this.name = name;</span>
+<span class="nc" id="L61">    }</span>
+
+    /**
+     * @return the values
+     */
+    public List&lt;String&gt; getValues() {
+<span class="nc" id="L67">        return values;</span>
+    }
+
+    /**
+     * @param values the values to set
+     */
+    public void setValues(List&lt;String&gt; values) {
+<span class="nc" id="L74">        this.values = values;</span>
+<span class="nc" id="L75">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L79">        int hash = 0;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L81">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!(object instanceof ItemPropEntity)) {</span>
+<span class="nc" id="L88">            return false;</span>
+        }
+<span class="nc" id="L90">        ItemPropEntity other = (ItemPropEntity) object;</span>
+<span class="nc bnc" id="L91" title="All 8 branches missed.">        return !((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id)));</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L96">        return &quot;com.bizstudio.inventory.entities.ItemProperty[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

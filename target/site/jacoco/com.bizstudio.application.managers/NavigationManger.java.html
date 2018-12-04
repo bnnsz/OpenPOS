@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NavigationManger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.application.managers</a> &gt; <span class="el_source">NavigationManger.java</span></div><h1>NavigationManger.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 BizStudioSoft.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bizstudio.application.managers;
+
+import com.bizstudio.application.enums.NavigationRoute;
+import static com.bizstudio.application.enums.NavigationRoute.*;
+import com.bizstudio.application.enums.PageState;
+import com.bizstudio.ui.components.application.NavigationBar;
+import com.bizstudio.ui.components.application.PageStack;
+import com.bizstudio.ui.pages.application.ApplicationPage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.util.Duration;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+public class NavigationManger {
+
+    private final PageStack stackPane;
+    ObservableList&lt;ApplicationPage&gt; applicationPages;
+    NavigationBar navigationBar;
+
+    ApplicationPage handler;
+
+<span class="nc" id="L57">    private NavigationManger() {</span>
+<span class="nc" id="L58">        this.stackPane = new PageStack();</span>
+<span class="nc" id="L59">        this.applicationPages = FXCollections.observableList(new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L60">        this.applicationPages.addListener(new ListChangeListenerImpl());</span>
+<span class="nc" id="L61">    }</span>
+
+    /**
+     * @return the stackPane
+     */
+    public PageStack getStackPane() {
+<span class="nc" id="L67">        return stackPane;</span>
+    }
+
+    public void navigate(NavigationRoute route, Map&lt;String, Object&gt; parameters) {
+        //TODO Navigation operation goes here;
+<span class="nc" id="L72">        openPage(route.page(), Collections.unmodifiableMap(parameters));</span>
+<span class="nc" id="L73">    }</span>
+    
+     public void logout() {
+        //TODO Navigation operation goes here;
+<span class="nc" id="L77">        applicationPages.clear();</span>
+<span class="nc" id="L78">    }</span>
+
+    public void navigate(NavigationRoute route) {
+        //TODO Navigation operation goes here;
+<span class="nc" id="L82">        openPage(route.page(), Collections.unmodifiableMap(new HashMap&lt;&gt;()));</span>
+<span class="nc" id="L83">    }</span>
+
+    public void showNavigation() {
+<span class="nc" id="L86">        navigationBar.showNavigation();</span>
+<span class="nc" id="L87">    }</span>
+
+    public void hideNavigation() {
+<span class="nc" id="L90">        navigationBar.hideNavigation();</span>
+<span class="nc" id="L91">    }</span>
+
+    public void previousPage() {
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (applicationPages.size() &gt; 1) {</span>
+<span class="nc" id="L95">            applicationPages.remove(applicationPages.size() - 1);</span>
+        }
+<span class="nc" id="L97">    }</span>
+
+    public static NavigationManger getInstance(NavigationBar navigationBar) {
+<span class="nc" id="L100">        NavigationManger instance = NavigationMangerHolder.INSTANCE;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (navigationBar != null) {</span>
+<span class="nc" id="L102">            instance.navigationBar = navigationBar;</span>
+        }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if (instance.handler == null) {</span>
+<span class="nc" id="L105">            instance.openPage(LOGIN.page(), Collections.unmodifiableMap(new HashMap&lt;&gt;()));</span>
+        }
+<span class="nc" id="L107">        return instance;</span>
+    }
+
+    public static NavigationManger getInstance() {
+<span class="nc" id="L111">        return getInstance(null);</span>
+    }
+
+    /**
+     * Initializes the page if not created and adds to page stack
+     *
+     * @param cls
+     * @param parameters
+     */
+    private void openPage(Class&lt;? extends ApplicationPage&gt; cls, Map&lt;String, Object&gt; parameters) {
+<span class="nc" id="L121">        Optional&lt;ApplicationPage&gt; page = applicationPages.stream()</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                .filter(p -&gt; p.getClass() == cls)</span>
+<span class="nc" id="L123">                .findFirst();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (page.isPresent()) {</span>
+<span class="nc" id="L125">            ApplicationPage current = page.get();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if (!handler.equals(current)) {</span>
+<span class="nc" id="L127">                current.onPageResume();</span>
+<span class="nc" id="L128">                applicationPages.add(current);</span>
+<span class="nc" id="L129">                handler = current;</span>
+            }
+<span class="nc" id="L131">        } else {</span>
+            try {
+<span class="nc" id="L133">                ApplicationPage newPage = cls.newInstance();</span>
+<span class="nc" id="L134">                String simpleName = cls.getSimpleName();</span>
+<span class="nc" id="L135">                String fxmlResource = String.format(&quot;/fxml/pages/%s.fxml&quot;, simpleName);</span>
+<span class="nc" id="L136">                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlResource));</span>
+<span class="nc" id="L137">                fxmlLoader.setRoot(newPage);</span>
+<span class="nc" id="L138">                fxmlLoader.setController(newPage);</span>
+<span class="nc" id="L139">                fxmlLoader.setResources(ResourceBundle.getBundle(&quot;bundles.application.lang&quot;, new Locale(&quot;en&quot;)));</span>
+<span class="nc" id="L140">                fxmlLoader.load();</span>
+                //TODO PASS PAGE PARAMS
+<span class="nc" id="L142">                newPage.setPageState(PageState.NEW);</span>
+<span class="nc" id="L143">                newPage.onPageCreate();</span>
+<span class="nc" id="L144">                newPage.onNavigateEvent(parameters);</span>
+<span class="nc" id="L145">                newPage.setNavButton(navigationBar.getSelectedItem());</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                if (newPage.isKeepInHistory()) {</span>
+<span class="nc" id="L147">                    applicationPages.add(newPage);</span>
+                } else {
+<span class="nc" id="L149">                    openPage(newPage);</span>
+                }
+<span class="nc" id="L151">                handler = newPage;</span>
+<span class="nc" id="L152">            } catch (IOException | InstantiationException | IllegalAccessException ex) {</span>
+<span class="nc" id="L153">                Logger.getLogger(NavigationManger.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L154">            }</span>
+        }
+<span class="nc" id="L156">    }</span>
+
+<span class="nc" id="L158">    private static class NavigationMangerHolder {</span>
+
+<span class="nc" id="L160">        private static final NavigationManger INSTANCE = new NavigationManger();</span>
+    }
+
+    private void openPage(ApplicationPage newPage) {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (stackPane.getChildren().isEmpty()) {</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">            if (newPage != null) {</span>
+<span class="nc" id="L166">                getStackPane().getChildren().add(newPage);</span>
+<span class="nc" id="L167">                handler = newPage;</span>
+<span class="nc" id="L168">                newPage.setPageState(PageState.ACTIVE);</span>
+            }
+        } else {
+<span class="nc" id="L171">            ApplicationPage previousPage = (ApplicationPage) getStackPane().getChildren().get(getStackPane().getChildren().size() - 1);</span>
+<span class="nc bnc" id="L172" title="All 6 branches missed.">            if (newPage != null &amp;&amp; previousPage != null &amp;&amp; !newPage.equals(previousPage)) {</span>
+                //ANIMATE IN NEW
+
+                // Set up a Translate Transition for the Text object
+<span class="nc" id="L176">                newPage.setTranslateX(getStackPane().getWidth());</span>
+<span class="nc" id="L177">                newPage.setOpacity(0);</span>
+<span class="nc" id="L178">                newPage.setScaleX(0);</span>
+<span class="nc" id="L179">                newPage.setScaleY(0);</span>
+<span class="nc" id="L180">                getStackPane().getChildren().add(newPage);</span>
+
+<span class="nc" id="L182">                TranslateTransition translateTransition = new TranslateTransition(Duration.millis(200), newPage);</span>
+<span class="nc" id="L183">                translateTransition.setFromX(getStackPane().getWidth());</span>
+<span class="nc" id="L184">                translateTransition.setToX(getStackPane().getLayoutBounds().getMinX());</span>
+
+<span class="nc" id="L186">                FadeTransition fadeTransition = new FadeTransition(Duration.millis(200), newPage);</span>
+<span class="nc" id="L187">                fadeTransition.setFromValue(0);</span>
+<span class="nc" id="L188">                fadeTransition.setToValue(1);</span>
+
+<span class="nc" id="L190">                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), newPage);</span>
+<span class="nc" id="L191">                scaleTransition.setFromX(0);</span>
+<span class="nc" id="L192">                scaleTransition.setToX(1);</span>
+<span class="nc" id="L193">                scaleTransition.setFromY(0);</span>
+<span class="nc" id="L194">                scaleTransition.setToY(1);</span>
+
+<span class="nc" id="L196">                ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L197">                parallelTransition.getChildren().addAll(</span>
+                        fadeTransition,
+                        translateTransition,
+                        scaleTransition
+                );
+
+<span class="nc" id="L203">                parallelTransition.setOnFinished((ActionEvent event) -&gt; {</span>
+<span class="nc" id="L204">                    getStackPane().getChildren().remove(previousPage);</span>
+<span class="nc" id="L205">                });</span>
+<span class="nc" id="L206">                parallelTransition.play();</span>
+
+<span class="nc" id="L208">                handler = newPage;</span>
+<span class="nc" id="L209">                previousPage.setPageState(PageState.PAUSED);</span>
+<span class="nc" id="L210">                previousPage.onPagePause();</span>
+<span class="nc" id="L211">                newPage.setPageState(PageState.ACTIVE);</span>
+            }
+        }
+<span class="nc" id="L214">    }</span>
+
+<span class="nc" id="L216">    private class ListChangeListenerImpl implements ListChangeListener&lt;ApplicationPage&gt; {</span>
+
+        @Override
+        public void onChanged(Change&lt;? extends ApplicationPage&gt; c) {
+<span class="nc" id="L220">            c.next();</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            if (c.wasAdded()) {</span>
+<span class="nc" id="L222">                ApplicationPage newPage = c.getList().get(c.getList().size() - 1);</span>
+<span class="nc" id="L223">                openPage(newPage);</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">            } else if (c.wasRemoved()) {</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">                if (c.getList().isEmpty()) {</span>
+<span class="nc" id="L226">                    navigate(NavigationRoute.LOGIN);</span>
+                } else {
+<span class="nc" id="L228">                    ApplicationPage newPage = c.getList().get(c.getList().size() - 1);</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">                    if (!stackPane.getChildren().isEmpty()) {</span>
+<span class="nc" id="L230">                        ApplicationPage previousPage = (ApplicationPage) getStackPane().getChildren().get(getStackPane().getChildren().size() - 1);</span>
+<span class="nc bnc" id="L231" title="All 4 branches missed.">                        if (previousPage != null &amp;&amp; !newPage.equals(previousPage)) {</span>
+<span class="nc" id="L232">                            navigationBar.setSelectedItem(newPage.getNavButton());</span>
+<span class="nc" id="L233">                            getStackPane().getChildren().add(getStackPane().getChildren().size() - 1, newPage);</span>
+
+<span class="nc" id="L235">                            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(200), previousPage);</span>
+<span class="nc" id="L236">                            translateTransition.setFromX(previousPage.getLayoutBounds().getMinX());</span>
+<span class="nc" id="L237">                            translateTransition.setToX(previousPage.getWidth());</span>
+
+<span class="nc" id="L239">                            FadeTransition fadeTransition = new FadeTransition(Duration.millis(200), previousPage);</span>
+<span class="nc" id="L240">                            fadeTransition.setFromValue(1);</span>
+<span class="nc" id="L241">                            fadeTransition.setToValue(0);</span>
+
+<span class="nc" id="L243">                            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), previousPage);</span>
+<span class="nc" id="L244">                            scaleTransition.setFromX(1);</span>
+<span class="nc" id="L245">                            scaleTransition.setToX(0);</span>
+<span class="nc" id="L246">                            scaleTransition.setFromY(1);</span>
+<span class="nc" id="L247">                            scaleTransition.setToY(0);</span>
+
+<span class="nc" id="L249">                            ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L250">                            parallelTransition.getChildren().addAll(</span>
+                                    fadeTransition,
+                                    translateTransition,
+                                    scaleTransition
+                            );
+
+<span class="nc" id="L256">                            parallelTransition.setOnFinished((ActionEvent event) -&gt; {</span>
+<span class="nc" id="L257">                                getStackPane().getChildren().remove(previousPage);</span>
+<span class="nc" id="L258">                                previousPage.setTranslateX(getStackPane().getLayoutBounds().getMinX());</span>
+<span class="nc" id="L259">                                previousPage.setOpacity(1);</span>
+<span class="nc" id="L260">                                previousPage.setScaleX(1);</span>
+<span class="nc" id="L261">                                previousPage.setScaleY(1);</span>
+<span class="nc" id="L262">                            });</span>
+<span class="nc" id="L263">                            parallelTransition.play();</span>
+                            //ANIMATE AWAY LAST
+<span class="nc" id="L265">                            newPage.setPageState(PageState.ACTIVE);</span>
+<span class="nc" id="L266">                            handler = newPage;</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">                            if (!c.getList().contains(previousPage)) {</span>
+<span class="nc" id="L268">                                previousPage.onPageDestroy();</span>
+                            } else {
+<span class="nc" id="L270">                                previousPage.setPageState(PageState.PAUSED);</span>
+<span class="nc" id="L271">                                previousPage.onPagePause();</span>
+                            }
+
+                        }
+                    }
+                }
+            }
+
+<span class="nc" id="L279">            System.out.println(&quot;---&gt; Check size&quot;);</span>
+<span class="nc" id="L280">            System.out.println(&quot;---&gt; Check size  --&gt; &quot;+c.getList().size());</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">            if (c.getList().size() &lt; 2) {</span>
+<span class="nc" id="L282">                System.out.println(&quot;---&gt; Check size  &lt; 2 &quot;);</span>
+<span class="nc" id="L283">                navigationBar.hideBack();</span>
+            }else{
+<span class="nc" id="L285">                System.out.println(&quot;---&gt; Check size  &gt; 1 &quot;);</span>
+<span class="nc" id="L286">                navigationBar.showBack();</span>
+            }
+            
+            
+<span class="nc" id="L290">            System.out.println(&quot;----------------------stack----------------------&quot;);</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            for(ApplicationPage p: c.getList()){</span>
+<span class="nc" id="L292">                System.out.println(&quot;[&quot;+p.toString()+&quot;]&quot;);</span>
+<span class="nc" id="L293">            }</span>
+<span class="nc" id="L294">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

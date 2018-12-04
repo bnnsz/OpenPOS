@@ -142,6 +142,10 @@ public class SecurityService extends AuthorizingRealm implements
             if (uToken.getUsername() == null || uToken.getUsername().isEmpty()) {
                 throw new IncorrectCredentialsException("Incorrect credentials");
             }
+            
+            if (uToken.getPassword() == null || uToken.getPassword().length < 1) {
+                throw new IncorrectCredentialsException("Incorrect credentials");
+            }
             users = accountEntityJpaController.findByUsername(uToken.getUsername());
         }
 
@@ -253,13 +257,13 @@ public class SecurityService extends AuthorizingRealm implements
     @Override
     public void onStop(Session session) {
         NavigationManger.getInstance().hideNavigation();
-        NavigationManger.getInstance().navigate(NavigationRoute.LOGIN);
+        NavigationManger.getInstance().logout();
     }
 
     @Override
     public void onExpiration(Session session) {
         NavigationManger.getInstance().hideNavigation();
-        NavigationManger.getInstance().navigate(NavigationRoute.LOGIN);
+        NavigationManger.getInstance().logout();
     }
 
     @Override

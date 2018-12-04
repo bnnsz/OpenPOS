@@ -5,12 +5,9 @@
  */
 package com.bizstudio.application.entities;
 
-import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.enums.NotificationState;
-import com.bizstudio.ui.pages.application.ApplicationPage;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Map;
 
 /**
  *
@@ -19,7 +16,13 @@ import java.util.Map;
 public interface Notification extends Serializable{
     public String getId();
     public void setId(String id);
+    public void setAction(NotificationAction action);
 
+    /**
+     * 
+     * @return 
+     */
+    public NotificationAction getAction();
     /**
      * @return the created
      */
@@ -59,24 +62,4 @@ public interface Notification extends Serializable{
      * @param state the state to set
      */
     public void setState(NotificationState state);
-
-    /**
-     * @return the route
-     */
-    public NavigationRoute getRoute();
-
-    /**
-     * @param route the page to set
-     */
-    public void setRoute(NavigationRoute route);
-
-    /**
-     * @return the pageParameters
-     */
-    public Map<String, String> getPageParameters();
-
-    /**
-     * @param pageParameters the pageParameters to set
-     */
-    public void setPageParameters(Map<String, String> pageParameters);
 }

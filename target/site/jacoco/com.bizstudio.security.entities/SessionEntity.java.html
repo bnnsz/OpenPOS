@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SessionEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.entities</a> &gt; <span class="el_source">SessionEntity.java</span></div><h1>SessionEntity.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.entities;
+
+import com.bizstudio.security.util.SessionAttributesConverter;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SimpleSession;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+@Entity
+@Table(name = &quot;USER_SESSIONS&quot;)
+public class SessionEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
+    private String username;
+    @Column
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date startTimestamp;
+    @Column
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date stopTimestamp;
+    @Column
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date lastAccessTime;
+    @Column
+    private long timeout;
+    @Column
+    private boolean expired;
+    @Column(name = &quot;SESSION_HOST&quot;)
+    private String host;
+    @Column
+    @Convert(converter = SessionAttributesConverter.class)
+    private Map&lt;Object, Object&gt; attributes;
+
+<span class="fc" id="L57">    public SessionEntity() {</span>
+<span class="fc" id="L58">    }</span>
+
+<span class="fc" id="L60">    private SessionEntity(SimpleSession session, boolean setId) {</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (setId) {</span>
+<span class="nc" id="L62">            this.id = (Long) session.getId();</span>
+        }
+<span class="fc" id="L64">        this.startTimestamp = session.getStartTimestamp();</span>
+<span class="fc" id="L65">        this.stopTimestamp = session.getStopTimestamp();</span>
+<span class="fc" id="L66">        this.lastAccessTime = session.getLastAccessTime();</span>
+<span class="fc" id="L67">        this.timeout = session.getTimeout();</span>
+<span class="fc" id="L68">        this.expired = session.isExpired();</span>
+<span class="fc" id="L69">        this.host = session.getHost();</span>
+<span class="fc" id="L70">        this.attributes = session.getAttributes();</span>
+<span class="fc" id="L71">    }</span>
+
+    public Long getId() {
+<span class="fc" id="L74">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L78">        this.id = id;</span>
+<span class="nc" id="L79">    }</span>
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+<span class="nc" id="L85">        return username;</span>
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+<span class="nc" id="L92">        this.username = username;</span>
+<span class="nc" id="L93">    }</span>
+
+    /**
+     * @return the startTimestamp
+     */
+    public Date getStartTimestamp() {
+<span class="nc" id="L99">        return startTimestamp;</span>
+    }
+
+    /**
+     * @param startTimestamp the startTimestamp to set
+     */
+    public void setStartTimestamp(Date startTimestamp) {
+<span class="nc" id="L106">        this.startTimestamp = startTimestamp;</span>
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * @return the stopTimestamp
+     */
+    public Date getStopTimestamp() {
+<span class="nc" id="L113">        return stopTimestamp;</span>
+    }
+
+    /**
+     * @param stopTimestamp the stopTimestamp to set
+     */
+    public void setStopTimestamp(Date stopTimestamp) {
+<span class="nc" id="L120">        this.stopTimestamp = stopTimestamp;</span>
+<span class="nc" id="L121">    }</span>
+
+    /**
+     * @return the lastAccessTime
+     */
+    public Date getLastAccessTime() {
+<span class="nc" id="L127">        return lastAccessTime;</span>
+    }
+
+    /**
+     * @param lastAccessTime the lastAccessTime to set
+     */
+    public void setLastAccessTime(Date lastAccessTime) {
+<span class="nc" id="L134">        this.lastAccessTime = lastAccessTime;</span>
+<span class="nc" id="L135">    }</span>
+
+    /**
+     * @return the timeout
+     */
+    public long getTimeout() {
+<span class="nc" id="L141">        return timeout;</span>
+    }
+
+    /**
+     * @param timeout the timeout to set
+     */
+    public void setTimeout(long timeout) {
+<span class="nc" id="L148">        this.timeout = timeout;</span>
+<span class="nc" id="L149">    }</span>
+
+    /**
+     * @return the expired
+     */
+    public boolean isExpired() {
+<span class="nc" id="L155">        return expired;</span>
+    }
+
+    /**
+     * @param expired the expired to set
+     */
+    public void setExpired(boolean expired) {
+<span class="nc" id="L162">        this.expired = expired;</span>
+<span class="nc" id="L163">    }</span>
+
+    /**
+     * @return the host
+     */
+    public String getHost() {
+<span class="nc" id="L169">        return host;</span>
+    }
+
+    /**
+     * @param host the host to set
+     */
+    public void setHost(String host) {
+<span class="nc" id="L176">        this.host = host;</span>
+<span class="nc" id="L177">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L181">        int hash = 0;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        hash += (getId() != null ? getId().hashCode() : 0);</span>
+<span class="nc" id="L183">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        if (!(object instanceof SessionEntity)) {</span>
+<span class="nc" id="L190">            return false;</span>
+        }
+<span class="nc" id="L192">        SessionEntity other = (SessionEntity) object;</span>
+<span class="nc bnc" id="L193" title="All 8 branches missed.">        if ((this.getId() == null &amp;&amp; other.getId() != null) || (this.getId() != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L194">            return false;</span>
+        }
+<span class="nc" id="L196">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L201">        return &quot;com.bizstudio.BizPortal.security.entities.SessionEntity[ id=&quot; + getId() + &quot; ]&quot;;</span>
+    }
+
+    public void updateSession(SimpleSession session) {
+<span class="fc" id="L205">        this.startTimestamp = session.getStartTimestamp();</span>
+<span class="fc" id="L206">        this.stopTimestamp = session.getStopTimestamp();</span>
+<span class="fc" id="L207">        this.lastAccessTime = session.getLastAccessTime();</span>
+<span class="fc" id="L208">        this.timeout = session.getTimeout();</span>
+<span class="fc" id="L209">        this.expired = session.isExpired();</span>
+<span class="fc" id="L210">        this.host = session.getHost();</span>
+<span class="fc" id="L211">        this.attributes = session.getAttributes();</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        if (session.getAttribute(&quot;user&quot;) != null) {</span>
+<span class="fc" id="L213">            this.username = session.getAttribute(&quot;user&quot;).toString();</span>
+        }
+<span class="fc" id="L215">    }</span>
+
+    public static SessionEntity create(SimpleSession session) {
+<span class="fc" id="L218">        return new SessionEntity(session, false);</span>
+    }
+
+    public static SessionEntity update(SimpleSession session) {
+<span class="nc" id="L222">        return new SessionEntity(session, true);</span>
+    }
+
+    public SimpleSession toSession() {
+<span class="fc" id="L226">        SimpleSession session = new SimpleSession();</span>
+<span class="fc" id="L227">        session.setId(this.id);</span>
+<span class="fc" id="L228">        session.setStartTimestamp(this.startTimestamp);</span>
+<span class="fc" id="L229">        session.setStopTimestamp(this.stopTimestamp);</span>
+<span class="fc" id="L230">        session.setLastAccessTime(this.lastAccessTime);</span>
+<span class="fc" id="L231">        session.setTimeout(this.timeout);</span>
+<span class="fc" id="L232">        session.setExpired(this.expired);</span>
+<span class="fc" id="L233">        session.setHost(this.host);</span>
+<span class="fc" id="L234">        session.setAttributes(this.attributes);</span>
+<span class="fc" id="L235">        return session;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

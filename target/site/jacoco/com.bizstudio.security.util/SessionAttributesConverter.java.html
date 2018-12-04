@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SessionAttributesConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.util</a> &gt; <span class="el_source">SessionAttributesConverter.java</span></div><h1>SessionAttributesConverter.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.util;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+@Converter
+<span class="fc" id="L30">public class SessionAttributesConverter implements AttributeConverter&lt;Map&lt;Object, Object&gt;, byte[]&gt; {</span>
+
+   
+
+    @Override
+    public byte[] convertToDatabaseColumn(Map&lt;Object, Object&gt; attributes) {
+<span class="fc" id="L36">        ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
+<span class="fc" id="L37">        ObjectOutput out = null;</span>
+        try {
+<span class="fc" id="L39">            out = new ObjectOutputStream(bos);</span>
+<span class="fc" id="L40">            out.writeObject(attributes);</span>
+<span class="fc" id="L41">            out.flush();</span>
+<span class="fc" id="L42">            return bos.toByteArray();</span>
+<span class="nc" id="L43">        } catch (IOException ex) {</span>
+<span class="nc" id="L44">            Logger.getLogger(SessionAttributesConverter.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L46">            try {</span>
+<span class="pc" id="L47">                bos.close();</span>
+<span class="nc" id="L48">            } catch (IOException ex) {</span>
+                // ignore close exception
+<span class="pc" id="L50">            }</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">        return null;</span>
+    }
+
+    @Override
+    public Map&lt;Object, Object&gt; convertToEntityAttribute(byte[] attributes) {
+
+<span class="fc" id="L58">        ByteArrayInputStream bis = new ByteArrayInputStream(attributes);</span>
+<span class="fc" id="L59">        ObjectInput in = null;</span>
+        try {
+<span class="fc" id="L61">            in = new ObjectInputStream(bis);</span>
+<span class="fc" id="L62">            return (Map&lt;Object, Object&gt;) in.readObject();</span>
+<span class="nc" id="L63">        } catch (IOException | ClassNotFoundException ex) {</span>
+<span class="nc" id="L64">            Logger.getLogger(SessionAttributesConverter.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+<span class="nc" id="L66">            try {</span>
+<span class="pc bpc" id="L67" title="5 of 6 branches missed.">                if (in != null) {</span>
+<span class="pc" id="L68">                    in.close();</span>
+                }
+<span class="nc" id="L70">            } catch (IOException ex) {</span>
+                // ignore close exception
+<span class="pc" id="L72">            }</span>
+<span class="nc" id="L73">        }</span>
+        
+<span class="nc" id="L75">        return new HashMap&lt;&gt;();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

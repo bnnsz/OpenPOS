@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrincipalEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.entities</a> &gt; <span class="el_source">PrincipalEntity.java</span></div><h1>PrincipalEntity.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.entities;
+
+import com.bizstudio.security.entities.interfaces.Principal;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+@Entity
+public class PrincipalEntity implements Serializable, Principal {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
+    private String name;
+    @Column
+    private String value;
+    @ManyToOne
+    private UserAccountEntity userAccount;
+
+<span class="nc" id="L34">    public PrincipalEntity(String name, String value) {</span>
+<span class="nc" id="L35">        this.name = name;</span>
+<span class="nc" id="L36">        this.value = value;</span>
+<span class="nc" id="L37">    }</span>
+
+<span class="fc" id="L39">    public PrincipalEntity() {</span>
+<span class="fc" id="L40">    }</span>
+    
+    
+    
+    
+
+    public Long getId() {
+<span class="nc" id="L47">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L51">        this.id = id;</span>
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L56">        int hash = 0;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="fc" id="L58">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (!(object instanceof PrincipalEntity)) {</span>
+<span class="nc" id="L65">            return false;</span>
+        }
+<span class="nc" id="L67">        PrincipalEntity other = (PrincipalEntity) object;</span>
+<span class="nc bnc" id="L68" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L69">            return false;</span>
+        }
+<span class="nc" id="L71">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L76">        return &quot;com.bizstudio.BizPortal.security.entities.PrincipalEntity[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+
+    /**
+     * @return the name
+     */
+    @Override
+    public String getName() {
+<span class="nc" id="L84">        return name;</span>
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+<span class="nc" id="L91">        this.name = name;</span>
+<span class="nc" id="L92">    }</span>
+
+    /**
+     * @return the value
+     */
+    @Override
+    public String getValue() {
+<span class="nc" id="L99">        return value;</span>
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(String value) {
+<span class="nc" id="L106">        this.value = value;</span>
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * @return the userAccount
+     */
+    public UserAccountEntity getUserAccount() {
+<span class="nc" id="L113">        return userAccount;</span>
+    }
+
+    /**
+     * @param userAccount the userAccount to set
+     */
+    public void setUserAccount(UserAccountEntity userAccount) {
+<span class="nc" id="L120">        this.userAccount = userAccount;</span>
+<span class="nc" id="L121">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

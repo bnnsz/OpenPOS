@@ -5,11 +5,13 @@
  */
 package com.bizstudio.application.handlers;
 
+import com.bizstudio.application.entities.Notification;
+
 /**
  *
  * @author ObinnaAsuzu
  */
 @FunctionalInterface
 public interface NotificationListener {
-    public void handle();
+    public void handle(Notification notification);
 }

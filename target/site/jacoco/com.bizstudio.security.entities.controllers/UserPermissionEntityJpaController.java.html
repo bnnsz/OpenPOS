@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserPermissionEntityJpaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.entities.controllers</a> &gt; <span class="el_source">UserPermissionEntityJpaController.java</span></div><h1>UserPermissionEntityJpaController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.entities.controllers;
+
+import com.bizstudio.security.entities.UserPermissionEntity;
+import com.bizstudio.security.entities.controllers.exceptions.NonexistentEntityException;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+public class UserPermissionEntityJpaController implements Serializable {
+
+<span class="nc" id="L25">    public UserPermissionEntityJpaController(EntityManagerFactory emf) {</span>
+<span class="nc" id="L26">        this.emf = emf;</span>
+<span class="nc" id="L27">    }</span>
+<span class="nc" id="L28">    private EntityManagerFactory emf = null;</span>
+
+    public EntityManager getEntityManager() {
+<span class="nc" id="L31">        return emf.createEntityManager();</span>
+    }
+
+    public void create(UserPermissionEntity userPermissionEntity) {
+<span class="nc" id="L35">        EntityManager em = null;</span>
+        try {
+<span class="nc" id="L37">            em = getEntityManager();</span>
+<span class="nc" id="L38">            em.getTransaction().begin();</span>
+<span class="nc" id="L39">            em.persist(userPermissionEntity);</span>
+<span class="nc" id="L40">            em.getTransaction().commit();</span>
+        } finally {
+<span class="nc bnc" id="L42" title="All 4 branches missed.">            if (em != null) {</span>
+<span class="nc" id="L43">                em.close();</span>
+            }
+        }
+<span class="nc" id="L46">    }</span>
+
+    public void edit(UserPermissionEntity userPermissionEntity) throws NonexistentEntityException, Exception {
+<span class="nc" id="L49">        EntityManager em = null;</span>
+        try {
+<span class="nc" id="L51">            em = getEntityManager();</span>
+<span class="nc" id="L52">            em.getTransaction().begin();</span>
+<span class="nc" id="L53">            userPermissionEntity = em.merge(userPermissionEntity);</span>
+<span class="nc" id="L54">            em.getTransaction().commit();</span>
+<span class="nc" id="L55">        } catch (Exception ex) {</span>
+<span class="nc" id="L56">            String msg = ex.getLocalizedMessage();</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">            if (msg == null || msg.length() == 0) {</span>
+<span class="nc" id="L58">                Long id = userPermissionEntity.getId();</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                if (findUserPermissionEntity(id) == null) {</span>
+<span class="nc" id="L60">                    throw new NonexistentEntityException(&quot;The userPermissionEntity with id &quot; + id + &quot; no longer exists.&quot;);</span>
+                }
+            }
+<span class="nc" id="L63">            throw ex;</span>
+        } finally {
+<span class="nc bnc" id="L65" title="All 4 branches missed.">            if (em != null) {</span>
+<span class="nc" id="L66">                em.close();</span>
+            }
+        }
+<span class="nc" id="L69">    }</span>
+
+    public void destroy(Long id) throws NonexistentEntityException {
+<span class="nc" id="L72">        EntityManager em = null;</span>
+        try {
+<span class="nc" id="L74">            em = getEntityManager();</span>
+<span class="nc" id="L75">            em.getTransaction().begin();</span>
+            UserPermissionEntity userPermissionEntity;
+            try {
+<span class="nc" id="L78">                userPermissionEntity = em.getReference(UserPermissionEntity.class, id);</span>
+<span class="nc" id="L79">                userPermissionEntity.getId();</span>
+<span class="nc" id="L80">            } catch (EntityNotFoundException enfe) {</span>
+<span class="nc" id="L81">                throw new NonexistentEntityException(&quot;The userPermissionEntity with id &quot; + id + &quot; no longer exists.&quot;, enfe);</span>
+<span class="nc" id="L82">            }</span>
+<span class="nc" id="L83">            em.remove(userPermissionEntity);</span>
+<span class="nc" id="L84">            em.getTransaction().commit();</span>
+        } finally {
+<span class="nc bnc" id="L86" title="All 4 branches missed.">            if (em != null) {</span>
+<span class="nc" id="L87">                em.close();</span>
+            }
+        }
+<span class="nc" id="L90">    }</span>
+
+    public List&lt;UserPermissionEntity&gt; findUserPermissionEntities() {
+<span class="nc" id="L93">        return findUserPermissionEntities(true, -1, -1);</span>
+    }
+
+    public List&lt;UserPermissionEntity&gt; findUserPermissionEntities(int maxResults, int firstResult) {
+<span class="nc" id="L97">        return findUserPermissionEntities(false, maxResults, firstResult);</span>
+    }
+
+    private List&lt;UserPermissionEntity&gt; findUserPermissionEntities(boolean all, int maxResults, int firstResult) {
+<span class="nc" id="L101">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L103">            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L104">            cq.select(cq.from(UserPermissionEntity.class));</span>
+<span class="nc" id="L105">            Query q = em.createQuery(cq);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (!all) {</span>
+<span class="nc" id="L107">                q.setMaxResults(maxResults);</span>
+<span class="nc" id="L108">                q.setFirstResult(firstResult);</span>
+            }
+<span class="nc" id="L110">            return q.getResultList();</span>
+        } finally {
+<span class="nc" id="L112">            em.close();</span>
+        }
+    }
+
+    public UserPermissionEntity findUserPermissionEntity(Long id) {
+<span class="nc" id="L117">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L119">            return em.find(UserPermissionEntity.class, id);</span>
+        } finally {
+<span class="nc" id="L121">            em.close();</span>
+        }
+    }
+
+    public int getUserPermissionEntityCount() {
+<span class="nc" id="L126">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L128">            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L129">            Root&lt;UserPermissionEntity&gt; rt = cq.from(UserPermissionEntity.class);</span>
+<span class="nc" id="L130">            cq.select(em.getCriteriaBuilder().count(rt));</span>
+<span class="nc" id="L131">            Query q = em.createQuery(cq);</span>
+<span class="nc" id="L132">            return ((Long) q.getSingleResult()).intValue();</span>
+        } finally {
+<span class="nc" id="L134">            em.close();</span>
+        }
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

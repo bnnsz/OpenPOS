@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PinLoginInput.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.ui.components.login</a> &gt; <span class="el_source">PinLoginInput.java</span></div><h1>PinLoginInput.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.ui.components.login;
+
+import com.bizstudio.security.service.PinToken;
+import com.bizstudio.ui.pages.handlers.InputAuthentcationHandler;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.VBox;
+
+/**
+ * FXML Controller class
+ *
+ * @author ObinnaAsuzu
+ */
+public class PinLoginInput extends VBox {
+
+    @FXML
+    PasswordField pin;
+    private PinToken token;
+    
+<span class="nc" id="L33">    public PinLoginInput() {</span>
+        try {
+<span class="nc" id="L35">            URL location = getClass().getResource(&quot;/fxml/components/login/PinLoginInput.fxml&quot;);</span>
+<span class="nc" id="L36">            ResourceBundle bundle = ResourceBundle.getBundle(&quot;bundles.application.lang&quot;, new Locale(&quot;en&quot;));</span>
+<span class="nc" id="L37">            FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);</span>
+<span class="nc" id="L38">            fxmlLoader.setRoot(this);</span>
+<span class="nc" id="L39">            fxmlLoader.setController(this);</span>
+<span class="nc" id="L40">            fxmlLoader.load();</span>
+<span class="nc" id="L41">        } catch (IOException ex) {</span>
+<span class="nc" id="L42">            Logger.getLogger(PinLoginInput.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L43">        }</span>
+<span class="nc" id="L44">        token = new PinToken(pin.getText());</span>
+<span class="nc" id="L45">    }</span>
+    
+    public void setValueChangeHandler(InputAuthentcationHandler handler) {
+<span class="nc" id="L48">        pin.textProperty().addListener((ObservableValue&lt;? extends String&gt; observable, String oldValue, String newValue) -&gt; {</span>
+<span class="nc" id="L49">            token.setPin(newValue.toCharArray());</span>
+<span class="nc" id="L50">            handler.handle(token);</span>
+<span class="nc" id="L51">        });</span>
+<span class="nc" id="L52">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.ui.pages.application</a> &gt; <span class="el_source">ApplicationContainer.java</span></div><h1>ApplicationContainer.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2018 BizStudioSoft.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bizstudio.ui.pages.application;
+
+import com.bizstudio.application.entities.Notification;
+import com.bizstudio.application.entities.NotificationAction;
+import com.bizstudio.application.managers.NavigationManger;
+import com.bizstudio.application.managers.NotificationManager;
+import com.bizstudio.ui.components.application.NavigationBar;
+import com.bizstudio.ui.components.util.Alert;
+import com.bizstudio.utils.ApplicationMessageUtil;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
+/**
+ * FXML Controller class
+ *
+ * @author ObinnaAsuzu
+ */
+public class ApplicationContainer extends AnchorPane {
+
+    @FXML
+    private AnchorPane AnchorPane;
+    @FXML
+    private StackPane navContainer;
+    @FXML
+    private AnchorPane mainContainer;
+    @FXML
+    private VBox notificationContainer;
+
+<span class="nc" id="L63">    public ApplicationContainer() {</span>
+<span class="nc" id="L64">        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(&quot;/fxml/application/Application.fxml&quot;));</span>
+<span class="nc" id="L65">        fxmlLoader.setRoot(this);</span>
+<span class="nc" id="L66">        fxmlLoader.setController(this);</span>
+<span class="nc" id="L67">        fxmlLoader.setResources(ResourceBundle.getBundle(&quot;bundles.application.lang&quot;, new Locale(&quot;en&quot;)));</span>
+
+        try {
+<span class="nc" id="L70">            fxmlLoader.load();</span>
+<span class="nc" id="L71">            NavigationBar navigationBar = new NavigationBar(navContainer);</span>
+<span class="nc" id="L72">            navContainer.getChildren().add(navigationBar);</span>
+<span class="nc" id="L73">            mainContainer.getChildren().add(NavigationManger.getInstance(navigationBar).getStackPane());</span>
+<span class="nc" id="L74">            navContainer.setManaged(false);</span>
+<span class="nc" id="L75">            navContainer.setVisible(false);</span>
+<span class="nc" id="L76">        } catch (IOException exception) {</span>
+<span class="nc" id="L77">            throw new RuntimeException(exception);</span>
+<span class="nc" id="L78">        }</span>
+
+<span class="nc" id="L80">        ApplicationMessageUtil.instantiate(this);</span>
+
+<span class="nc" id="L82">        initNotifications();</span>
+<span class="nc" id="L83">    }</span>
+
+    private void initNotifications() {
+<span class="nc" id="L86">        NotificationManager.getInstance().addOnCreateListener(notification -&gt; {</span>
+<span class="nc" id="L87">            NotificationAction action = notification.getAction();</span>
+            Alert alert;
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (action != null) {</span>
+<span class="nc" id="L90">                alert = Alert.create(notification.getTitle(), notification.getMessage(), action.getName(), event -&gt; {</span>
+<span class="nc" id="L91">                    action.execute();</span>
+<span class="nc" id="L92">                });</span>
+            } else {
+<span class="nc" id="L94">                alert = Alert.create(notification.getTitle(), notification.getMessage());</span>
+            }
+<span class="nc" id="L96">            addAlert(alert);</span>
+<span class="nc" id="L97">        });</span>
+<span class="nc" id="L98">    }</span>
+
+    public void addAlert(Alert alert) {
+<span class="nc" id="L101">        animateTransitionIn(alert, notificationContainer);</span>
+<span class="nc" id="L102">        Thread thread = new Thread(() -&gt; {</span>
+            try {
+<span class="nc" id="L104">                Thread.sleep(Duration.ofSeconds(3).toMillis());</span>
+<span class="nc" id="L105">                Platform.runLater(() -&gt; {</span>
+
+<span class="nc" id="L107">                    animateTransitionOut(alert, (ActionEvent event) -&gt; {</span>
+<span class="nc" id="L108">                        notificationContainer.getChildren().remove(alert);</span>
+<span class="nc" id="L109">                    });</span>
+<span class="nc" id="L110">                });</span>
+<span class="nc" id="L111">            } catch (InterruptedException ex) {</span>
+<span class="nc" id="L112">                Logger.getLogger(ApplicationContainer.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L113">            }</span>
+<span class="nc" id="L114">        });</span>
+<span class="nc" id="L115">        thread.start();</span>
+<span class="nc" id="L116">    }</span>
+
+    private void animateTransitionOut(Pane pane, EventHandler&lt;ActionEvent&gt; onfinish) {
+<span class="nc" id="L119">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L120">        translateTransition.setFromX(pane.getLayoutBounds().getMinX());</span>
+<span class="nc" id="L121">        translateTransition.setToX(pane.getWidth());</span>
+
+<span class="nc" id="L123">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L124">        fadeTransition.setFromValue(1);</span>
+<span class="nc" id="L125">        fadeTransition.setToValue(0);</span>
+
+<span class="nc" id="L127">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L128">        scaleTransition.setFromX(1);</span>
+<span class="nc" id="L129">        scaleTransition.setToX(0);</span>
+<span class="nc" id="L130">        scaleTransition.setFromY(1);</span>
+<span class="nc" id="L131">        scaleTransition.setToY(0);</span>
+
+<span class="nc" id="L133">        ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L134">        parallelTransition.getChildren().addAll(</span>
+                fadeTransition,
+                translateTransition,
+                scaleTransition
+        );
+
+<span class="nc" id="L140">        parallelTransition.setOnFinished(onfinish);</span>
+<span class="nc" id="L141">        parallelTransition.play();</span>
+<span class="nc" id="L142">    }</span>
+
+    private void animateTransitionIn(Pane pane, Pane parent) {
+<span class="nc" id="L145">        animateTransitionIn(pane, parent, null);</span>
+<span class="nc" id="L146">    }</span>
+
+    private void animateTransitionIn(Pane pane, Pane parent, EventHandler&lt;ActionEvent&gt; onfinish) {
+<span class="nc" id="L149">        pane.setTranslateX(parent.getWidth());</span>
+<span class="nc" id="L150">        pane.setOpacity(0);</span>
+<span class="nc" id="L151">        pane.setScaleX(0);</span>
+<span class="nc" id="L152">        pane.setScaleY(0);</span>
+<span class="nc" id="L153">        parent.getChildren().add(pane);</span>
+
+<span class="nc" id="L155">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L156">        translateTransition.setFromX(parent.getWidth());</span>
+<span class="nc" id="L157">        translateTransition.setToX(parent.getLayoutBounds().getMinX());</span>
+
+<span class="nc" id="L159">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L160">        fadeTransition.setFromValue(0);</span>
+<span class="nc" id="L161">        fadeTransition.setToValue(1);</span>
+
+<span class="nc" id="L163">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L164">        scaleTransition.setFromX(0);</span>
+<span class="nc" id="L165">        scaleTransition.setToX(1);</span>
+<span class="nc" id="L166">        scaleTransition.setFromY(0);</span>
+<span class="nc" id="L167">        scaleTransition.setToY(1);</span>
+
+<span class="nc" id="L169">        ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L170">        parallelTransition.getChildren().addAll(</span>
+                fadeTransition,
+                translateTransition,
+                scaleTransition
+        );
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (onfinish != null) {</span>
+<span class="nc" id="L177">            parallelTransition.setOnFinished(onfinish);</span>
+        }
+<span class="nc" id="L179">        parallelTransition.play();</span>
+
+<span class="nc" id="L181">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -8,6 +8,7 @@ C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\ui\pag
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\inventory\entities\AddressEntity.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\UserRoleEntity.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\UserAccountEntity.java
+C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\utils\MessageType.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\controllers\exceptions\IllegalOrphanException.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\controllers\exceptions\PreexistingEntityException.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\AbstractEntity.java
@@ -53,6 +54,7 @@ C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\securi
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\service\BasicIniEnvironment.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\PrincipalEntity.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\ui\components\login\PinLoginInput.java
+C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\application\entities\NotificationAction.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\application\managers\NavigationManger.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\controllers\SessionEntityJpaController.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\application\managers\NetworkCommunicationManager.java
@@ -60,6 +62,7 @@ C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\invent
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\service\PersistenceManger.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\inventory\entities\ItemAttributeEntity.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\security\entities\controllers\CredentialEntityJpaController.java
+C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\utils\ApplicationMessageUtil.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\xmpp\enums\XmppPayloadAction.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\LoginPage.java
 C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS\src\main\java\com\bizstudio\application\OpenPOS.java

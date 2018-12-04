@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.utils</a> &gt; <span class="el_source">MessageType.java</span></div><h1>MessageType.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.utils;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+<span class="nc" id="L12">public enum MessageType {</span>
+<span class="nc" id="L13">    DEFAULT(&quot;bg-color-white&quot;),</span>
+<span class="nc" id="L14">    ERROR(&quot;bg-color-danger&quot;),</span>
+<span class="nc" id="L15">    WARN(&quot;bg-color-warn&quot;),</span>
+<span class="nc" id="L16">    INFO(&quot;bg-color-primary&quot;),</span>
+<span class="nc" id="L17">    FAILURE(&quot;bg-color-danger&quot;),</span>
+<span class="nc" id="L18">    SUCCESS(&quot;bg-color-success&quot;);</span>
+    String colorClass;
+
+<span class="nc" id="L21">    private MessageType(String colorClass) {</span>
+<span class="nc" id="L22">        this.colorClass = colorClass;</span>
+<span class="nc" id="L23">    }</span>
+
+    public String getColorClass() {
+<span class="nc" id="L26">        return colorClass;</span>
+    }
+    
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

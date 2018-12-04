@@ -1,5 +1,6 @@
 com\bizstudio\xmpp\events\XmppEventListener.class
 com\bizstudio\inventory\entities\ItemAttributeEntity.class
+com\bizstudio\utils\ApplicationMessageUtil.class
 com\bizstudio\inventory\entities\ItemEntity.class
 com\bizstudio\ui\pages\application\HomePage.class
 com\bizstudio\ui\components\application\PageStack.class
@@ -15,6 +16,7 @@ com\bizstudio\security\service\PersistenceManger.class
 com\bizstudio\security\util\SessionAttributesConverter.class
 com\bizstudio\inventory\entities\ItemAttrModifierType.class
 com\bizstudio\security\entities\controllers\UserPermissionEntityJpaController.class
+com\bizstudio\application\entities\NotificationAction.class
 com\bizstudio\security\entities\controllers\exceptions\NonexistentEntityException.class
 com\bizstudio\inventory\entities\ItemCategoryEntity.class
 com\bizstudio\xmpp\events\XmppMessageEventListener.class
@@ -42,6 +44,7 @@ com\bizstudio\inventory\entities\AddressEntity.class
 com\bizstudio\application\FXMLController.class
 com\bizstudio\ui\pages\application\LoginPage.class
 com\bizstudio\application\enums\NotificationState.class
+com\bizstudio\utils\MessageType.class
 com\bizstudio\security\entities\controllers\exceptions\IllegalOrphanException.class
 com\bizstudio\inventory\entities\ItemPropEntity.class
 com\bizstudio\application\handlers\NavigationHandler.class
@@ -73,5 +76,6 @@ com\bizstudio\ui\components\login\UsernamePasswordInput.class
 com\bizstudio\application\entities\conveters\PageConverter.class
 com\bizstudio\inventory\entities\ItemStockEntity.class
 com\bizstudio\security\entities\PrincipalEntity.class
+com\bizstudio\utils\ApplicationMessageUtil$AlertMessageUtilHolder.class
 com\bizstudio\application\enums\PageState.class
 com\bizstudio\application\managers\NetworkCommunicationManager$1.class

@@ -102,7 +102,7 @@ limitations under the License.
     -fx-text-fill: whitesmoke;
 }
 .btn-danger{
-    -fx-background-color: -fx-color-failure;
+    -fx-background-color: -fx-color-error;
     -fx-text-fill: whitesmoke;
 }
 .btn-warn{
@@ -113,4 +113,12 @@ limitations under the License.
     -fx-background-color: -fx-color-info;
     -fx-text-fill: whitesmoke;
 }
+
+.p{-fx-font-size: 16px;}
+.h1{-fx-font-size: 32px;}
+.h2{-fx-font-size: 24px;}
+.h3{-fx-font-size: 18px}
+.h4{-fx-font-size: 16px;}
+.h5{-fx-font-size: 13px;}
+.h6{-fx-font-size: 10px;}
 

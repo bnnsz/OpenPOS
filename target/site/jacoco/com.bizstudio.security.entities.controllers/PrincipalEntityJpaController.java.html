@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrincipalEntityJpaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.entities.controllers</a> &gt; <span class="el_source">PrincipalEntityJpaController.java</span></div><h1>PrincipalEntityJpaController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.entities.controllers;
+
+import com.bizstudio.security.entities.PrincipalEntity;
+import com.bizstudio.security.entities.UserAccountEntity;
+import com.bizstudio.security.entities.controllers.exceptions.NonexistentEntityException;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+public class PrincipalEntityJpaController implements Serializable {
+
+<span class="nc" id="L26">    public PrincipalEntityJpaController(EntityManagerFactory emf) {</span>
+<span class="nc" id="L27">        this.emf = emf;</span>
+<span class="nc" id="L28">    }</span>
+<span class="nc" id="L29">    private EntityManagerFactory emf = null;</span>
+
+    public EntityManager getEntityManager() {
+<span class="nc" id="L32">        return emf.createEntityManager();</span>
+    }
+
+    public void create(PrincipalEntity principalEntity) {
+<span class="nc" id="L36">        EntityManager em = null;</span>
+        try {
+<span class="nc" id="L38">            em = getEntityManager();</span>
+<span class="nc" id="L39">            em.getTransaction().begin();</span>
+<span class="nc" id="L40">            UserAccountEntity userAccount = principalEntity.getUserAccount();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (userAccount != null) {</span>
+<span class="nc" id="L42">                userAccount = em.getReference(userAccount.getClass(), userAccount.getId());</span>
+<span class="nc" id="L43">                principalEntity.setUserAccount(userAccount);</span>
+            }
+<span class="nc" id="L45">            em.persist(principalEntity);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            if (userAccount != null) {</span>
+<span class="nc" id="L47">                userAccount.getPrincipals().add(principalEntity);</span>
+<span class="nc" id="L48">                userAccount = em.merge(userAccount);</span>
+            }
+<span class="nc" id="L50">            em.getTransaction().commit();</span>
+        } finally {
+<span class="nc bnc" id="L52" title="All 4 branches missed.">            if (em != null) {</span>
+<span class="nc" id="L53">                em.close();</span>
+            }
+        }
+<span class="nc" id="L56">    }</span>
+
+    public void edit(PrincipalEntity principalEntity) throws NonexistentEntityException, Exception {
+<span class="nc" id="L59">        EntityManager em = null;</span>
+        try {
+<span class="nc" id="L61">            em = getEntityManager();</span>
+<span class="nc" id="L62">            em.getTransaction().begin();</span>
+<span class="nc" id="L63">            PrincipalEntity persistentPrincipalEntity = em.find(PrincipalEntity.class, principalEntity.getId());</span>
+<span class="nc" id="L64">            UserAccountEntity userAccountOld = persistentPrincipalEntity.getUserAccount();</span>
+<span class="nc" id="L65">            UserAccountEntity userAccountNew = principalEntity.getUserAccount();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (userAccountNew != null) {</span>
+<span class="nc" id="L67">                userAccountNew = em.getReference(userAccountNew.getClass(), userAccountNew.getId());</span>
+<span class="nc" id="L68">                principalEntity.setUserAccount(userAccountNew);</span>
+            }
+<span class="nc" id="L70">            principalEntity = em.merge(principalEntity);</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">            if (userAccountOld != null &amp;&amp; !userAccountOld.equals(userAccountNew)) {</span>
+<span class="nc" id="L72">                userAccountOld.getPrincipals().remove(principalEntity);</span>
+<span class="nc" id="L73">                userAccountOld = em.merge(userAccountOld);</span>
+            }
+<span class="nc bnc" id="L75" title="All 4 branches missed.">            if (userAccountNew != null &amp;&amp; !userAccountNew.equals(userAccountOld)) {</span>
+<span class="nc" id="L76">                userAccountNew.getPrincipals().add(principalEntity);</span>
+<span class="nc" id="L77">                userAccountNew = em.merge(userAccountNew);</span>
+            }
+<span class="nc" id="L79">            em.getTransaction().commit();</span>
+<span class="nc" id="L80">        } catch (Exception ex) {</span>
+<span class="nc" id="L81">            String msg = ex.getLocalizedMessage();</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">            if (msg == null || msg.length() == 0) {</span>
+<span class="nc" id="L83">                Long id = principalEntity.getId();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                if (findPrincipalEntity(id) == null) {</span>
+<span class="nc" id="L85">                    throw new NonexistentEntityException(&quot;The principalEntity with id &quot; + id + &quot; no longer exists.&quot;);</span>
+                }
+            }
+<span class="nc" id="L88">            throw ex;</span>
+        } finally {
+<span class="nc bnc" id="L90" title="All 4 branches missed.">            if (em != null) {</span>
+<span class="nc" id="L91">                em.close();</span>
+            }
+        }
+<span class="nc" id="L94">    }</span>
+
+    public void destroy(Long id) throws NonexistentEntityException {
+<span class="nc" id="L97">        EntityManager em = null;</span>
+        try {
+<span class="nc" id="L99">            em = getEntityManager();</span>
+<span class="nc" id="L100">            em.getTransaction().begin();</span>
+            PrincipalEntity principalEntity;
+            try {
+<span class="nc" id="L103">                principalEntity = em.getReference(PrincipalEntity.class, id);</span>
+<span class="nc" id="L104">                principalEntity.getId();</span>
+<span class="nc" id="L105">            } catch (EntityNotFoundException enfe) {</span>
+<span class="nc" id="L106">                throw new NonexistentEntityException(&quot;The principalEntity with id &quot; + id + &quot; no longer exists.&quot;, enfe);</span>
+<span class="nc" id="L107">            }</span>
+<span class="nc" id="L108">            UserAccountEntity userAccount = principalEntity.getUserAccount();</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (userAccount != null) {</span>
+<span class="nc" id="L110">                userAccount.getPrincipals().remove(principalEntity);</span>
+<span class="nc" id="L111">                userAccount = em.merge(userAccount);</span>
+            }
+<span class="nc" id="L113">            em.remove(principalEntity);</span>
+<span class="nc" id="L114">            em.getTransaction().commit();</span>
+        } finally {
+<span class="nc bnc" id="L116" title="All 4 branches missed.">            if (em != null) {</span>
+<span class="nc" id="L117">                em.close();</span>
+            }
+        }
+<span class="nc" id="L120">    }</span>
+
+    public List&lt;PrincipalEntity&gt; findPrincipalEntityEntities() {
+<span class="nc" id="L123">        return findPrincipalEntityEntities(true, -1, -1);</span>
+    }
+
+    public List&lt;PrincipalEntity&gt; findPrincipalEntityEntities(int maxResults, int firstResult) {
+<span class="nc" id="L127">        return findPrincipalEntityEntities(false, maxResults, firstResult);</span>
+    }
+
+    private List&lt;PrincipalEntity&gt; findPrincipalEntityEntities(boolean all, int maxResults, int firstResult) {
+<span class="nc" id="L131">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L133">            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L134">            cq.select(cq.from(PrincipalEntity.class));</span>
+<span class="nc" id="L135">            Query q = em.createQuery(cq);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if (!all) {</span>
+<span class="nc" id="L137">                q.setMaxResults(maxResults);</span>
+<span class="nc" id="L138">                q.setFirstResult(firstResult);</span>
+            }
+<span class="nc" id="L140">            return q.getResultList();</span>
+        } finally {
+<span class="nc" id="L142">            em.close();</span>
+        }
+    }
+
+    public PrincipalEntity findPrincipalEntity(Long id) {
+<span class="nc" id="L147">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L149">            return em.find(PrincipalEntity.class, id);</span>
+        } finally {
+<span class="nc" id="L151">            em.close();</span>
+        }
+    }
+
+    public int getPrincipalEntityCount() {
+<span class="nc" id="L156">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L158">            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();</span>
+<span class="nc" id="L159">            Root&lt;PrincipalEntity&gt; rt = cq.from(PrincipalEntity.class);</span>
+<span class="nc" id="L160">            cq.select(em.getCriteriaBuilder().count(rt));</span>
+<span class="nc" id="L161">            Query q = em.createQuery(cq);</span>
+<span class="nc" id="L162">            return ((Long) q.getSingleResult()).intValue();</span>
+        } finally {
+<span class="nc" id="L164">            em.close();</span>
+        }
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -5,9 +5,17 @@
  */
 package com.bizstudio.application;
 
+import com.bizstudio.application.entities.Notification;
+import com.bizstudio.application.entities.NotificationAction;
+import com.bizstudio.application.handlers.NotificationListener;
+import com.bizstudio.application.managers.NotificationManager;
 import com.bizstudio.security.service.BasicIniEnvironment;
+import com.bizstudio.ui.components.util.Alert;
 import com.bizstudio.ui.pages.application.ApplicationContainer;
+import com.bizstudio.utils.ApplicationMessageUtil;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -39,14 +47,13 @@ public class OpenPOS extends Application {
         // Make the SecurityManager instance available to the entire application
         // via static memory:
         SecurityUtils.setSecurityManager(securityManager);
-
+        
         scene.addEventFilter(EventType.ROOT, event -> {
             if (event.getEventType() != MouseEvent.MOUSE_MOVED
                     && event.getEventType() != MouseEvent.MOUSE_ENTERED_TARGET
                     && event.getEventType() != MouseEvent.MOUSE_EXITED_TARGET) {
                 Session session = SecurityUtils.getSubject().getSession(false);
                 if (session != null) {
-                    System.out.println("Event ==> " + event.toString());
                     session.touch();
                 }
             }

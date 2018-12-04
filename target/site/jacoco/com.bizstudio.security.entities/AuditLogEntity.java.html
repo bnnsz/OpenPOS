@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuditLogEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.security.entities</a> &gt; <span class="el_source">AuditLogEntity.java</span></div><h1>AuditLogEntity.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.security.entities;
+
+import com.bizstudio.security.entities.enums.AuditLogAction;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+@Entity
+<span class="nc" id="L24">public class AuditLogEntity implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @Column(name=&quot;LOG_TIMESTAMP&quot;)
+    private LocalDateTime timestamp;
+    
+    @Column
+    private String username;
+    
+    @Column(name=&quot;LOG_ACTION&quot;)
+    @Enumerated(EnumType.ORDINAL)
+    private AuditLogAction action;
+    
+    @Column
+    private String entityName;
+    
+    @Column
+    private String entityRef;
+    
+    @Column
+    private String entityState;
+    
+
+    public Long getId() {
+<span class="nc" id="L52">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L56">        this.id = id;</span>
+<span class="nc" id="L57">    }</span>
+
+    /**
+     * @return the timestamp
+     */
+    public LocalDateTime getTimestamp() {
+<span class="nc" id="L63">        return timestamp;</span>
+    }
+
+    /**
+     * @param timestamp the timestamp to set
+     */
+    public void setTimestamp(LocalDateTime timestamp) {
+<span class="nc" id="L70">        this.timestamp = timestamp;</span>
+<span class="nc" id="L71">    }</span>
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+<span class="nc" id="L77">        return username;</span>
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+<span class="nc" id="L84">        this.username = username;</span>
+<span class="nc" id="L85">    }</span>
+
+    /**
+     * @return the action
+     */
+    public AuditLogAction getAction() {
+<span class="nc" id="L91">        return action;</span>
+    }
+
+    /**
+     * @param action the action to set
+     */
+    public void setAction(AuditLogAction action) {
+<span class="nc" id="L98">        this.action = action;</span>
+<span class="nc" id="L99">    }</span>
+
+    
+
+    /**
+     * @return the entityName
+     */
+    public String getEntityName() {
+<span class="nc" id="L107">        return entityName;</span>
+    }
+
+    /**
+     * @param entityName the entityName to set
+     */
+    public void setEntityName(String entityName) {
+<span class="nc" id="L114">        this.entityName = entityName;</span>
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * @return the entityRef
+     */
+    public String getEntityRef() {
+<span class="nc" id="L121">        return entityRef;</span>
+    }
+
+    /**
+     * @param entityRef the entityRef to set
+     */
+    public void setEntityRef(String entityRef) {
+<span class="nc" id="L128">        this.entityRef = entityRef;</span>
+<span class="nc" id="L129">    }</span>
+
+    /**
+     * @return the entityState
+     */
+    public String getEntityState() {
+<span class="nc" id="L135">        return entityState;</span>
+    }
+
+    /**
+     * @param entityState the entityState to set
+     */
+    public void setEntityState(String entityState) {
+<span class="nc" id="L142">        this.entityState = entityState;</span>
+<span class="nc" id="L143">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L147">        int hash = 0;</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L149">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (!(object instanceof AuditLogEntity)) {</span>
+<span class="nc" id="L156">            return false;</span>
+        }
+<span class="nc" id="L158">        AuditLogEntity other = (AuditLogEntity) object;</span>
+<span class="nc bnc" id="L159" title="All 8 branches missed.">        if ((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id))) {</span>
+<span class="nc" id="L160">            return false;</span>
+        }
+<span class="nc" id="L162">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L167">        return &quot;com.bizstudio.security.entities.AuditLogEntity[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

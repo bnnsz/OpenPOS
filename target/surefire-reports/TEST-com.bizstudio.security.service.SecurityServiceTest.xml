@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bizstudio.security.service.SecurityServiceTest" time="0.977" tests="10" errors="0" skipped="0" failures="0">
+<testsuite name="com.bizstudio.security.service.SecurityServiceTest" time="0.894" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_102\jre\bin"/>
@@ -15,7 +15,6 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value=""/>
-    <property name="test" value="com.bizstudio.security.service.SecurityServiceTest"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="C:\Users\ObinnaAsuzu\Documents\GitHub\OpenPOS"/>
     <property name="java.runtime.version" value="1.8.0_102-b14"/>
@@ -35,6 +34,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="runfx.args" value="-jar &quot;${project.build.directory}/${project.build.finalName}.jar&quot; "/>
     <property name="os.version" value="10.0"/>
     <property name="library.jansi.path" value="C:\Users\ObinnaAsuzu\Documents\apache-maven-3.5.4\bin\..\lib\jansi-native"/>
     <property name="user.home" value="C:\Users\ObinnaAsuzu"/>
@@ -47,7 +47,7 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_102\jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=com.bizstudio.security.service.SecurityServiceTest -Dmaven.ext.class.path=C:\Program Files\Netbeans 9.0\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 test-compile surefire:test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Drunfx.args=-jar &quot;${project.build.directory}/${project.build.finalName}.jar&quot;  -Dmaven.ext.class.path=C:\Program Files\Netbeans 9.0\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 clean package org.codehaus.mojo:exec-maven-plugin:1.2.1:exec"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="en"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -64,14 +64,14 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="testDoGetAuthorizationInfo" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.486"/>
-  <testcase name="testResolvePermission" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.011"/>
-  <testcase name="testReadSession" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.006"/>
-  <testcase name="testDoGetAuthenticationInfo" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.005"/>
-  <testcase name="testGetActiveSessions" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.104"/>
+  <testcase name="testDoGetAuthorizationInfo" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.583"/>
+  <testcase name="testResolvePermission" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.01"/>
+  <testcase name="testReadSession" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.007"/>
+  <testcase name="testDoGetAuthenticationInfo" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.012"/>
+  <testcase name="testGetActiveSessions" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.176"/>
   <testcase name="testAssertCredentialsMatch" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.004"/>
-  <testcase name="testCreate" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.359"/>
-  <testcase name="testDelete" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.001"/>
-  <testcase name="testResolvePermissionsInRole" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.001"/>
-  <testcase name="testUpdate" classname="com.bizstudio.security.service.SecurityServiceTest" time="0"/>
+  <testcase name="testCreate" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.041"/>
+  <testcase name="testDelete" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.022"/>
+  <testcase name="testResolvePermissionsInRole" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.009"/>
+  <testcase name="testUpdate" classname="com.bizstudio.security.service.SecurityServiceTest" time="0.03"/>
 </testsuite>

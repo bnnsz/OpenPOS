@@ -24,6 +24,7 @@ import com.bizstudio.security.service.PinToken;
 import com.bizstudio.ui.components.login.PinLoginInput;
 import com.bizstudio.ui.components.login.UsernamePasswordInput;
 import com.bizstudio.ui.pages.handlers.InputAuthentcationHandler;
+import com.bizstudio.utils.ApplicationMessageUtil;
 import com.bizstudio.xmpp.dtos.XMPPMessage;
 import com.bizstudio.xmpp.dtos.XMPPPayload;
 import com.bizstudio.xmpp.enums.XmppPayloadAction;
@@ -120,7 +121,6 @@ public class LoginPage extends ApplicationPage {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();
         usernamePasswordToken.setUsername("superuser");
         usernamePasswordToken.setPassword("password123".toCharArray());
-        System.out.println("----> login");
         if (token != null) {
             try {
                 SecurityUtils.getSubject().login(token);
@@ -128,10 +128,11 @@ public class LoginPage extends ApplicationPage {
                 session.setAttribute("user", ((Principal) SecurityUtils.getSubject().getPrincipal()).getValue());
                 NavigationManger.getInstance().navigate(NavigationRoute.HOME);
             } catch (AuthenticationException e) {
-                System.out.println(e.getMessage());
+                ApplicationMessageUtil.getInstance().addMessage(e.getMessage());
+                System.out.println();
             }
         } else {
-            System.out.println("Invalid Credential");
+            ApplicationMessageUtil.getInstance().addMessage("Invalid Credential");
         }
 
     }

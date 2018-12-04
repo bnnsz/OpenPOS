@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemStockEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenPOS</a> &gt; <a href="index.source.html" class="el_package">com.bizstudio.inventory.entities</a> &gt; <span class="el_source">ItemStockEntity.java</span></div><h1>ItemStockEntity.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bizstudio.inventory.entities;
+
+import com.bizstudio.security.entities.AbstractEntity;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+/**
+ *
+ * @author ObinnaAsuzu
+ */
+@Entity
+<span class="nc" id="L22">public class ItemStockEntity extends AbstractEntity implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @ManyToOne
+    private LocationEntity location;
+    
+    @ManyToOne
+    private ItemVariantEntity variant;
+    
+    @Column
+    private int quantity;
+
+    @Override
+    public Long getId() {
+<span class="nc" id="L40">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L44">        this.id = id;</span>
+<span class="nc" id="L45">    }</span>
+
+    /**
+     * @return the location
+     */
+    public LocationEntity getLocation() {
+<span class="nc" id="L51">        return location;</span>
+    }
+
+    /**
+     * @param location the location to set
+     */
+    public void setLocation(LocationEntity location) {
+<span class="nc" id="L58">        this.location = location;</span>
+<span class="nc" id="L59">    }</span>
+
+    /**
+     * @return the variant
+     */
+    public ItemVariantEntity getVariant() {
+<span class="nc" id="L65">        return variant;</span>
+    }
+
+    /**
+     * @param variant the variant to set
+     */
+    public void setVariant(ItemVariantEntity variant) {
+<span class="nc" id="L72">        this.variant = variant;</span>
+<span class="nc" id="L73">    }</span>
+
+    /**
+     * @return the quantity
+     */
+    public int getQuantity() {
+<span class="nc" id="L79">        return quantity;</span>
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(int quantity) {
+<span class="nc" id="L86">        this.quantity = quantity;</span>
+<span class="nc" id="L87">    }</span>
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L91">        int hash = 0;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        hash += (id != null ? id.hashCode() : 0);</span>
+<span class="nc" id="L93">        return hash;</span>
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (!(object instanceof ItemStockEntity)) {</span>
+<span class="nc" id="L100">            return false;</span>
+        }
+<span class="nc" id="L102">        ItemStockEntity other = (ItemStockEntity) object;</span>
+<span class="nc bnc" id="L103" title="All 8 branches missed.">        return !((this.id == null &amp;&amp; other.id != null) || (this.id != null &amp;&amp; !this.id.equals(other.id)));</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L108">        return &quot;com.bizstudio.inventory.entities.StockEntity[ id=&quot; + id + &quot; ]&quot;;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

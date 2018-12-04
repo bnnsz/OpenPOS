@@ -40,7 +40,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
 
 /**
@@ -71,6 +70,11 @@ public class NavigationManger {
     public void navigate(NavigationRoute route, Map<String, Object> parameters) {
         //TODO Navigation operation goes here;
         openPage(route.page(), Collections.unmodifiableMap(parameters));
+    }
+    
+     public void logout() {
+        //TODO Navigation operation goes here;
+        applicationPages.clear();
     }
 
     public void navigate(NavigationRoute route) {
@@ -272,10 +276,20 @@ public class NavigationManger {
                 }
             }
 
+            System.out.println("---> Check size");
+            System.out.println("---> Check size  --> "+c.getList().size());
             if (c.getList().size() < 2) {
+                System.out.println("---> Check size  < 2 ");
                 navigationBar.hideBack();
             }else{
+                System.out.println("---> Check size  > 1 ");
                 navigationBar.showBack();
+            }
+            
+            
+            System.out.println("----------------------stack----------------------");
+            for(ApplicationPage p: c.getList()){
+                System.out.println("["+p.toString()+"]");
             }
         }
     }
