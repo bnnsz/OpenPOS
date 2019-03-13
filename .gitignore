@@ -41,3 +41,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /nbproject/
+nbactions.xml
+nb-configuration.xml
