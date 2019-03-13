@@ -5,7 +5,6 @@
  */
 package com.bizstudio.security.service;
 
-import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.managers.NavigationManger;
 import com.bizstudio.security.entities.CredentialEntity;
 import com.bizstudio.security.entities.SessionEntity;
@@ -31,7 +30,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManagerFactory;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -119,7 +117,7 @@ public class SecurityService extends AuthorizingRealm implements
             superuser.setUsername("superuser");
             superuser.setPin("123456");
             List<CredentialEntity> credentials = new ArrayList<>();
-            credentials.add(new CredentialEntity("password", "password123"));
+            credentials.add(new CredentialEntity("password", "password123", superuser));
             superuser.setCredentials(credentials);
             accountEntityJpaController.create(superuser);
         } else {
@@ -142,7 +140,7 @@ public class SecurityService extends AuthorizingRealm implements
             if (uToken.getUsername() == null || uToken.getUsername().isEmpty()) {
                 throw new IncorrectCredentialsException("Incorrect credentials");
             }
-            
+
             if (uToken.getPassword() == null || uToken.getPassword().length < 1) {
                 throw new IncorrectCredentialsException("Incorrect credentials");
             }

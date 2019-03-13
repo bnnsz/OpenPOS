@@ -18,20 +18,15 @@ package com.bizstudio.ui.components.application;
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.managers.NavigationManger;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 /**
@@ -66,6 +61,12 @@ public class NavigationBar extends VBox {
     private void gotoHome(ActionEvent event) {
         System.out.println("Go to Home!");
         NavigationManger.getInstance().navigate(NavigationRoute.HOME);
+    }
+    
+    @FXML
+    private void gotoMenu(ActionEvent event) {
+        System.out.println("Go to Menu!");
+        NavigationManger.getInstance().navigate(NavigationRoute.MENU);
     }
 
     @FXML

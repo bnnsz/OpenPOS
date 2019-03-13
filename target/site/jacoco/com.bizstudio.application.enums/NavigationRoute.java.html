@@ -18,25 +18,27 @@ package com.bizstudio.application.enums;
 import com.bizstudio.ui.pages.application.ApplicationPage;
 import com.bizstudio.ui.pages.application.HomePage;
 import com.bizstudio.ui.pages.application.LoginPage;
+import com.bizstudio.ui.pages.application.MenuPage;
 
 /**
  *
  * @author ObinnaAsuzu
  */
-<span class="nc" id="L26">public enum NavigationRoute {</span>
-<span class="nc" id="L27">    LOGIN(LoginPage.class),</span>
-<span class="nc" id="L28">    HOME(HomePage.class),</span>
-<span class="nc" id="L29">    SETTINGS(LoginPage.class),</span>
-<span class="nc" id="L30">    INVENTORY(LoginPage.class),</span>
-<span class="nc" id="L31">    TRANSACTIONS(LoginPage.class);</span>
+<span class="nc" id="L27">public enum NavigationRoute {</span>
+<span class="nc" id="L28">    LOGIN(LoginPage.class),</span>
+<span class="nc" id="L29">    HOME(HomePage.class),</span>
+<span class="nc" id="L30">    SETTINGS(LoginPage.class),</span>
+<span class="nc" id="L31">    INVENTORY(LoginPage.class),</span>
+<span class="nc" id="L32">    TRANSACTIONS(LoginPage.class),</span>
+<span class="nc" id="L33">    MENU(MenuPage.class);</span>
     
     Class&lt;? extends ApplicationPage&gt; page;
-<span class="nc" id="L34">    private NavigationRoute(Class&lt;? extends ApplicationPage&gt; page) {</span>
-<span class="nc" id="L35">        this.page = page;</span>
-<span class="nc" id="L36">    }</span>
+<span class="nc" id="L36">    private NavigationRoute(Class&lt;? extends ApplicationPage&gt; page) {</span>
+<span class="nc" id="L37">        this.page = page;</span>
+<span class="nc" id="L38">    }</span>
 
     public Class&lt;? extends ApplicationPage&gt; page() {
-<span class="nc" id="L39">        return page;</span>
+<span class="nc" id="L41">        return page;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

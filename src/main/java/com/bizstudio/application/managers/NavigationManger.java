@@ -41,6 +41,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Duration;
+import org.apache.shiro.SecurityUtils;
 
 /**
  *
@@ -77,6 +78,11 @@ public class NavigationManger {
         applicationPages.clear();
     }
 
+    public void navigate(String route) {
+        //TODO Navigation operation goes here;
+        openPage(NavigationRoute.valueOf(route).page(), Collections.unmodifiableMap(new HashMap<>()));
+    }
+    
     public void navigate(NavigationRoute route) {
         //TODO Navigation operation goes here;
         openPage(route.page(), Collections.unmodifiableMap(new HashMap<>()));
@@ -126,6 +132,11 @@ public class NavigationManger {
             if (!handler.equals(current)) {
                 current.onPageResume();
                 applicationPages.add(current);
+                if(current.isShowNavigationBar()){
+                    showNavigation();
+                }else{
+                    hideNavigation();
+                }
                 handler = current;
             }
         } else {
@@ -148,11 +159,18 @@ public class NavigationManger {
                 } else {
                     openPage(newPage);
                 }
+                
+                if(newPage.isShowNavigationBar()){
+                    showNavigation();
+                }else{
+                    hideNavigation();
+                }
                 handler = newPage;
             } catch (IOException | InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(NavigationManger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
 
     private static class NavigationMangerHolder {

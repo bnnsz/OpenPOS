@@ -41,6 +41,11 @@ public class CredentialEntity implements Serializable {
         this.value = value;
     }
     
+    public CredentialEntity(String name, String value,UserAccountEntity userAccount) {
+        this(name, value);
+        this.userAccount = userAccount;
+    }
+    
     
     
     public Long getId() {

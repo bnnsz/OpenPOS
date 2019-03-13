@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/styles/application/application.css" />
         <URL value="@/styles/application/Styles.css" />
@@ -19,7 +19,7 @@
             <AnchorPane fx:id="mainContainer" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
-      <VBox fx:id="notificationContainer" maxHeight="1.7976931348623157E308" maxWidth="500.0" mouseTransparent="true" prefWidth="300.0" spacing="10.0" style="-fx-background-color: greentransparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="notificationContainer" maxHeight="1.7976931348623157E308" maxWidth="500.0" prefWidth="300.0" spacing="10.0" style="-fx-background-color: greentransparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding></VBox>

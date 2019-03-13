@@ -2,6 +2,10 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
-    -fx-background-color: red;
+
+.mainPanel {
+    -fx-background-image: url("../../images/pages/login/background.jpg") ;
+    -fx-background-position: left top, center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
 }

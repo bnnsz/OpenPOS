@@ -5,17 +5,9 @@
  */
 package com.bizstudio.application;
 
-import com.bizstudio.application.entities.Notification;
-import com.bizstudio.application.entities.NotificationAction;
-import com.bizstudio.application.handlers.NotificationListener;
-import com.bizstudio.application.managers.NotificationManager;
 import com.bizstudio.security.service.BasicIniEnvironment;
-import com.bizstudio.ui.components.util.Alert;
 import com.bizstudio.ui.pages.application.ApplicationContainer;
-import com.bizstudio.utils.ApplicationMessageUtil;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -39,7 +31,7 @@ public class OpenPOS extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/application/application.css");
 
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("Open POS");
         stage.setScene(scene);
 
         Environment env = new BasicIniEnvironment("classpath:shiro.ini");

@@ -15,26 +15,17 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.OpenPOS;
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.managers.NavigationManger;
-import com.bizstudio.application.managers.NetworkCommunicationManager;
 import com.bizstudio.security.entities.interfaces.Principal;
 import com.bizstudio.security.service.PinToken;
 import com.bizstudio.ui.components.login.PinLoginInput;
 import com.bizstudio.ui.components.login.UsernamePasswordInput;
-import com.bizstudio.ui.pages.handlers.InputAuthentcationHandler;
 import com.bizstudio.utils.ApplicationMessageUtil;
-import com.bizstudio.xmpp.dtos.XMPPMessage;
-import com.bizstudio.xmpp.dtos.XMPPPayload;
-import com.bizstudio.xmpp.enums.XmppPayloadAction;
-import com.google.gson.Gson;
 import com.jfoenix.controls.JFXCheckBox;
 import java.util.Map;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -70,6 +61,7 @@ public class LoginPage extends ApplicationPage {
 
     public LoginPage() {
         setKeepInHistory(false);
+        setShowNavigationBar(false);
     }
     
     

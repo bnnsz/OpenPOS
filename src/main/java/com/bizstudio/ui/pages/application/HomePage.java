@@ -15,6 +15,8 @@
  */
 package com.bizstudio.ui.pages.application;
 
+import com.bizstudio.application.enums.NavigationRoute;
+import com.bizstudio.ui.components.util.MenuItem;
 import java.util.Map;
 
 /**
@@ -26,6 +28,7 @@ public class HomePage extends ApplicationPage {
 
     @Override
     public void onPageCreate() {
+        //TODO ADD MENU
     }
 
     @Override
@@ -49,5 +52,7 @@ public class HomePage extends ApplicationPage {
     public void onNavigateEvent(Map<String, Object> parameters) {
         
     }
+    
+    
 
 }

@@ -1,0 +1,64 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 10, 2019, 3:24:52 PM
+    Author     : obinna.asuzu
+*/
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../..//fonts/roboto/Roboto-Regular.ttf');
+}
+
+.icon-root{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.icon {
+    -fx-border-radius:20px;
+    -fx-background-radius: 20px;
+}
+
+.red {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #E82E3B, #FF7228);
+}
+
+.blue {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
+}
+
+.label{
+    -fx-font-family: "Roboto";
+}
+
+.green {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #86fe65, #06d315);
+}
+
+.night-fade{
+    -fx-background-color: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+}
+
+.tempting-azure{
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #84fab0 0%, #8fd3f4 100%);
+}
+
+.army-crisp{
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #a6c0fe 0%, #f68084 100%);
+}
+
+.wide-matrix{
+    -fx-background-color: linear-gradient(to top, #fcc5e4 0%, #fda34b 15%, #ff7882 35%, #c8699e 52%, #7046aa 71%, #0c1db8 87%, #020f75 100%);
+}
+
+.soft-cherish{
+    -fx-background-color: linear-gradient(to top, #dbdcd7 0%, #dddcd7 24%, #e2c9cc 30%, #e7627d 46%, #b8235a 59%, #801357 71%, #3d1635 84%, #1c1a27 100%);
+}
+
+.red-salvation{
+    -fx-background-color: linear-gradient(to top, #f43b47 0%, #453a94 100%);
+}

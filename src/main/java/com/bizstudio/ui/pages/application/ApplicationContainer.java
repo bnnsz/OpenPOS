@@ -103,10 +103,11 @@ public class ApplicationContainer extends AnchorPane {
             try {
                 Thread.sleep(Duration.ofSeconds(3).toMillis());
                 Platform.runLater(() -> {
-
-                    animateTransitionOut(alert, (ActionEvent event) -> {
-                        notificationContainer.getChildren().remove(alert);
-                    });
+                    if (notificationContainer.getChildren().contains(alert)) {
+                        animateTransitionOut(alert, (ActionEvent event) -> {
+                            notificationContainer.getChildren().remove(alert);
+                        });
+                    }
                 });
             } catch (InterruptedException ex) {
                 Logger.getLogger(ApplicationContainer.class.getName()).log(Level.SEVERE, null, ex);

@@ -25,6 +25,7 @@ com\bizstudio\security\entities\enums\UserPermissions.class
 com\bizstudio\xmpp\dtos\XMPPPayload.class
 com\bizstudio\security\entities\controllers\CredentialEntityJpaController.class
 com\bizstudio\xmpp\enums\XmppPayloadAction.class
+com\bizstudio\ui\pages\application\MenuPage.class
 com\bizstudio\application\entities\Notification.class
 com\bizstudio\application\managers\NetworkCommunicationManager$NetworkCommunicationManagerHolder.class
 com\bizstudio\application\managers\NotificationManager.class
@@ -34,6 +35,7 @@ com\bizstudio\ui\pages\application\ApplicationPage.class
 com\bizstudio\security\service\PersistenceManger$PersistenceMangerHolder.class
 com\bizstudio\security\entities\enums\AuditLogAction.class
 com\bizstudio\security\entities\UserRoleEntity.class
+com\bizstudio\ui\components\util\MenuItem.class
 com\bizstudio\security\entities\controllers\PrincipalEntityJpaController.class
 com\bizstudio\application\managers\NavigationManger$NavigationMangerHolder.class
 com\bizstudio\security\entities\interfaces\Principal.class

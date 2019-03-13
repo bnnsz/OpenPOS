@@ -29,6 +29,7 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
     private long pageID;
     private PageState pageState;
     private boolean keepInHistory = true;
+    private boolean showNavigationBar = true;
     private ToggleButton navButton;
     
     
@@ -74,6 +75,20 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
      */
     public final void setKeepInHistory(boolean keepInHistory) {
         this.keepInHistory = keepInHistory;
+    }
+
+    /**
+     * @return the showNavigationBar
+     */
+    public boolean isShowNavigationBar() {
+        return showNavigationBar;
+    }
+
+    /**
+     * @param showNavigationBar the showNavigationBar to set
+     */
+    public void setShowNavigationBar(boolean showNavigationBar) {
+        this.showNavigationBar = showNavigationBar;
     }
 
     /**

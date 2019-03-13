@@ -15,26 +15,17 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.OpenPOS;
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.managers.NavigationManger;
-import com.bizstudio.application.managers.NetworkCommunicationManager;
 import com.bizstudio.security.entities.interfaces.Principal;
 import com.bizstudio.security.service.PinToken;
 import com.bizstudio.ui.components.login.PinLoginInput;
 import com.bizstudio.ui.components.login.UsernamePasswordInput;
-import com.bizstudio.ui.pages.handlers.InputAuthentcationHandler;
 import com.bizstudio.utils.ApplicationMessageUtil;
-import com.bizstudio.xmpp.dtos.XMPPMessage;
-import com.bizstudio.xmpp.dtos.XMPPPayload;
-import com.bizstudio.xmpp.enums.XmppPayloadAction;
-import com.google.gson.Gson;
 import com.jfoenix.controls.JFXCheckBox;
 import java.util.Map;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -68,48 +59,49 @@ public class LoginPage extends ApplicationPage {
 
     AuthenticationToken token;
 
-<span class="nc" id="L71">    public LoginPage() {</span>
-<span class="nc" id="L72">        setKeepInHistory(false);</span>
-<span class="nc" id="L73">    }</span>
+<span class="nc" id="L62">    public LoginPage() {</span>
+<span class="nc" id="L63">        setKeepInHistory(false);</span>
+<span class="nc" id="L64">        setShowNavigationBar(false);</span>
+<span class="nc" id="L65">    }</span>
     
     
 
     @Override
     public void onPageCreate() {
-<span class="nc" id="L79">        PinLoginInput pinLoginInput = new PinLoginInput();</span>
-<span class="nc" id="L80">        UsernamePasswordInput passwordInput = new UsernamePasswordInput();</span>
+<span class="nc" id="L71">        PinLoginInput pinLoginInput = new PinLoginInput();</span>
+<span class="nc" id="L72">        UsernamePasswordInput passwordInput = new UsernamePasswordInput();</span>
 
-<span class="nc" id="L82">        pinLoginInput.setValueChangeHandler((AuthenticationToken passwordToken) -&gt; {</span>
-<span class="nc" id="L83">            ((PinToken) passwordToken).setRememberMe(rememberMe.selectedProperty().getValue());</span>
-<span class="nc" id="L84">            token = passwordToken;</span>
-<span class="nc" id="L85">        });</span>
+<span class="nc" id="L74">        pinLoginInput.setValueChangeHandler((AuthenticationToken passwordToken) -&gt; {</span>
+<span class="nc" id="L75">            ((PinToken) passwordToken).setRememberMe(rememberMe.selectedProperty().getValue());</span>
+<span class="nc" id="L76">            token = passwordToken;</span>
+<span class="nc" id="L77">        });</span>
 
-<span class="nc" id="L87">        passwordInput.setValueChangeHandler((AuthenticationToken passwordToken) -&gt; {</span>
-<span class="nc" id="L88">            ((UsernamePasswordToken) passwordToken).setRememberMe(rememberMe.selectedProperty().getValue());</span>
-<span class="nc" id="L89">            token = passwordToken;</span>
-<span class="nc" id="L90">        });</span>
+<span class="nc" id="L79">        passwordInput.setValueChangeHandler((AuthenticationToken passwordToken) -&gt; {</span>
+<span class="nc" id="L80">            ((UsernamePasswordToken) passwordToken).setRememberMe(rememberMe.selectedProperty().getValue());</span>
+<span class="nc" id="L81">            token = passwordToken;</span>
+<span class="nc" id="L82">        });</span>
 
-<span class="nc" id="L92">        loginButton.setOnAction((ActionEvent event) -&gt; {</span>
-<span class="nc" id="L93">            login();</span>
-<span class="nc" id="L94">        });</span>
+<span class="nc" id="L84">        loginButton.setOnAction((ActionEvent event) -&gt; {</span>
+<span class="nc" id="L85">            login();</span>
+<span class="nc" id="L86">        });</span>
 
-<span class="nc" id="L96">        inputStack.getChildren().clear();</span>
-<span class="nc" id="L97">        inputStack.getChildren().add(passwordInput);</span>
-<span class="nc" id="L98">        passwordToggle.selectedProperty().addListener((ObservableValue&lt;? extends Boolean&gt; observable, Boolean oldValue, Boolean newValue) -&gt; {</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (newValue) {</span>
-<span class="nc" id="L100">                inputStack.getChildren().clear();</span>
-<span class="nc" id="L101">                inputStack.getChildren().add(passwordInput);</span>
+<span class="nc" id="L88">        inputStack.getChildren().clear();</span>
+<span class="nc" id="L89">        inputStack.getChildren().add(passwordInput);</span>
+<span class="nc" id="L90">        passwordToggle.selectedProperty().addListener((ObservableValue&lt;? extends Boolean&gt; observable, Boolean oldValue, Boolean newValue) -&gt; {</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if (newValue) {</span>
+<span class="nc" id="L92">                inputStack.getChildren().clear();</span>
+<span class="nc" id="L93">                inputStack.getChildren().add(passwordInput);</span>
             }
-<span class="nc" id="L103">        });</span>
+<span class="nc" id="L95">        });</span>
 
-<span class="nc" id="L105">        pinToggle.selectedProperty().addListener((ObservableValue&lt;? extends Boolean&gt; observable, Boolean oldValue, Boolean newValue) -&gt; {</span>
-<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (newValue) {</span>
-<span class="nc" id="L107">                inputStack.getChildren().clear();</span>
-<span class="nc" id="L108">                inputStack.getChildren().add(pinLoginInput);</span>
+<span class="nc" id="L97">        pinToggle.selectedProperty().addListener((ObservableValue&lt;? extends Boolean&gt; observable, Boolean oldValue, Boolean newValue) -&gt; {</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (newValue) {</span>
+<span class="nc" id="L99">                inputStack.getChildren().clear();</span>
+<span class="nc" id="L100">                inputStack.getChildren().add(pinLoginInput);</span>
             }
-<span class="nc" id="L110">        });</span>
+<span class="nc" id="L102">        });</span>
 
-<span class="nc" id="L112">    }</span>
+<span class="nc" id="L104">    }</span>
 
     public void login() {
 //        NetworkCommunicationManager.getInstance().addIncomingMessageListener(XmppPayloadAction.INENTORY_TRANSFER, (String from, String message, byte[] payload) -&gt; {
@@ -118,47 +110,47 @@ public class LoginPage extends ApplicationPage {
 //        
 //
 //        NetworkCommunicationManager.getInstance().sendData(new XMPPMessage(&quot;Hi! World&quot;, new XMPPPayload(XmppPayloadAction.INENTORY_TRANSFER, data)), &quot;bnnsz@asuzuobinna.com&quot;);
-<span class="nc" id="L121">        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();</span>
-<span class="nc" id="L122">        usernamePasswordToken.setUsername(&quot;superuser&quot;);</span>
-<span class="nc" id="L123">        usernamePasswordToken.setPassword(&quot;password123&quot;.toCharArray());</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (token != null) {</span>
+<span class="nc" id="L113">        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();</span>
+<span class="nc" id="L114">        usernamePasswordToken.setUsername(&quot;superuser&quot;);</span>
+<span class="nc" id="L115">        usernamePasswordToken.setPassword(&quot;password123&quot;.toCharArray());</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (token != null) {</span>
             try {
-<span class="nc" id="L126">                SecurityUtils.getSubject().login(token);</span>
-<span class="nc" id="L127">                Session session = SecurityUtils.getSubject().getSession(true);</span>
-<span class="nc" id="L128">                session.setAttribute(&quot;user&quot;, ((Principal) SecurityUtils.getSubject().getPrincipal()).getValue());</span>
-<span class="nc" id="L129">                NavigationManger.getInstance().navigate(NavigationRoute.HOME);</span>
-<span class="nc" id="L130">            } catch (AuthenticationException e) {</span>
-<span class="nc" id="L131">                ApplicationMessageUtil.getInstance().addMessage(e.getMessage());</span>
-<span class="nc" id="L132">                System.out.println();</span>
-<span class="nc" id="L133">            }</span>
+<span class="nc" id="L118">                SecurityUtils.getSubject().login(token);</span>
+<span class="nc" id="L119">                Session session = SecurityUtils.getSubject().getSession(true);</span>
+<span class="nc" id="L120">                session.setAttribute(&quot;user&quot;, ((Principal) SecurityUtils.getSubject().getPrincipal()).getValue());</span>
+<span class="nc" id="L121">                NavigationManger.getInstance().navigate(NavigationRoute.HOME);</span>
+<span class="nc" id="L122">            } catch (AuthenticationException e) {</span>
+<span class="nc" id="L123">                ApplicationMessageUtil.getInstance().addMessage(e.getMessage());</span>
+<span class="nc" id="L124">                System.out.println();</span>
+<span class="nc" id="L125">            }</span>
         } else {
-<span class="nc" id="L135">            ApplicationMessageUtil.getInstance().addMessage(&quot;Invalid Credential&quot;);</span>
+<span class="nc" id="L127">            ApplicationMessageUtil.getInstance().addMessage(&quot;Invalid Credential&quot;);</span>
         }
 
-<span class="nc" id="L138">    }</span>
+<span class="nc" id="L130">    }</span>
 
     @Override
 
     public void onPageDestroy() {
-<span class="nc" id="L143">    }</span>
+<span class="nc" id="L135">    }</span>
 
     @Override
     public void onPageResume() {
-<span class="nc" id="L147">    }</span>
+<span class="nc" id="L139">    }</span>
 
     @Override
     public void onPagePause() {
-<span class="nc" id="L151">    }</span>
+<span class="nc" id="L143">    }</span>
 
     @Override
     public boolean equals(Object object) {
-<span class="nc" id="L155">        return object instanceof LoginPage;</span>
+<span class="nc" id="L147">        return object instanceof LoginPage;</span>
     }
 
     @Override
     public void onNavigateEvent(Map&lt;String, Object&gt; parameters) {
 
-<span class="nc" id="L161">    }</span>
+<span class="nc" id="L153">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

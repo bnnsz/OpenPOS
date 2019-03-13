@@ -18,6 +18,7 @@ package com.bizstudio.application.enums;
 import com.bizstudio.ui.pages.application.ApplicationPage;
 import com.bizstudio.ui.pages.application.HomePage;
 import com.bizstudio.ui.pages.application.LoginPage;
+import com.bizstudio.ui.pages.application.MenuPage;
 
 /**
  *
@@ -28,7 +29,8 @@ public enum NavigationRoute {
     HOME(HomePage.class),
     SETTINGS(LoginPage.class),
     INVENTORY(LoginPage.class),
-    TRANSACTIONS(LoginPage.class);
+    TRANSACTIONS(LoginPage.class),
+    MENU(MenuPage.class);
     
     Class<? extends ApplicationPage> page;
     private NavigationRoute(Class<? extends ApplicationPage> page) {

@@ -14,17 +14,21 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -46,62 +50,90 @@ public class Alert extends VBox {
     @FXML
     HBox titlePanel;
 
-<span class="nc" id="L49">    public Alert() {</span>
+<span class="nc" id="L53">    public Alert() {</span>
         try {
-<span class="nc" id="L51">            URL location = getClass().getResource(&quot;/fxml/application/components/util/Alert.fxml&quot;);</span>
-<span class="nc" id="L52">            ResourceBundle bundle = ResourceBundle.getBundle(&quot;bundles.application.lang&quot;, new Locale(&quot;en&quot;));</span>
-<span class="nc" id="L53">            FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);</span>
-<span class="nc" id="L54">            fxmlLoader.setRoot(this);</span>
-<span class="nc" id="L55">            fxmlLoader.setController(this);</span>
-<span class="nc" id="L56">            fxmlLoader.load();</span>
-<span class="nc" id="L57">        } catch (IOException ex) {</span>
-<span class="nc" id="L58">            Logger.getLogger(Alert.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L59">        }</span>
-<span class="nc" id="L60">        addEvents();</span>
-<span class="nc" id="L61">    }</span>
-    
-    public void close(){
-<span class="nc" id="L64">        ((VBox) this.getParent()).getChildren().remove(this);</span>
+<span class="nc" id="L55">            URL location = getClass().getResource(&quot;/fxml/application/components/util/Alert.fxml&quot;);</span>
+<span class="nc" id="L56">            ResourceBundle bundle = ResourceBundle.getBundle(&quot;bundles.application.lang&quot;, new Locale(&quot;en&quot;));</span>
+<span class="nc" id="L57">            FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);</span>
+<span class="nc" id="L58">            fxmlLoader.setRoot(this);</span>
+<span class="nc" id="L59">            fxmlLoader.setController(this);</span>
+<span class="nc" id="L60">            fxmlLoader.load();</span>
+<span class="nc" id="L61">        } catch (IOException ex) {</span>
+<span class="nc" id="L62">            Logger.getLogger(Alert.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L63">        }</span>
+        
 <span class="nc" id="L65">    }</span>
-    
-    private void addEvents(){
-<span class="nc" id="L68">        closeButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -&gt; {</span>
-<span class="nc" id="L69">            close();</span>
+
+    public void close() {
+<span class="nc" id="L68">        animateTransitionOut(this, (ActionEvent event) -&gt; {</span>
+<span class="nc" id="L69">            ((VBox) this.getParent()).getChildren().remove(this);</span>
 <span class="nc" id="L70">        });</span>
-<span class="nc" id="L71">        actionButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -&gt; {</span>
-<span class="nc" id="L72">            close();</span>
-<span class="nc" id="L73">        });</span>
-<span class="nc" id="L74">    }</span>
+<span class="nc" id="L71">    }</span>
+
+    private void addEvents(){
+<span class="nc" id="L74">        closeButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -&gt; {</span>
+<span class="nc" id="L75">            close();</span>
+<span class="nc" id="L76">        });</span>
+<span class="nc" id="L77">    }</span>
 
     public Alert create(String message) {
-<span class="nc" id="L77">        return Alert.create(null, message, null, null);</span>
+<span class="nc" id="L80">        return Alert.create(null, message, null, null);</span>
     }
-    
+
     public static Alert create(String title, String message) {
-<span class="nc" id="L81">        return Alert.create(title, message, null, null);</span>
+<span class="nc" id="L84">        return Alert.create(title, message, null, null);</span>
     }
-    
+
     public Alert create(String message, String actionName, EventHandler&lt;ActionEvent&gt; actionEvent) {
-<span class="nc" id="L85">        return Alert.create(null, message, actionName, actionEvent);</span>
+<span class="nc" id="L88">        return Alert.create(null, message, actionName, actionEvent);</span>
     }
 
     public static Alert create(String title, String message, String actionName, EventHandler&lt;ActionEvent&gt; actionEvent) {
-<span class="nc" id="L89">        Alert alert = new Alert();</span>
-<span class="nc bnc" id="L90" title="All 4 branches missed.">        if (title == null || title.isEmpty()) {</span>
-<span class="nc" id="L91">            alert.getChildren().remove(alert.titlePanel);</span>
+<span class="nc" id="L92">        Alert alert = new Alert();</span>
+<span class="nc" id="L93">        alert.setPickOnBounds(true);</span>
+<span class="nc" id="L94">        alert.setMouseTransparent(false);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if (title == null || title.isEmpty()) {</span>
+<span class="nc" id="L96">            alert.getChildren().remove(alert.titlePanel);</span>
         } else {
-<span class="nc" id="L93">            alert.titleLabel.setText(title);</span>
+<span class="nc" id="L98">            alert.titleLabel.setText(title);</span>
         }
 
-<span class="nc" id="L96">        alert.messageLabel.setText(message);</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (actionEvent == null) {</span>
-<span class="nc" id="L98">            ((HBox) alert.actionButton.getParent()).getChildren().remove(alert.actionButton);</span>
+<span class="nc" id="L101">        alert.messageLabel.setText(message);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (actionEvent == null) {</span>
+<span class="nc" id="L103">            ((HBox) alert.actionButton.getParent()).getChildren().remove(alert.actionButton);</span>
         } else {
-<span class="nc" id="L100">            alert.actionButton.setText(actionName);</span>
-<span class="nc" id="L101">            alert.actionButton.addEventHandler(ActionEvent.ACTION, actionEvent);</span>
+<span class="nc" id="L105">            alert.actionButton.setText(actionName);</span>
+<span class="nc" id="L106">            alert.actionButton.setOnAction(actionEvent);</span>
         }
-<span class="nc" id="L103">        return alert;</span>
+<span class="nc" id="L108">        alert.addEvents();</span>
+<span class="nc" id="L109">        return alert;</span>
     }
+
+    private void animateTransitionOut(Pane pane, EventHandler&lt;ActionEvent&gt; onfinish) {
+<span class="nc" id="L113">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L114">        translateTransition.setFromX(pane.getLayoutBounds().getMinX());</span>
+<span class="nc" id="L115">        translateTransition.setToX(pane.getWidth());</span>
+
+<span class="nc" id="L117">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L118">        fadeTransition.setFromValue(1);</span>
+<span class="nc" id="L119">        fadeTransition.setToValue(0);</span>
+
+<span class="nc" id="L121">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L122">        scaleTransition.setFromX(1);</span>
+<span class="nc" id="L123">        scaleTransition.setToX(0);</span>
+<span class="nc" id="L124">        scaleTransition.setFromY(1);</span>
+<span class="nc" id="L125">        scaleTransition.setToY(0);</span>
+
+<span class="nc" id="L127">        ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L128">        parallelTransition.getChildren().addAll(</span>
+                fadeTransition,
+                translateTransition,
+                scaleTransition
+        );
+
+<span class="nc" id="L134">        parallelTransition.setOnFinished(onfinish);</span>
+<span class="nc" id="L135">        parallelTransition.play();</span>
+<span class="nc" id="L136">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -29,6 +29,7 @@ import javafx.scene.layout.HBox;
     private long pageID;
     private PageState pageState;
 <span class="nc" id="L31">    private boolean keepInHistory = true;</span>
+<span class="nc" id="L32">    private boolean showNavigationBar = true;</span>
     private ToggleButton navButton;
     
     
@@ -38,57 +39,71 @@ import javafx.scene.layout.HBox;
      * @return the pageID
      */
     public long getPageID() {
-<span class="nc" id="L41">        return pageID;</span>
+<span class="nc" id="L42">        return pageID;</span>
     }
 
     /**
      * @param pageID the pageID to set
      */
     public void setPageID(long pageID) {
-<span class="nc" id="L48">        this.pageID = pageID;</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L49">        this.pageID = pageID;</span>
+<span class="nc" id="L50">    }</span>
 
     /**
      * @return the pageState
      */
     public PageState getPageState() {
-<span class="nc" id="L55">        return pageState;</span>
+<span class="nc" id="L56">        return pageState;</span>
     }
 
     /**
      * @param pageState the pageState to set
      */
     public void setPageState(PageState pageState) {
-<span class="nc" id="L62">        this.pageState = pageState;</span>
-<span class="nc" id="L63">    }</span>
+<span class="nc" id="L63">        this.pageState = pageState;</span>
+<span class="nc" id="L64">    }</span>
 
     /**
      * @return the keepInHistory
      */
     public boolean isKeepInHistory() {
-<span class="nc" id="L69">        return keepInHistory;</span>
+<span class="nc" id="L70">        return keepInHistory;</span>
     }
 
     /**
      * @param keepInHistory the keepInHistory to set
      */
     public final void setKeepInHistory(boolean keepInHistory) {
-<span class="nc" id="L76">        this.keepInHistory = keepInHistory;</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L77">        this.keepInHistory = keepInHistory;</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * @return the showNavigationBar
+     */
+    public boolean isShowNavigationBar() {
+<span class="nc" id="L84">        return showNavigationBar;</span>
+    }
+
+    /**
+     * @param showNavigationBar the showNavigationBar to set
+     */
+    public void setShowNavigationBar(boolean showNavigationBar) {
+<span class="nc" id="L91">        this.showNavigationBar = showNavigationBar;</span>
+<span class="nc" id="L92">    }</span>
 
     /**
      * @return the navButton
      */
     public ToggleButton getNavButton() {
-<span class="nc" id="L83">        return navButton;</span>
+<span class="nc" id="L98">        return navButton;</span>
     }
 
     /**
      * @param navButton the navButton to set
      */
     public void setNavButton(ToggleButton navButton) {
-<span class="nc" id="L90">        this.navButton = navButton;</span>
-<span class="nc" id="L91">    }</span>
+<span class="nc" id="L105">        this.navButton = navButton;</span>
+<span class="nc" id="L106">    }</span>
     
     
     public abstract void onPageCreate();
@@ -104,14 +119,14 @@ import javafx.scene.layout.HBox;
 
     @Override
     public int hashCode() {
-<span class="nc" id="L107">        int hash = 7;</span>
-<span class="nc" id="L108">        hash = 59 * hash + (int) (this.pageID ^ (this.pageID &gt;&gt;&gt; 32));</span>
-<span class="nc" id="L109">        return hash;</span>
+<span class="nc" id="L122">        int hash = 7;</span>
+<span class="nc" id="L123">        hash = 59 * hash + (int) (this.pageID ^ (this.pageID &gt;&gt;&gt; 32));</span>
+<span class="nc" id="L124">        return hash;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L114">        return this.getClass().getSimpleName();</span>
+<span class="nc" id="L129">        return this.getClass().getSimpleName();</span>
     }
     
     

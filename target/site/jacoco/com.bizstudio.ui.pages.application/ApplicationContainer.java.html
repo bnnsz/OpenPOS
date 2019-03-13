@@ -103,82 +103,83 @@ public class ApplicationContainer extends AnchorPane {
             try {
 <span class="nc" id="L104">                Thread.sleep(Duration.ofSeconds(3).toMillis());</span>
 <span class="nc" id="L105">                Platform.runLater(() -&gt; {</span>
-
-<span class="nc" id="L107">                    animateTransitionOut(alert, (ActionEvent event) -&gt; {</span>
-<span class="nc" id="L108">                        notificationContainer.getChildren().remove(alert);</span>
-<span class="nc" id="L109">                    });</span>
-<span class="nc" id="L110">                });</span>
-<span class="nc" id="L111">            } catch (InterruptedException ex) {</span>
-<span class="nc" id="L112">                Logger.getLogger(ApplicationContainer.class.getName()).log(Level.SEVERE, null, ex);</span>
-<span class="nc" id="L113">            }</span>
-<span class="nc" id="L114">        });</span>
-<span class="nc" id="L115">        thread.start();</span>
-<span class="nc" id="L116">    }</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                    if (notificationContainer.getChildren().contains(alert)) {</span>
+<span class="nc" id="L107">                        animateTransitionOut(alert, (ActionEvent event) -&gt; {</span>
+<span class="nc" id="L108">                            notificationContainer.getChildren().remove(alert);</span>
+<span class="nc" id="L109">                        });</span>
+                    }
+<span class="nc" id="L111">                });</span>
+<span class="nc" id="L112">            } catch (InterruptedException ex) {</span>
+<span class="nc" id="L113">                Logger.getLogger(ApplicationContainer.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L114">            }</span>
+<span class="nc" id="L115">        });</span>
+<span class="nc" id="L116">        thread.start();</span>
+<span class="nc" id="L117">    }</span>
 
     private void animateTransitionOut(Pane pane, EventHandler&lt;ActionEvent&gt; onfinish) {
-<span class="nc" id="L119">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
-<span class="nc" id="L120">        translateTransition.setFromX(pane.getLayoutBounds().getMinX());</span>
-<span class="nc" id="L121">        translateTransition.setToX(pane.getWidth());</span>
+<span class="nc" id="L120">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L121">        translateTransition.setFromX(pane.getLayoutBounds().getMinX());</span>
+<span class="nc" id="L122">        translateTransition.setToX(pane.getWidth());</span>
 
-<span class="nc" id="L123">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
-<span class="nc" id="L124">        fadeTransition.setFromValue(1);</span>
-<span class="nc" id="L125">        fadeTransition.setToValue(0);</span>
+<span class="nc" id="L124">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L125">        fadeTransition.setFromValue(1);</span>
+<span class="nc" id="L126">        fadeTransition.setToValue(0);</span>
 
-<span class="nc" id="L127">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
-<span class="nc" id="L128">        scaleTransition.setFromX(1);</span>
-<span class="nc" id="L129">        scaleTransition.setToX(0);</span>
-<span class="nc" id="L130">        scaleTransition.setFromY(1);</span>
-<span class="nc" id="L131">        scaleTransition.setToY(0);</span>
+<span class="nc" id="L128">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L129">        scaleTransition.setFromX(1);</span>
+<span class="nc" id="L130">        scaleTransition.setToX(0);</span>
+<span class="nc" id="L131">        scaleTransition.setFromY(1);</span>
+<span class="nc" id="L132">        scaleTransition.setToY(0);</span>
 
-<span class="nc" id="L133">        ParallelTransition parallelTransition = new ParallelTransition();</span>
-<span class="nc" id="L134">        parallelTransition.getChildren().addAll(</span>
+<span class="nc" id="L134">        ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L135">        parallelTransition.getChildren().addAll(</span>
                 fadeTransition,
                 translateTransition,
                 scaleTransition
         );
 
-<span class="nc" id="L140">        parallelTransition.setOnFinished(onfinish);</span>
-<span class="nc" id="L141">        parallelTransition.play();</span>
-<span class="nc" id="L142">    }</span>
+<span class="nc" id="L141">        parallelTransition.setOnFinished(onfinish);</span>
+<span class="nc" id="L142">        parallelTransition.play();</span>
+<span class="nc" id="L143">    }</span>
 
     private void animateTransitionIn(Pane pane, Pane parent) {
-<span class="nc" id="L145">        animateTransitionIn(pane, parent, null);</span>
-<span class="nc" id="L146">    }</span>
+<span class="nc" id="L146">        animateTransitionIn(pane, parent, null);</span>
+<span class="nc" id="L147">    }</span>
 
     private void animateTransitionIn(Pane pane, Pane parent, EventHandler&lt;ActionEvent&gt; onfinish) {
-<span class="nc" id="L149">        pane.setTranslateX(parent.getWidth());</span>
-<span class="nc" id="L150">        pane.setOpacity(0);</span>
-<span class="nc" id="L151">        pane.setScaleX(0);</span>
-<span class="nc" id="L152">        pane.setScaleY(0);</span>
-<span class="nc" id="L153">        parent.getChildren().add(pane);</span>
+<span class="nc" id="L150">        pane.setTranslateX(parent.getWidth());</span>
+<span class="nc" id="L151">        pane.setOpacity(0);</span>
+<span class="nc" id="L152">        pane.setScaleX(0);</span>
+<span class="nc" id="L153">        pane.setScaleY(0);</span>
+<span class="nc" id="L154">        parent.getChildren().add(pane);</span>
 
-<span class="nc" id="L155">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
-<span class="nc" id="L156">        translateTransition.setFromX(parent.getWidth());</span>
-<span class="nc" id="L157">        translateTransition.setToX(parent.getLayoutBounds().getMinX());</span>
+<span class="nc" id="L156">        TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L157">        translateTransition.setFromX(parent.getWidth());</span>
+<span class="nc" id="L158">        translateTransition.setToX(parent.getLayoutBounds().getMinX());</span>
 
-<span class="nc" id="L159">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
-<span class="nc" id="L160">        fadeTransition.setFromValue(0);</span>
-<span class="nc" id="L161">        fadeTransition.setToValue(1);</span>
+<span class="nc" id="L160">        FadeTransition fadeTransition = new FadeTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L161">        fadeTransition.setFromValue(0);</span>
+<span class="nc" id="L162">        fadeTransition.setToValue(1);</span>
 
-<span class="nc" id="L163">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
-<span class="nc" id="L164">        scaleTransition.setFromX(0);</span>
-<span class="nc" id="L165">        scaleTransition.setToX(1);</span>
-<span class="nc" id="L166">        scaleTransition.setFromY(0);</span>
-<span class="nc" id="L167">        scaleTransition.setToY(1);</span>
+<span class="nc" id="L164">        ScaleTransition scaleTransition = new ScaleTransition(javafx.util.Duration.millis(200), pane);</span>
+<span class="nc" id="L165">        scaleTransition.setFromX(0);</span>
+<span class="nc" id="L166">        scaleTransition.setToX(1);</span>
+<span class="nc" id="L167">        scaleTransition.setFromY(0);</span>
+<span class="nc" id="L168">        scaleTransition.setToY(1);</span>
 
-<span class="nc" id="L169">        ParallelTransition parallelTransition = new ParallelTransition();</span>
-<span class="nc" id="L170">        parallelTransition.getChildren().addAll(</span>
+<span class="nc" id="L170">        ParallelTransition parallelTransition = new ParallelTransition();</span>
+<span class="nc" id="L171">        parallelTransition.getChildren().addAll(</span>
                 fadeTransition,
                 translateTransition,
                 scaleTransition
         );
 
-<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (onfinish != null) {</span>
-<span class="nc" id="L177">            parallelTransition.setOnFinished(onfinish);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (onfinish != null) {</span>
+<span class="nc" id="L178">            parallelTransition.setOnFinished(onfinish);</span>
         }
-<span class="nc" id="L179">        parallelTransition.play();</span>
+<span class="nc" id="L180">        parallelTransition.play();</span>
 
-<span class="nc" id="L181">    }</span>
+<span class="nc" id="L182">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

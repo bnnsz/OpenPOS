@@ -42,7 +42,7 @@ public class SessionEntityJpaController implements Serializable {
 <span class="pc bpc" id="L42" title="3 of 4 branches missed.">            if (em != null) {</span>
 <span class="pc" id="L43">                em.close();</span>
             }
-        }
+<span class="nc" id="L45">        }</span>
 <span class="fc" id="L46">    }</span>
 
     public void edit(SessionEntity sessionEntity) throws NonexistentEntityException, Exception {
@@ -65,7 +65,7 @@ public class SessionEntityJpaController implements Serializable {
 <span class="pc bpc" id="L65" title="3 of 4 branches missed.">            if (em != null) {</span>
 <span class="pc" id="L66">                em.close();</span>
             }
-        }
+<span class="nc" id="L68">        }</span>
 <span class="fc" id="L69">    }</span>
 
     public void destroy(Long id) throws NonexistentEntityException {
@@ -86,7 +86,7 @@ public class SessionEntityJpaController implements Serializable {
 <span class="pc bpc" id="L86" title="3 of 4 branches missed.">            if (em != null) {</span>
 <span class="pc" id="L87">                em.close();</span>
             }
-        }
+<span class="nc" id="L89">        }</span>
 <span class="fc" id="L90">    }</span>
 
     public List&lt;SessionEntity&gt; findSessionEntities() {
@@ -110,7 +110,7 @@ public class SessionEntityJpaController implements Serializable {
 <span class="fc" id="L110">            return q.getResultList();</span>
         } finally {
 <span class="pc" id="L112">            em.close();</span>
-        }
+<span class="nc" id="L113">        }</span>
     }
 
     public SessionEntity findSessionEntity(Long id) {
@@ -119,7 +119,7 @@ public class SessionEntityJpaController implements Serializable {
 <span class="fc" id="L119">            return em.find(SessionEntity.class, id);</span>
         } finally {
 <span class="pc" id="L121">            em.close();</span>
-        }
+<span class="nc" id="L122">        }</span>
     }
 
     public int getSessionEntityCount() {
@@ -132,7 +132,7 @@ public class SessionEntityJpaController implements Serializable {
 <span class="nc" id="L132">            return ((Long) q.getSingleResult()).intValue();</span>
         } finally {
 <span class="nc" id="L134">            em.close();</span>
-        }
+<span class="nc" id="L135">        }</span>
     }
     
 }
