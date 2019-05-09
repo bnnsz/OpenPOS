@@ -2,30 +2,38 @@
 <actions>
         <action>
             <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
             <goals>
-                <goal>clean</goal>
-                <goal>package</goal>
-                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <runfx.args>-jar "${project.build.directory}/${project.build.finalName}.jar"</runfx.args>
+                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.executable>java</exec.executable>
             </properties>
             <activatedProfiles>
                 <activatedProfile>run</activatedProfile>
             </activatedProfiles>
         </action>
         <action>
-            <actionName>debug</actionName>
+            <actionName>run.single.main</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
             <goals>
-                <goal>clean</goal>
-                <goal>package</goal>
-                <goal>org.codehaus.mojo:truezip-maven-plugin:1.2:remove</goal>
-                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.5.0:exec</goal>
             </goals>
             <properties>
-                <runfx.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Dglass.disableGrab=true -jar "${project.build.directory}/${project.build.finalName}.jar"</runfx.args>
-                <jpda.listen>true</jpda.listen>
+                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.classpathScope>${classPathScope}</exec.classpathScope>
             </properties>
+            <activatedProfiles>
+                <activatedProfile>run</activatedProfile>
+            </activatedProfiles>
         </action>
         <action>
             <actionName>build</actionName>
@@ -34,18 +42,6 @@
             </packagings>
             <goals>
                 <goal>install</goal>
-            </goals>
-            <activatedProfiles>
-                <activatedProfile>build</activatedProfile>
-            </activatedProfiles>
-        </action>
-        <action>
-            <actionName>clean</actionName>
-            <packagings>
-                <packaging>*</packaging>
-            </packagings>
-            <goals>
-                <goal>clean</goal>
             </goals>
             <activatedProfiles>
                 <activatedProfile>build</activatedProfile>
@@ -63,5 +59,5 @@
             <activatedProfiles>
                 <activatedProfile>build</activatedProfile>
             </activatedProfiles>
-        </action>        
+        </action>
     </actions>

@@ -89,7 +89,7 @@ public class UserAccountEntityJpaController implements Serializable {
 <span class="nc bnc" id="L89" title="All 4 branches missed.">            if (em != null) {</span>
 <span class="nc" id="L90">                em.close();</span>
             }
-<span class="nc" id="L92">        }</span>
+        }
 <span class="nc" id="L93">    }</span>
 
     public void edit(UserAccountEntity userAccountEntity) throws NonexistentEntityException, Exception {
@@ -165,7 +165,7 @@ public class UserAccountEntityJpaController implements Serializable {
 <span class="nc bnc" id="L165" title="All 4 branches missed.">            if (em != null) {</span>
 <span class="nc" id="L166">                em.close();</span>
             }
-<span class="nc" id="L168">        }</span>
+        }
 <span class="nc" id="L169">    }</span>
 
     public void destroy(Long id) throws NonexistentEntityException {
@@ -196,7 +196,7 @@ public class UserAccountEntityJpaController implements Serializable {
 <span class="nc bnc" id="L196" title="All 4 branches missed.">            if (em != null) {</span>
 <span class="nc" id="L197">                em.close();</span>
             }
-<span class="nc" id="L199">        }</span>
+        }
 <span class="nc" id="L200">    }</span>
 
     public List&lt;UserAccountEntity&gt; findUserAccountEntityEntities() {
@@ -220,7 +220,7 @@ public class UserAccountEntityJpaController implements Serializable {
 <span class="nc" id="L220">            return q.getResultList();</span>
         } finally {
 <span class="nc" id="L222">            em.close();</span>
-<span class="nc" id="L223">        }</span>
+        }
     }
 
     public UserAccountEntity findUserAccountEntity(Long id) {
@@ -229,7 +229,7 @@ public class UserAccountEntityJpaController implements Serializable {
 <span class="nc" id="L229">            return em.find(UserAccountEntity.class, id);</span>
         } finally {
 <span class="nc" id="L231">            em.close();</span>
-<span class="nc" id="L232">        }</span>
+        }
     }
 
     public int getUserAccountEntityCount() {
@@ -242,7 +242,7 @@ public class UserAccountEntityJpaController implements Serializable {
 <span class="nc" id="L242">            return ((Long) q.getSingleResult()).intValue();</span>
         } finally {
 <span class="nc" id="L244">            em.close();</span>
-<span class="nc" id="L245">        }</span>
+        }
     }
 
     public List&lt;UserAccountEntity&gt; findByUsername(String username) {

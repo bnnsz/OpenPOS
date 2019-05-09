@@ -62,3 +62,17 @@ and open the template in the editor.
 .red-salvation{
     -fx-background-color: linear-gradient(to top, #f43b47 0%, #453a94 100%);
 }
+
+.flat-button {
+    -fx-border-radius: 0px;
+    -fx-background-radius:0px;
+    -fx-background-color:rgba(255,255,255,0.8);
+    -fx-padding: 20;
+}
+
+
+
+.flat-button > .text {
+    -fx-font-size: 1.5em;
+    -fx-fill: rgb(50,50,50);
+}

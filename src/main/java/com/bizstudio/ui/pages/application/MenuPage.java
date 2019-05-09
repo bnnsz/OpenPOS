@@ -23,12 +23,13 @@ public class MenuPage extends ApplicationPage {
     public MenuPage() {
         setKeepInHistory(false);
         setShowNavigationBar(false);
-        initializeMenuItems();
+
     }
 
     @Override
     public void onPageCreate() {
         //TODO ADD MENU
+        initializeMenuItems();
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MenuPage extends ApplicationPage {
 
     @Override
     public boolean equals(Object object) {
-        return object instanceof HomePage;
+        return object instanceof MenuPage;
     }
 
     @Override

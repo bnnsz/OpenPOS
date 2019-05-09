@@ -42,7 +42,7 @@ public class UserRoleEntityJpaController implements Serializable {
 <span class="nc bnc" id="L42" title="All 4 branches missed.">            if (em != null) {</span>
 <span class="nc" id="L43">                em.close();</span>
             }
-<span class="nc" id="L45">        }</span>
+        }
 <span class="nc" id="L46">    }</span>
 
     public void edit(UserRoleEntity userRoleEntity) throws NonexistentEntityException, Exception {
@@ -65,7 +65,7 @@ public class UserRoleEntityJpaController implements Serializable {
 <span class="nc bnc" id="L65" title="All 4 branches missed.">            if (em != null) {</span>
 <span class="nc" id="L66">                em.close();</span>
             }
-<span class="nc" id="L68">        }</span>
+        }
 <span class="nc" id="L69">    }</span>
 
     public void destroy(Long id) throws NonexistentEntityException {
@@ -86,7 +86,7 @@ public class UserRoleEntityJpaController implements Serializable {
 <span class="nc bnc" id="L86" title="All 4 branches missed.">            if (em != null) {</span>
 <span class="nc" id="L87">                em.close();</span>
             }
-<span class="nc" id="L89">        }</span>
+        }
 <span class="nc" id="L90">    }</span>
 
     public List&lt;UserRoleEntity&gt; findUserRoleEntities() {
@@ -110,7 +110,7 @@ public class UserRoleEntityJpaController implements Serializable {
 <span class="nc" id="L110">            return q.getResultList();</span>
         } finally {
 <span class="nc" id="L112">            em.close();</span>
-<span class="nc" id="L113">        }</span>
+        }
     }
 
     public UserRoleEntity findUserRoleEntity(Long id) {
@@ -119,7 +119,7 @@ public class UserRoleEntityJpaController implements Serializable {
 <span class="nc" id="L119">            return em.find(UserRoleEntity.class, id);</span>
         } finally {
 <span class="nc" id="L121">            em.close();</span>
-<span class="nc" id="L122">        }</span>
+        }
     }
 
     public int getUserRoleEntityCount() {
@@ -132,7 +132,7 @@ public class UserRoleEntityJpaController implements Serializable {
 <span class="nc" id="L132">            return ((Long) q.getSingleResult()).intValue();</span>
         } finally {
 <span class="nc" id="L134">            em.close();</span>
-<span class="nc" id="L135">        }</span>
+        }
     }
 
     public UserRoleEntity findFirstByName(String roleString) {
