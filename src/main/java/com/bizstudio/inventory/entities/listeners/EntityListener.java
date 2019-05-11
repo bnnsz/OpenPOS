@@ -7,9 +7,9 @@ package com.bizstudio.inventory.entities.listeners;
 
 import com.bizstudio.security.entities.AuditLogEntity;
 import com.bizstudio.security.entities.AbstractEntity;
-import com.bizstudio.security.entities.controllers.AuditLogEntityJpaController;
-import com.bizstudio.security.entities.enums.AuditLogAction;
-import static com.bizstudio.security.entities.enums.AuditLogAction.*;
+import com.bizstudio.security.repositories.AuditLogRepository;
+import com.bizstudio.security.enums.AuditLogAction;
+import static com.bizstudio.security.enums.AuditLogAction.*;
 import com.bizstudio.security.service.PersistenceManger;
 import com.google.gson.Gson;
 import java.time.LocalDateTime;
@@ -24,10 +24,10 @@ import org.apache.shiro.SecurityUtils;
  */
 public class EntityListener {
 
-    AuditLogEntityJpaController controller;
+    AuditLogRepository controller;
 
     public EntityListener() {
-        this.controller = new AuditLogEntityJpaController(PersistenceManger.getInstance().getDataEMF());
+        this.controller = new AuditLogRepository(PersistenceManger.getInstance().getDataEMF(), AuditLogEntity.class);
     }
 
     @PrePersist
@@ -57,6 +57,6 @@ public class EntityListener {
         log.setEntityName(item.getClass().getSimpleName());
         log.setAction(action);
         log.setUsername(SecurityUtils.getSubject().getPrincipal().toString());
-        controller.create(log);
+        controller.save(log);
     }
 }

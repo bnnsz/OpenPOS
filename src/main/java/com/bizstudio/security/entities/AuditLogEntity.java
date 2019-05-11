@@ -5,7 +5,7 @@
  */
 package com.bizstudio.security.entities;
 
-import com.bizstudio.security.entities.enums.AuditLogAction;
+import com.bizstudio.security.enums.AuditLogAction;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;

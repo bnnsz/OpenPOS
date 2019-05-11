@@ -10,11 +10,11 @@ import com.bizstudio.security.entities.CredentialEntity;
 import com.bizstudio.security.entities.SessionEntity;
 import com.bizstudio.security.entities.UserAccountEntity;
 import com.bizstudio.security.entities.UserRoleEntity;
-import com.bizstudio.security.entities.controllers.SessionEntityJpaController;
-import com.bizstudio.security.entities.controllers.UserAccountEntityJpaController;
-import com.bizstudio.security.entities.controllers.UserRoleEntityJpaController;
-import com.bizstudio.security.entities.controllers.exceptions.NonexistentEntityException;
-import com.bizstudio.security.entities.enums.UserPermissions;
+import com.bizstudio.security.repositories.SessionEntityJpaController;
+import com.bizstudio.security.repositories.UserAccountRepository;
+import com.bizstudio.security.repositories.UserRoleEntityJpaController;
+import com.bizstudio.exceptions.NonexistentEntityException;
+import com.bizstudio.security.enums.UserPermissions;
 import com.bizstudio.security.entities.interfaces.Principal;
 import com.google.gson.Gson;
 import java.io.Serializable;
@@ -60,7 +60,7 @@ public class SecurityService extends AuthorizingRealm implements
         SessionDAO,
         SessionListener {
 
-    UserAccountEntityJpaController accountEntityJpaController;
+    UserAccountRepository userRepository;
 
     UserRoleEntityJpaController roleEntityJpaController;
 
@@ -72,7 +72,7 @@ public class SecurityService extends AuthorizingRealm implements
         EntityManagerFactory dataEMF = PersistenceManger.getInstance().getDataEMF();
         EntityManagerFactory cacheEMF = PersistenceManger.getInstance().getCacheEMF();
 
-        accountEntityJpaController = new UserAccountEntityJpaController(dataEMF);
+        userRepository = new UserAccountRepository(dataEMF);
         roleEntityJpaController = new UserRoleEntityJpaController(dataEMF);
 
         sessionEntityJpaController = new SessionEntityJpaController(cacheEMF);
@@ -84,7 +84,7 @@ public class SecurityService extends AuthorizingRealm implements
         String username = (String) principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 
-        List<UserAccountEntity> users = accountEntityJpaController.findByUsername(username);
+        List<UserAccountEntity> users = userRepository.findByUsername(username);
 
         Set<Permission> permisions = new TreeSet<>();
         Set<String> roles = new TreeSet<>();
@@ -111,7 +111,7 @@ public class SecurityService extends AuthorizingRealm implements
     }
 
     public final void initialiseSuperuser() {
-        List<UserAccountEntity> users = accountEntityJpaController.findByUsername("superuser");
+        List<UserAccountEntity> users = userRepository.findByUsername("superuser");
         if (users == null || users.isEmpty()) {
             UserAccountEntity superuser = new UserAccountEntity();
             superuser.setUsername("superuser");
@@ -119,7 +119,7 @@ public class SecurityService extends AuthorizingRealm implements
             List<CredentialEntity> credentials = new ArrayList<>();
             credentials.add(new CredentialEntity("password", "password123", superuser));
             superuser.setCredentials(credentials);
-            accountEntityJpaController.create(superuser);
+            userRepository.create(superuser);
         } else {
             System.out.println("user -> " + users);
         }
@@ -133,7 +133,7 @@ public class SecurityService extends AuthorizingRealm implements
             if (pToken.getPin() == null || pToken.getPin().length < 1) {
                 throw new IncorrectCredentialsException("Incorrect credentials");
             }
-            users = accountEntityJpaController.findByPin(String.copyValueOf(pToken.getPin()));
+            users = userRepository.findByPin(String.copyValueOf(pToken.getPin()));
 
         } else if (token instanceof UsernamePasswordToken) {
             UsernamePasswordToken uToken = (UsernamePasswordToken) token;
@@ -144,7 +144,7 @@ public class SecurityService extends AuthorizingRealm implements
             if (uToken.getPassword() == null || uToken.getPassword().length < 1) {
                 throw new IncorrectCredentialsException("Incorrect credentials");
             }
-            users = accountEntityJpaController.findByUsername(uToken.getUsername());
+            users = userRepository.findByUsername(uToken.getUsername());
         }
 
         if (users.isEmpty()) {

@@ -9,10 +9,10 @@ import com.bizstudio.security.entities.CredentialEntity;
 import com.bizstudio.security.entities.SessionEntity;
 import com.bizstudio.security.entities.UserAccountEntity;
 import com.bizstudio.security.entities.UserRoleEntity;
-import com.bizstudio.security.entities.controllers.SessionEntityJpaController;
-import com.bizstudio.security.entities.controllers.UserAccountEntityJpaController;
-import com.bizstudio.security.entities.controllers.UserRoleEntityJpaController;
-import com.bizstudio.security.entities.enums.UserPermissions;
+import com.bizstudio.security.repositories.SessionEntityJpaController;
+import com.bizstudio.security.repositories.UserAccountRepository;
+import com.bizstudio.security.repositories.UserRoleEntityJpaController;
+import com.bizstudio.security.enums.UserPermissions;
 import com.bizstudio.security.entities.interfaces.Principal;
 import com.google.gson.Gson;
 import java.io.Serializable;
@@ -58,7 +58,7 @@ import static org.junit.Assert.*;
  */
 public class SecurityServiceTest {
 
-    UserAccountEntityJpaController accountEntityJpaController;
+    UserAccountRepository accountEntityJpaController;
 
     UserRoleEntityJpaController roleEntityJpaController;
 
@@ -111,7 +111,7 @@ public class SecurityServiceTest {
     @Test
     public void testDoGetAuthorizationInfo() {
         System.out.println("doGetAuthorizationInfo");
-        accountEntityJpaController = new UserAccountEntityJpaController(dataEMF);
+        accountEntityJpaController = new UserAccountRepository(dataEMF);
         roleEntityJpaController = new UserRoleEntityJpaController(dataEMF);
 
         initialiseSuperuser();
@@ -159,7 +159,7 @@ public class SecurityServiceTest {
         SecurityService instance = new SecurityService();
         instance.initialiseSuperuser();
 
-        accountEntityJpaController = new UserAccountEntityJpaController(dataEMF);
+        accountEntityJpaController = new UserAccountRepository(dataEMF);
 
         List<UserAccountEntity> users = new ArrayList<>();
         if (token instanceof PinToken) {

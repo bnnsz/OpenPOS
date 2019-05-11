@@ -5,7 +5,6 @@
  */
 package com.bizstudio.security.entities;
 
-import com.bizstudio.inventory.entities.listeners.EntityListener;
 import com.bizstudio.security.util.CredentialConverter;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,14 +13,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
-import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
 
 /**

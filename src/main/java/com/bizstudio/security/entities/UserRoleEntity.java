@@ -5,7 +5,7 @@
  */
 package com.bizstudio.security.entities;
 
-import com.bizstudio.security.entities.enums.UserPermissions;
+import com.bizstudio.security.enums.UserPermissions;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;

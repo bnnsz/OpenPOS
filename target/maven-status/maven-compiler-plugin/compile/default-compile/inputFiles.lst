@@ -24,6 +24,7 @@ C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\secur
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\entities\enums\UserPermissions.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\entities\SessionEntity.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\entities\controllers\exceptions\IllegalOrphanException.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\utils\BufferedImageTranscoder.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\util\SessionAttributesConverter.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\entities\AbstractEntity.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\ApplicationContainer.java
@@ -61,6 +62,7 @@ C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\inven
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\components\util\Alert.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\handlers\NavigationHandler.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\xmpp\events\XmppMessageEventListener.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\utils\SvgLoader.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\enums\PageState.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\components\util\MenuItem.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\xmpp\enums\XmppPayloadAction.java
