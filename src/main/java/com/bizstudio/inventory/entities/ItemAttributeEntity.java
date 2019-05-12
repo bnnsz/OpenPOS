@@ -5,7 +5,7 @@
  */
 package com.bizstudio.inventory.entities;
 
-import com.bizstudio.inventory.entities.listeners.EntityListener;
+import com.bizstudio.inventory.listeners.EntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;

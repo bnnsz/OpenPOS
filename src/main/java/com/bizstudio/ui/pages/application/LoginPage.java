@@ -17,8 +17,8 @@ package com.bizstudio.ui.pages.application;
 
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.managers.NavigationManger;
-import com.bizstudio.security.entities.interfaces.Principal;
-import com.bizstudio.security.service.PinToken;
+import com.bizstudio.security.entities.Principal;
+import com.bizstudio.security.services.PinToken;
 import com.bizstudio.ui.components.login.PinLoginInput;
 import com.bizstudio.ui.components.login.UsernamePasswordInput;
 import com.bizstudio.utils.ApplicationMessageUtil;

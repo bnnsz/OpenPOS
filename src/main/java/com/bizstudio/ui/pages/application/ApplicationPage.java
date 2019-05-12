@@ -31,6 +31,7 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
     private boolean keepInHistory = true;
     private boolean showNavigationBar = true;
     private ToggleButton navButton;
+    private String title = getClass().getSimpleName();
     
     
     
@@ -47,6 +48,20 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
      */
     public void setPageID(long pageID) {
         this.pageID = pageID;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**

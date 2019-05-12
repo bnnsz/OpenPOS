@@ -29,6 +29,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -72,8 +73,8 @@ public class NavigationManger {
         //TODO Navigation operation goes here;
         openPage(route.page(), Collections.unmodifiableMap(parameters));
     }
-    
-     public void logout() {
+
+    public void logout() {
         //TODO Navigation operation goes here;
         applicationPages.clear();
     }
@@ -82,7 +83,7 @@ public class NavigationManger {
         //TODO Navigation operation goes here;
         openPage(NavigationRoute.valueOf(route).page(), Collections.unmodifiableMap(new HashMap<>()));
     }
-    
+
     public void navigate(NavigationRoute route) {
         //TODO Navigation operation goes here;
         openPage(route.page(), Collections.unmodifiableMap(new HashMap<>()));
@@ -124,17 +125,20 @@ public class NavigationManger {
      * @param parameters
      */
     private void openPage(Class<? extends ApplicationPage> cls, Map<String, Object> parameters) {
+        System.out.println("lookup class: "+cls.getSimpleName() +" title: "+parameters.get("title"));
         Optional<ApplicationPage> page = applicationPages.stream()
-                .filter(p -> p.getClass() == cls)
-                .findFirst();
+                .filter(p -> {
+                    System.out.println("     > class: "+p.getClass().getSimpleName() +" title: "+p.getTitle());
+                    return p.getClass() == cls && p.getTitle().equals(parameters.get("title"));
+                }).findFirst();
         if (page.isPresent()) {
             ApplicationPage current = page.get();
             if (!handler.equals(current)) {
                 current.onPageResume();
                 applicationPages.add(current);
-                if(current.isShowNavigationBar()){
+                if (current.isShowNavigationBar()) {
                     showNavigation();
-                }else{
+                } else {
                     hideNavigation();
                 }
                 handler = current;
@@ -159,10 +163,10 @@ public class NavigationManger {
                 } else {
                     openPage(newPage);
                 }
-                
-                if(newPage.isShowNavigationBar()){
+
+                if (newPage.isShowNavigationBar()) {
                     showNavigation();
-                }else{
+                } else {
                     hideNavigation();
                 }
                 handler = newPage;
@@ -170,7 +174,7 @@ public class NavigationManger {
                 Logger.getLogger(NavigationManger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     private static class NavigationMangerHolder {
@@ -295,19 +299,18 @@ public class NavigationManger {
             }
 
             System.out.println("---> Check size");
-            System.out.println("---> Check size  --> "+c.getList().size());
+            System.out.println("---> Check size  --> " + c.getList().size());
             if (c.getList().size() < 2) {
                 System.out.println("---> Check size  < 2 ");
                 navigationBar.hideBack();
-            }else{
+            } else {
                 System.out.println("---> Check size  > 1 ");
                 navigationBar.showBack();
             }
-            
-            
+
             System.out.println("----------------------stack----------------------");
-            for(ApplicationPage p: c.getList()){
-                System.out.println("["+p.toString()+"]");
+            for (ApplicationPage p : c.getList()) {
+                System.out.println("[" + p.toString() + "]");
             }
         }
     }

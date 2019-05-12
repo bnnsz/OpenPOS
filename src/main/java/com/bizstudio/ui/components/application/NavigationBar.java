@@ -15,9 +15,14 @@
  */
 package com.bizstudio.ui.components.application;
 
+import com.bizstudio.application.configs.MenuItemMap;
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.application.managers.NavigationManger;
+import com.bizstudio.ui.components.util.MenuItem;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,8 +70,11 @@ public class NavigationBar extends VBox {
     
     @FXML
     private void gotoMenu(ActionEvent event) {
-        System.out.println("Go to Menu!");
-        NavigationManger.getInstance().navigate(NavigationRoute.MENU);
+        System.out.println("Go to Main Menu!");
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", "Main Menu");
+        params.put("menu", MenuItemMap.MAIN);
+        NavigationManger.getInstance().navigate(NavigationRoute.MENU, params);
     }
 
     @FXML

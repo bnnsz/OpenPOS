@@ -10,6 +10,8 @@ import static com.bizstudio.application.managers.NavigationManger.getInstance;
 import com.bizstudio.utils.SvgLoader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +29,15 @@ import javafx.scene.text.Text;
  * @author obinna.asuzu
  */
 public class MenuItem extends Button {
+
+    public static MenuItem menu(String name, NavigationRoute route, Map<String, Object> params) {
+        params.putAll(route.getDefaultParameters());
+        return new MenuItem(name, route, params);
+    }
+    
+    public static MenuItem menu(String name, NavigationRoute route) {
+        return new MenuItem(name, route, route.getDefaultParameters());
+    }
     
     @FXML
     ImageView imageView;
@@ -48,8 +59,23 @@ public class MenuItem extends Button {
         this(name, "/images/application/icons/svg/menu-icon-" + name.toLowerCase() + ".svg", name.toLowerCase());
         setOnAction(a -> getInstance().navigate(route));
     }
+    
+    /**
+     * The icon file must bear the same name specified and must be Icon file
+     * path:
+     * "src/main/resources/images/application/icons/menu-icon-<b><i>name</i></b>.png"
+     *
+     * @param name
+     * @param route
+     */
+    private MenuItem(String name, NavigationRoute route, Map<String, Object> params) {
+        
+        this(name, "/images/application/icons/svg/menu-icon-" + name.toLowerCase() + ".svg", name.toLowerCase());
+        System.out.println("------> "+route+"   "+params);
+        setOnAction(a -> getInstance().navigate(route,params));
+    }
 
-    public MenuItem(String name, String iconURL, String styleClass) {
+    private MenuItem(String name, String iconURL, String styleClass) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/application/components/util/MenuItem.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);

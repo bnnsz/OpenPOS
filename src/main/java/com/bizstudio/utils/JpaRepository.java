@@ -6,7 +6,9 @@
 package com.bizstudio.utils;
 
 import com.bizstudio.exceptions.NonexistentEntityException;
+import com.bizstudio.utils.Page.PageRequest;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +23,8 @@ import javax.persistence.criteria.Root;
 /**
  *
  * @author obinna.asuzu
+ * @param <Entity>
+ * @param <Id>
  */
 public class JpaRepository<Entity, Id> {
 
@@ -42,17 +46,18 @@ public class JpaRepository<Entity, Id> {
         return emf.createEntityManager();
     }
 
-    public void save(Entity entity) {
+    public Entity save(Entity entity) {
         try {
-            edit(entity);
+            return edit(entity);
         } catch (NonexistentEntityException ex) {
-            create(entity);
+            return create(entity);
         } catch (Exception ex) {
             Logger.getLogger(JpaRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return entity;
     }
 
-    public void create(Entity entity) {
+    public Entity create(Entity entity) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -64,9 +69,11 @@ public class JpaRepository<Entity, Id> {
                 em.close();
             }
         }
+
+        return entity;
     }
 
-    public void edit(Entity entity) throws NonexistentEntityException, Exception {
+    public Entity edit(Entity entity) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -87,6 +94,7 @@ public class JpaRepository<Entity, Id> {
                 em.close();
             }
         }
+        return entity;
     }
 
     public void destroy(Id id) throws NonexistentEntityException {
@@ -110,18 +118,10 @@ public class JpaRepository<Entity, Id> {
     }
 
     public List<Entity> findAll() {
-        return findAll(null, null);
-    }
-    
-    public List<Entity> findAll(Sorting sorting) {
-        return findAll(null, sorting);
-    }
-    
-    public List<Entity> findAll(Page page) {
-        return findAll(page, null);
+        return findAll((Sorting) null);
     }
 
-    public List<Entity> findAll(Page page, Sorting sorting) {
+    public List<Entity> findAll(Sorting sorting) {
         EntityManager em = getEntityManager();
         try {
             String queryString = "SELECT a FROM " + c.getSimpleName() + " a";
@@ -129,17 +129,40 @@ public class JpaRepository<Entity, Id> {
                 queryString = queryString + " ORDER BY a." + sorting.getField() + " " + sorting.getOrder().getValue();
             }
             Query query = em.createQuery(queryString, c);
-            if (page != null) {
-                query.setMaxResults(page.getPageSize());
-                query.setFirstResult(page.getPageSize() * page.getPageNo());
-            }
             return query.getResultList();
         } finally {
             em.close();
         }
     }
 
-    
+    public Page<Entity> findAll(PageRequest page) {
+        return findAll(page, null);
+    }
+
+    public Page<Entity> findAll(PageRequest pageRequest, Sorting sorting) {
+        EntityManager em = getEntityManager();
+        try {
+            String queryString = "SELECT a FROM " + c.getSimpleName() + " a";
+            if (sorting != null) {
+                queryString = queryString + " ORDER BY a." + sorting.getField() + " " + sorting.getOrder().getValue();
+            }
+            Query query = em.createQuery(queryString, c);
+            return getResultPage(query, pageRequest);
+        } finally {
+            em.close();
+        }
+    }
+
+    public Page<Entity> getResultPage(Query query, PageRequest pageRequest) {
+        if (pageRequest == null) {
+            pageRequest = PageRequest.of(1, 10);
+        }
+        query.setMaxResults(pageRequest.getPageSize());
+        query.setFirstResult(pageRequest.getPageSize() * pageRequest.getPageNo());
+        List<Entity> result = query.getResultList();
+        result = result == null ? new ArrayList<>() : result;
+        return new Page(pageRequest.getPagination(this), result);
+    }
 
     public Entity findById(Id id) {
         EntityManager em = getEntityManager();
@@ -150,16 +173,17 @@ public class JpaRepository<Entity, Id> {
         }
     }
 
-    public int getCount() {
+    public Long getCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<Entity> rt = cq.from(c);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+            return (Long) q.getSingleResult();
         } finally {
             em.close();
         }
     }
+
 }

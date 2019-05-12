@@ -5,7 +5,7 @@
  */
 package com.bizstudio.ui.components.login;
 
-import com.bizstudio.security.service.PinToken;
+import com.bizstudio.security.services.PinToken;
 import com.bizstudio.ui.pages.handlers.InputAuthentcationHandler;
 import java.io.IOException;
 import java.net.URL;

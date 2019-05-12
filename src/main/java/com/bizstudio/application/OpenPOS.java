@@ -5,7 +5,7 @@
  */
 package com.bizstudio.application;
 
-import com.bizstudio.security.service.BasicIniEnvironment;
+import com.bizstudio.security.services.BasicIniEnvironment;
 import com.bizstudio.ui.pages.application.ApplicationContainer;
 import javafx.application.Application;
 import javafx.event.EventType;

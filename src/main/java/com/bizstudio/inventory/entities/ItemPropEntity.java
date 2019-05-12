@@ -5,7 +5,7 @@
  */
 package com.bizstudio.inventory.entities;
 
-import com.bizstudio.inventory.entities.listeners.EntityListener;
+import com.bizstudio.inventory.listeners.EntityListener;
 import com.bizstudio.security.entities.AbstractEntity;
 import java.io.Serializable;
 import java.util.ArrayList;

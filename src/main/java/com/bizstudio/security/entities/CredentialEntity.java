@@ -30,6 +30,8 @@ public class CredentialEntity implements Serializable {
     @Column(name = "CREDENTIAL_VALUE")
     @Convert(converter = CredentialConverter.class)
     private String value;
+    @Column(name = "CREDENTIAL_EXPIRED")
+    private Boolean expired;
     @ManyToOne
     private UserAccountEntity userAccount;
 
@@ -107,6 +109,20 @@ public class CredentialEntity implements Serializable {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return the expired
+     */
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    /**
+     * @param expired the expired to set
+     */
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
     }
 
     /**

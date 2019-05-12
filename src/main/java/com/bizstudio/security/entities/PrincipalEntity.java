@@ -5,7 +5,6 @@
  */
 package com.bizstudio.security.entities;
 
-import com.bizstudio.security.entities.interfaces.Principal;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +31,19 @@ public class PrincipalEntity implements Serializable, Principal {
     private UserAccountEntity userAccount;
 
     public PrincipalEntity(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+    
+    public PrincipalEntity(UserAccountEntity userAccount, Long id, String name, String value) {
+        this.userAccount = userAccount;
+        this.id = id;
+        this.name = name;
+        this.value = value;
+    }
+    
+    public PrincipalEntity(String name, String value,UserAccountEntity userAccount) {
+        this.userAccount = userAccount;
         this.name = name;
         this.value = value;
     }

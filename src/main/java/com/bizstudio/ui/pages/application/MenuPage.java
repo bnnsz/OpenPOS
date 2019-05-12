@@ -5,8 +5,11 @@
  */
 package com.bizstudio.ui.pages.application;
 
+import com.bizstudio.application.configs.MenuItemMap;
 import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.ui.components.util.MenuItem;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.layout.FlowPane;
@@ -29,7 +32,6 @@ public class MenuPage extends ApplicationPage {
     @Override
     public void onPageCreate() {
         //TODO ADD MENU
-        initializeMenuItems();
     }
 
     @Override
@@ -46,21 +48,18 @@ public class MenuPage extends ApplicationPage {
 
     @Override
     public boolean equals(Object object) {
-        return object instanceof MenuPage;
+        return object instanceof MenuPage && 
+                
+                (this.getTitle().equals(((MenuPage) object).getTitle()));
     }
 
     @Override
     public void onNavigateEvent(Map<String, Object> parameters) {
-
-    }
-
-    private void initializeMenuItems() {
-        menuItems.getChildren().addAll(
-                new MenuItem("Home", NavigationRoute.HOME),
-                new MenuItem("Transactions", NavigationRoute.TRANSACTIONS),
-                new MenuItem("Inventory", NavigationRoute.INVENTORY),
-                new MenuItem("Settings", NavigationRoute.SETTINGS)
-        );
+        setTitle((String) parameters.get("title"));
+        MenuItemMap menu = (MenuItemMap) parameters.get("menu");
+        if (menuItems.getChildren().isEmpty()) {
+            menuItems.getChildren().addAll(menu.getMenuItems());
+        }
     }
 
 }

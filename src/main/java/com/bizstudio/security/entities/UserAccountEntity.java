@@ -44,6 +44,10 @@ public class UserAccountEntity implements Serializable {
 
     @OneToMany
     private List<UserRoleEntity> roles = new ArrayList<>();
+    @Column
+    private Boolean enabled;
+    @Column
+    private Boolean system;
 
     public UserAccountEntity() {
     }
@@ -119,6 +123,21 @@ public class UserAccountEntity implements Serializable {
     }
 
     /**
+     * @param key
+     * @param value
+     */
+    public void setPrincipal(String key, String value) {
+        boolean[] found = {false};
+        for (PrincipalEntity p : this.principals) {
+            if (p.getName() != null && p.getName().equals(key)) {
+                p.setValue(value);
+                principals.add(new PrincipalEntity(this, null, key, value));
+                break;
+            }
+        }
+    }
+
+    /**
      * @return the roles
      */
     public List<UserRoleEntity> getRoles() {
@@ -130,6 +149,41 @@ public class UserAccountEntity implements Serializable {
      */
     public void setRoles(List<UserRoleEntity> roles) {
         this.roles = roles;
+    }
+
+    /**
+     * @return the enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * @return the enabled
+     */
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    /**
+     * @param enabled the enabled to set
+     */
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * @return the system
+     */
+    public boolean getSystem() {
+        return system;
+    }
+
+    /**
+     * @param system the system to set
+     */
+    public void setSystem(Boolean system) {
+        this.system = system;
     }
 
     @Override

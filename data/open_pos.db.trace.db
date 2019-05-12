@@ -1,49 +1,24 @@
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "CREDENTIALENTITY" not found; SQL statement:
 SELECT ID FROM CREDENTIALENTITY WHERE ID <> ID [42102-197]
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "PRINCIPALENTITY" not found; SQL statement:
 SELECT ID FROM PRINCIPALENTITY WHERE ID <> ID [42102-197]
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "USERACCOUNTENTITY" not found; SQL statement:
 SELECT ID FROM USERACCOUNTENTITY WHERE ID <> ID [42102-197]
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "USERPERMISSIONENTITY" not found; SQL statement:
 SELECT ID FROM USERPERMISSIONENTITY WHERE ID <> ID [42102-197]
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "USERROLEENTITY" not found; SQL statement:
 SELECT ID FROM USERROLEENTITY WHERE ID <> ID [42102-197]
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "USERACCOUNTENTITY_USERROLEENTITY" not found; SQL statement:
 SELECT roles_ID FROM USERACCOUNTENTITY_USERROLEENTITY WHERE roles_ID <> roles_ID [42102-197]
-2018-11-26 14:40:25 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "USERROLEENTITY_PERMISSIONS" not found; SQL statement:
 SELECT UserRoleEntity_ID FROM UserRoleEntity_PERMISSIONS WHERE UserRoleEntity_ID <> UserRoleEntity_ID [42102-197]
-2018-11-26 14:40:26 jdbc[3]: exception
+2019-05-12 10:50:52 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Table "SEQUENCE" not found; SQL statement:
 SELECT SEQ_NAME FROM SEQUENCE WHERE SEQ_NAME <> SEQ_NAME [42102-197]
-2019-02-15 13:02:12 database: wrong user or password; user: "ADMIN"
-org.h2.message.DbException: Wrong user name or password [28000-197]
-	at org.h2.message.DbException.get(DbException.java:179)
-	at org.h2.message.DbException.get(DbException.java:155)
-	at org.h2.message.DbException.get(DbException.java:144)
-	at org.h2.engine.Engine.openSession(Engine.java:107)
-	at org.h2.engine.Engine.openSession(Engine.java:179)
-	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
-	at org.h2.engine.Engine.createSession(Engine.java:140)
-	at org.h2.engine.Engine.createSession(Engine.java:28)
-	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
-	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
-	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
-	at org.h2.Driver.connect(Driver.java:69)
-	at org.netbeans.modules.db.explorer.DbDriverManager.getConnection(DbDriverManager.java:106)
-	at org.netbeans.modules.db.explorer.DatabaseConnection.doConnect(DatabaseConnection.java:898)
-	at org.netbeans.modules.db.explorer.DatabaseConnection.access$200(DatabaseConnection.java:78)
-	at org.netbeans.modules.db.explorer.DatabaseConnection$3.run(DatabaseConnection.java:963)
-	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1418)
-	at org.netbeans.modules.openide.util.GlobalLookup.execute(GlobalLookup.java:45)
-	at org.openide.util.lookup.Lookups.executeWith(Lookups.java:278)
-	at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2033)
-Caused by: org.h2.jdbc.JdbcSQLException: Wrong user name or password [28000-197]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
-	... 20 more

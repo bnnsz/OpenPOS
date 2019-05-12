@@ -5,11 +5,8 @@
  */
 package com.bizstudio.ui.components.util;
 
-import com.bizstudio.ui.components.login.UsernamePasswordInput;
-import com.bizstudio.ui.pages.application.ApplicationContainer;
 import java.io.IOException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,9 +15,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

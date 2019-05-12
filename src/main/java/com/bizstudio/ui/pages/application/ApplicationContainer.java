@@ -38,6 +38,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -83,6 +84,15 @@ public class ApplicationContainer extends AnchorPane {
     }
 
     private void initNotifications() {
+        notificationContainer.setManaged(false);
+        notificationContainer.setVisible(false);
+        notificationContainer.getChildren().addListener(new ListChangeListener<Node>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends Node> c) {
+                notificationContainer.setManaged(!notificationContainer.getChildren().isEmpty());
+                notificationContainer.setVisible(!notificationContainer.getChildren().isEmpty());
+            }
+        });
         NotificationManager.getInstance().addOnCreateListener(notification -> {
             NotificationAction action = notification.getAction();
             Alert alert;
