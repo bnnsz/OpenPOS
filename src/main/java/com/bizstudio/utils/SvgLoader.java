@@ -27,19 +27,19 @@ import org.apache.batik.transcoder.TranscoderInput;
 
 public class SvgLoader {
 
-    private SvgLoader() {
-    }
 
     private static SvgLoader loader;
 
+
+    private static final Logger logger = LogManager.getLogger();
     public static SvgLoader getInstance() {
         if (loader == null) {
             loader = new SvgLoader();
         }
         return loader;
     }
-
-    private static final Logger logger = LogManager.getLogger();
+    private SvgLoader() {
+    }
 
     public Image loadSvgImage(String url) {
         BufferedImageTranscoder trans = new BufferedImageTranscoder(100,100);

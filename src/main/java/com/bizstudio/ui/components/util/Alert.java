@@ -32,17 +32,40 @@ import javafx.scene.text.Text;
  * @author ObinnaAsuzu
  */
 public class Alert extends VBox {
+    public static Alert create(String title, String message) {
+        return Alert.create(title, message, null, null);
+    }
+    public static Alert create(String title, String message, String actionName, EventHandler<ActionEvent> actionEvent) {
+        Alert alert = new Alert();
+        alert.setPickOnBounds(true);
+        alert.setMouseTransparent(false);
+        if (title == null || title.isEmpty()) {
+            alert.getChildren().remove(alert.titlePanel);
+        } else {
+            alert.titleLabel.setText(title);
+        }
+        
+        alert.messageLabel.setText(message);
+        if (actionEvent == null) {
+            ((HBox) alert.actionButton.getParent()).getChildren().remove(alert.actionButton);
+        } else {
+            alert.actionButton.setText(actionName);
+            alert.actionButton.setOnAction(actionEvent);
+        }
+        alert.addEvents();
+        return alert;
+    }
 
     @FXML
-    Label titleLabel;
+    private Label titleLabel;
     @FXML
-    Text messageLabel;
+    private Text messageLabel;
     @FXML
-    Button actionButton;
+    private Button actionButton;
     @FXML
-    Button closeButton;
+    private Button closeButton;
     @FXML
-    HBox titlePanel;
+    private HBox titlePanel;
 
     public Alert() {
         try {
@@ -74,34 +97,11 @@ public class Alert extends VBox {
         return Alert.create(null, message, null, null);
     }
 
-    public static Alert create(String title, String message) {
-        return Alert.create(title, message, null, null);
-    }
 
     public Alert create(String message, String actionName, EventHandler<ActionEvent> actionEvent) {
         return Alert.create(null, message, actionName, actionEvent);
     }
 
-    public static Alert create(String title, String message, String actionName, EventHandler<ActionEvent> actionEvent) {
-        Alert alert = new Alert();
-        alert.setPickOnBounds(true);
-        alert.setMouseTransparent(false);
-        if (title == null || title.isEmpty()) {
-            alert.getChildren().remove(alert.titlePanel);
-        } else {
-            alert.titleLabel.setText(title);
-        }
-
-        alert.messageLabel.setText(message);
-        if (actionEvent == null) {
-            ((HBox) alert.actionButton.getParent()).getChildren().remove(alert.actionButton);
-        } else {
-            alert.actionButton.setText(actionName);
-            alert.actionButton.setOnAction(actionEvent);
-        }
-        alert.addEvents();
-        return alert;
-    }
 
     private void animateTransitionOut(Pane pane, EventHandler<ActionEvent> onfinish) {
         TranslateTransition translateTransition = new TranslateTransition(javafx.util.Duration.millis(200), pane);

@@ -15,10 +15,15 @@ import java.util.List;
  * @author ObinnaAsuzu
  */
 public class NotificationManager {
+    public static NotificationManager getInstance() {
+        return NotificationManagerHolder.INSTANCE;
+    }
 
-    List<NotificationListener> onCreateListeners = new ArrayList<>();
+    private List<NotificationListener> onCreateListeners = new ArrayList<>();
 
-    List<Notification> notifications = new ArrayList<>();
+    private List<Notification> notifications = new ArrayList<>();
+    private NotificationManager() {
+    }
 
     public void addOnCreateListener(NotificationListener listener) {
         if (listener != null) {
@@ -37,12 +42,6 @@ public class NotificationManager {
         onCreateListeners.forEach(action -> action.handle(notification));
     }
 
-    private NotificationManager() {
-    }
-
-    public static NotificationManager getInstance() {
-        return NotificationManagerHolder.INSTANCE;
-    }
 
     private static class NotificationManagerHolder {
 

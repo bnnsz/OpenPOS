@@ -173,6 +173,12 @@ public class Page<T> {
     }
 
     public static class PageRequest {
+        public static PageRequest of(int pageNo, int pageSize) {
+            return new PageRequest(pageNo, pageSize);
+        }
+        public static PageRequest of(int pageNo, int pageSize, Long totalElement) {
+            return new PageRequest(pageNo, pageSize, totalElement);
+        }
 
         private final int pageNo;
         private final int pageSize;
@@ -190,13 +196,6 @@ public class Page<T> {
             this.totalElement = totalElement;
         }
 
-        public static PageRequest of(int pageNo, int pageSize) {
-            return new PageRequest(pageNo, pageSize);
-        }
-
-        public static PageRequest of(int pageNo, int pageSize, Long totalElement) {
-            return new PageRequest(pageNo, pageSize, totalElement);
-        }
 
         /**
          * @return the pageNo

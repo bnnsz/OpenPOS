@@ -24,7 +24,7 @@ import org.apache.shiro.SecurityUtils;
  */
 public class EntityListener {
 
-    AuditLogRepository controller;
+    private AuditLogRepository controller;
 
     public EntityListener() {
         this.controller = new AuditLogRepository(PersistenceManger.getInstance().getDataEMF(), AuditLogEntity.class);

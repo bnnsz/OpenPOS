@@ -45,13 +45,13 @@ import org.apache.shiro.session.Session;
 public class LoginPage extends ApplicationPage {
 
     @FXML
-    StackPane inputStack;
+    private StackPane inputStack;
     @FXML
-    ToggleButton passwordToggle;
+    private ToggleButton passwordToggle;
     @FXML
-    ToggleButton pinToggle;
+    private ToggleButton pinToggle;
     @FXML
-    ToggleGroup loginInputType;
+    private ToggleGroup loginInputType;
     @FXML
     private JFXCheckBox rememberMe;
     @FXML

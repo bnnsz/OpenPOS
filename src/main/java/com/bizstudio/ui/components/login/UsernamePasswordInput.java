@@ -28,9 +28,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 public class UsernamePasswordInput extends VBox {
 
     @FXML
-    TextField username;
+    private TextField username;
     @FXML
-    PasswordField password;
+    private PasswordField password;
     
 
     private UsernamePasswordToken token;

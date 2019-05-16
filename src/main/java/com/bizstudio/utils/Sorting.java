@@ -12,6 +12,9 @@ import com.bizstudio.enums.SortOrder;
  * @author obinna.asuzu
  */
 public class Sorting {
+    public static Sorting by(String field, SortOrder order){
+        return new Sorting(field, order);
+    }
     private final String field;
     private final SortOrder order;
 
@@ -20,9 +23,6 @@ public class Sorting {
         this.order = order;
     }
     
-    public static Sorting by(String field, SortOrder order){
-        return new Sorting(field, order);
-    }
 
     /**
      * @return the field

@@ -15,10 +15,13 @@
  */
 package com.bizstudio.ui.components.application;
 
+import com.bizstudio.ui.components.util.Alert;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
@@ -39,8 +42,8 @@ public class ApplicationTopBar extends HBox implements Initializable {
 
         try {
             fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        } catch (IOException ex) {
+            Logger.getLogger(Alert.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

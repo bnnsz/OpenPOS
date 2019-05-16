@@ -26,23 +26,23 @@ import static java.util.stream.Collectors.toMap;
  * @author obinna.asuzu
  */
 public class UserService {
-
-    UserAccountRepository userRepository;
-    UserPermissionRepository permissionRepository;
-    UserRoleRepository roleRepository;
-    
     static UserService instance;
-
-    private UserService() {
-        userRepository = new UserAccountRepository(PersistenceManger.getInstance().getDataEMF());
-    }
-    
     public static UserService getInstance(){
         if(instance == null){
             instance = new UserService();
         }
         return instance;
     }
+
+    UserAccountRepository userRepository;
+    UserPermissionRepository permissionRepository;
+    UserRoleRepository roleRepository;
+    
+
+    private UserService() {
+        userRepository = new UserAccountRepository(PersistenceManger.getInstance().getDataEMF());
+    }
+    
     
     
 

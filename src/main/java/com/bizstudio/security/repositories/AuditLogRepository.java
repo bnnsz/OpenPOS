@@ -8,6 +8,7 @@ package com.bizstudio.security.repositories;
 import com.bizstudio.security.entities.AuditLogEntity;
 import com.bizstudio.utils.JpaRepository;
 import java.io.Serializable;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**

@@ -56,6 +56,16 @@ import static org.junit.Assert.*;
  * @author ObinnaAsuzu
  */
 public class SecurityServiceTest {
+    private static EntityManagerFactory dataEMF;
+    private static EntityManagerFactory cacheEMF;
+    @BeforeClass
+    public static void setUpClass() {
+        dataEMF = Persistence.createEntityManagerFactory("dataPU");
+        cacheEMF = Persistence.createEntityManagerFactory("cachePU");
+    }
+    @AfterClass
+    public static void tearDownClass() {
+    }
 
     UserAccountRepository accountEntityJpaController;
 
@@ -81,18 +91,6 @@ public class SecurityServiceTest {
         }
     }
 
-    private static EntityManagerFactory dataEMF;
-    private static EntityManagerFactory cacheEMF;
-
-    @BeforeClass
-    public static void setUpClass() {
-        dataEMF = Persistence.createEntityManagerFactory("dataPU");
-        cacheEMF = Persistence.createEntityManagerFactory("cachePU");
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
 
     @Before
     public void setUp() {

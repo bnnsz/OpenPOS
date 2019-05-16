@@ -5,8 +5,11 @@
  */
 package com.bizstudio.security.util;
 
+import com.bizstudio.ui.components.util.Alert;
 import java.security.Key;
 import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
@@ -30,7 +33,8 @@ public class CredentialConverter implements AttributeConverter<String, byte[]> {
             c.init(Cipher.ENCRYPT_MODE, key);
             return Base64.getEncoder().encode(c.doFinal(credential.getBytes()));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(Alert.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         }
     }
 
@@ -43,7 +47,8 @@ public class CredentialConverter implements AttributeConverter<String, byte[]> {
             c.init(Cipher.DECRYPT_MODE, key);
             return new String(c.doFinal(Base64.getDecoder().decode(credential)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(Alert.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         }
     }
 

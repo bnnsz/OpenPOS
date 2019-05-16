@@ -47,6 +47,19 @@ import javafx.util.Duration;
  * @author ObinnaAsuzu
  */
 public class NavigationManger {
+    public static NavigationManger getInstance(NavigationBar navigationBar) {
+        NavigationManger instance = NavigationMangerHolder.INSTANCE;
+        if (navigationBar != null) {
+            instance.navigationBar = navigationBar;
+        }
+        if (instance.handler == null) {
+            instance.openPage(LOGIN.page(), Collections.unmodifiableMap(new HashMap<>()));
+        }
+        return instance;
+    }
+    public static NavigationManger getInstance() {
+        return getInstance(null);
+    }
 
     private final PageStack stackPane;
     ObservableList<ApplicationPage> applicationPages;
@@ -101,20 +114,6 @@ public class NavigationManger {
         }
     }
 
-    public static NavigationManger getInstance(NavigationBar navigationBar) {
-        NavigationManger instance = NavigationMangerHolder.INSTANCE;
-        if (navigationBar != null) {
-            instance.navigationBar = navigationBar;
-        }
-        if (instance.handler == null) {
-            instance.openPage(LOGIN.page(), Collections.unmodifiableMap(new HashMap<>()));
-        }
-        return instance;
-    }
-
-    public static NavigationManger getInstance() {
-        return getInstance(null);
-    }
 
     /**
      * Initializes the page if not created and adds to page stack
@@ -175,10 +174,6 @@ public class NavigationManger {
 
     }
 
-    private static class NavigationMangerHolder {
-
-        private static final NavigationManger INSTANCE = new NavigationManger();
-    }
 
     private void openPage(ApplicationPage newPage) {
         if (stackPane.getChildren().isEmpty()) {
@@ -231,6 +226,10 @@ public class NavigationManger {
                 newPage.setPageState(PageState.ACTIVE);
             }
         }
+    }
+    private static class NavigationMangerHolder {
+        
+        private static final NavigationManger INSTANCE = new NavigationManger();
     }
 
     private class ListChangeListenerImpl implements ListChangeListener<ApplicationPage> {

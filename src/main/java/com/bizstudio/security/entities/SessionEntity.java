@@ -28,6 +28,12 @@ import org.apache.shiro.session.mgt.SimpleSession;
 public class SessionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    public static SessionEntity create(SimpleSession session) {
+        return new SessionEntity(session, false);
+    }
+    public static SessionEntity update(SimpleSession session) {
+        return new SessionEntity(session, true);
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -210,13 +216,6 @@ public class SessionEntity implements Serializable {
         }
     }
 
-    public static SessionEntity create(SimpleSession session) {
-        return new SessionEntity(session, false);
-    }
-
-    public static SessionEntity update(SimpleSession session) {
-        return new SessionEntity(session, true);
-    }
 
     public SimpleSession toSession() {
         SimpleSession session = new SimpleSession();

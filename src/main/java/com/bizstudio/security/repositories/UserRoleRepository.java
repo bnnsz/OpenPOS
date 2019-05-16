@@ -23,10 +23,10 @@ import javax.persistence.criteria.Root;
  */
 public class UserRoleRepository implements Serializable {
 
+    private EntityManagerFactory emf = null;
     public UserRoleRepository(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

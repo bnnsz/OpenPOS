@@ -14,11 +14,6 @@ import com.bizstudio.ui.pages.application.ApplicationContainer;
  */
 public class ApplicationMessageUtil {
 
-    ApplicationContainer applicationContainer;
-    
-    private ApplicationMessageUtil(ApplicationContainer applicationContainer) {
-        this.applicationContainer =  applicationContainer;
-    }
     /**
      * Instantiates the message util, must be called before calling the getInstance().<br>
      * Make sure to add this immediately after the application container is created
@@ -36,6 +31,10 @@ public class ApplicationMessageUtil {
      */
     public static ApplicationMessageUtil getInstance() {
         return AlertMessageUtilHolder.INSTANCE;
+    }
+    ApplicationContainer applicationContainer;
+    private ApplicationMessageUtil(ApplicationContainer applicationContainer) {
+        this.applicationContainer =  applicationContainer;
     }
 
     public void addMessage(String message) {

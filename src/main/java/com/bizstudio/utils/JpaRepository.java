@@ -28,9 +28,9 @@ import javax.persistence.criteria.Root;
  */
 public class JpaRepository<Entity, Id> {
 
-    final Class<Entity> c;
-    final Field idField;
-    final EntityManagerFactory emf;
+    protected final Class<Entity> c;
+    protected final Field idField;
+    protected final EntityManagerFactory emf;
 
     public JpaRepository(EntityManagerFactory emf, Class entityClass) {
         this.emf = emf;
@@ -153,15 +153,17 @@ public class JpaRepository<Entity, Id> {
         }
     }
 
-    public Page<Entity> getResultPage(Query query, PageRequest pageRequest) {
-        if (pageRequest == null) {
-            pageRequest = PageRequest.of(1, 10);
+    public Page<Entity> getResultPage(Query query, PageRequest p) {
+        
+        PageRequest request = p;
+        if (request == null) {
+            request = PageRequest.of(1, 10);
         }
-        query.setMaxResults(pageRequest.getPageSize());
-        query.setFirstResult(pageRequest.getPageSize() * pageRequest.getPageNo());
+        query.setMaxResults(request.getPageSize());
+        query.setFirstResult(request.getPageSize() * request.getPageNo());
         List<Entity> result = query.getResultList();
         result = result == null ? new ArrayList<>() : result;
-        return new Page(pageRequest.getPagination(this), result);
+        return new Page(request.getPagination(this), result);
     }
 
     public Entity findById(Id id) {

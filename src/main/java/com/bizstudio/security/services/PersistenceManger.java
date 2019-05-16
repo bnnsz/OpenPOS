@@ -13,6 +13,9 @@ import javax.persistence.Persistence;
  * @author ObinnaAsuzu
  */
 public class PersistenceManger {
+    public static PersistenceManger getInstance() {
+        return PersistenceMangerHolder.INSTANCE;
+    }
 
     
     private final EntityManagerFactory cacheEMF = Persistence.createEntityManagerFactory("cachePU");
@@ -22,9 +25,6 @@ public class PersistenceManger {
     private PersistenceManger() {
     }
 
-    public static PersistenceManger getInstance() {
-        return PersistenceMangerHolder.INSTANCE;
-    }
     
     /**
      * @return the dataEMF

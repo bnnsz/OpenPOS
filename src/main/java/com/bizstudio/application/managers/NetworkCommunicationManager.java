@@ -49,10 +49,15 @@ import org.jxmpp.stringprep.XmppStringprepException;
  */
 public class NetworkCommunicationManager implements IncomingChatMessageListener,
         OutgoingChatMessageListener, RosterListener {
+    private static final Logger LOG = Logger.getLogger(NetworkCommunicationManager.class.getName());
+    public static NetworkCommunicationManager getInstance() {
+        NetworkCommunicationManager instance = NetworkCommunicationManagerHolder.INSTANCE;
+        return instance;
+    }
 
-    AbstractXMPPConnection connection;
-    Gson gson;
-    Function<String, Jid> jidMapper;
+    private AbstractXMPPConnection connection;
+    private Gson gson;
+    private Function<String, Jid> jidMapper;
 
     private final Map<XmppPayloadAction, List<XmppMessageEventListener>> outgoingMessageEventListeners = new TreeMap<>();
     private final Map<XmppPayloadAction, List<XmppMessageEventListener>> incomingMessageEventListeners = new TreeMap<>();
@@ -182,11 +187,5 @@ public class NetworkCommunicationManager implements IncomingChatMessageListener,
         private static final NetworkCommunicationManager INSTANCE = new NetworkCommunicationManager();
     }
 
-    public static NetworkCommunicationManager getInstance() {
-        NetworkCommunicationManager instance = NetworkCommunicationManagerHolder.INSTANCE;
-        return instance;
-    }
-
-    private static final Logger LOG = Logger.getLogger(NetworkCommunicationManager.class.getName());
 
 }

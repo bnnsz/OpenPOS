@@ -25,10 +25,10 @@ import javax.persistence.OneToMany;
 @EntityListeners(EntityListener.class)
 public class ItemCategoryEntity extends AbstractEntity implements Serializable {
 
-    @OneToMany(mappedBy = "category")
-    private List<ItemEntity> items;
 
     private static final long serialVersionUID = 1L;
+    @OneToMany(mappedBy = "category")
+    private List<ItemEntity> items;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

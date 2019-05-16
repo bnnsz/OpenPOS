@@ -27,7 +27,7 @@ import javafx.scene.layout.VBox;
 public class PinLoginInput extends VBox {
 
     @FXML
-    PasswordField pin;
+    private PasswordField pin;
     private PinToken token;
     
     public PinLoginInput() {
