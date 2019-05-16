@@ -6,10 +6,6 @@
 package com.bizstudio.ui.pages.application;
 
 import com.bizstudio.application.configs.MenuItemMap;
-import com.bizstudio.application.enums.NavigationRoute;
-import com.bizstudio.ui.components.util.MenuItem;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.layout.FlowPane;

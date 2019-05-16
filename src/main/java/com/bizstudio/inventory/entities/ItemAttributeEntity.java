@@ -5,12 +5,9 @@
  */
 package com.bizstudio.inventory.entities;
 
-import com.bizstudio.inventory.listeners.EntityListener;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -139,10 +136,7 @@ public class ItemAttributeEntity implements Serializable {
             return false;
         }
         ItemAttributeEntity other = (ItemAttributeEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

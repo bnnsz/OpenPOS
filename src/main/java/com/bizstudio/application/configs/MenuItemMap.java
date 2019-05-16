@@ -9,9 +9,7 @@ import com.bizstudio.application.enums.NavigationRoute;
 import com.bizstudio.ui.components.util.MenuItem;
 import static com.bizstudio.ui.components.util.MenuItem.menu;
 import static java.util.Arrays.asList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -20,7 +18,8 @@ import java.util.function.Supplier;
  */
 public enum MenuItemMap {
     MAIN(MenuItemMap::mainMenuItems),
-    INVENTORY(MenuItemMap::inventoryMenuItems);
+    INVENTORY(MenuItemMap::inventoryMenuItems),
+    ADMIN(MenuItemMap::adminMenuItems);
 
     Supplier<List<MenuItem>> menuItems;
 
@@ -33,9 +32,6 @@ public enum MenuItemMap {
     }
 
     private static List<MenuItem> inventoryMenuItems() {
-         
-        
-        
         return asList(menu("Items", NavigationRoute.HOME),
                 menu("Categories", NavigationRoute.HOME),
                 menu("Locations", NavigationRoute.HOME),
@@ -44,11 +40,18 @@ public enum MenuItemMap {
     }
 
     private static List<MenuItem> mainMenuItems() {
-        
         return asList(menu("Home", NavigationRoute.HOME),
                 menu("Transactions", NavigationRoute.TRANSACTIONS),
                 menu("Inventory", NavigationRoute.INVENTORY),
+                menu("Admin", NavigationRoute.ADMIN),
                 menu("Settings", NavigationRoute.SETTINGS));
+    }
+
+    private static List<MenuItem> adminMenuItems() {
+        return asList(menu("Users", NavigationRoute.USERS),
+                menu("Roles", NavigationRoute.ROLES),
+                menu("Settings", NavigationRoute.SETTINGS),
+                menu("Home", NavigationRoute.MENU));
     }
 
 }

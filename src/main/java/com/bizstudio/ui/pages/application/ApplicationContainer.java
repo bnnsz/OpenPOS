@@ -15,7 +15,6 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.entities.Notification;
 import com.bizstudio.application.entities.NotificationAction;
 import com.bizstudio.application.managers.NavigationManger;
 import com.bizstudio.application.managers.NotificationManager;
@@ -38,7 +37,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;

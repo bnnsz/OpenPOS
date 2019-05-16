@@ -16,11 +16,11 @@
 package com.bizstudio.application.enums;
 
 import com.bizstudio.application.configs.MenuItemMap;
-import static com.bizstudio.application.configs.MenuItemMap.INVENTORY;
 import com.bizstudio.ui.pages.application.ApplicationPage;
 import com.bizstudio.ui.pages.application.HomePage;
 import com.bizstudio.ui.pages.application.LoginPage;
 import com.bizstudio.ui.pages.application.MenuPage;
+import com.bizstudio.ui.pages.application.UsersPage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -33,9 +33,21 @@ public enum NavigationRoute {
     LOGIN("Login",LoginPage.class),
     HOME("Home",HomePage.class),
     SETTINGS(LoginPage.class),
-    INVENTORY("Inventory", MenuPage.class, NavigationRoute::inventoryMenuDefaultParams),
     TRANSACTIONS(LoginPage.class),
-    MENU("Main menu",MenuPage.class,NavigationRoute::mainMenuDefaultParams);
+    MENU("Main menu",MenuPage.class,NavigationRoute::mainMenuDefaultParams),
+    
+    //SECURITY
+    ADMIN("Administration", MenuPage.class, NavigationRoute::adminMenuDefaultParams),
+    USERS("Users",UsersPage.class),
+    ROLES("Roles",HomePage.class),
+    
+    //INVENTORY
+    INVENTORY("Inventory", MenuPage.class, NavigationRoute::inventoryMenuDefaultParams),
+    ITEMS("Products", HomePage.class),
+    CATEGORIES("Categories", HomePage.class)
+    ;
+    
+    //
     
     
     String name;
@@ -70,17 +82,25 @@ public enum NavigationRoute {
         return page;
     }
     
-    private static Map<String, Object> inventoryMenuDefaultParams(){
-        Map<String, Object> params = new HashMap<>();
-        params.put("menu", MenuItemMap.INVENTORY);
-        params.put("title", "Main menu");
-        return params;
-    }
+    
     
     private static Map<String, Object> mainMenuDefaultParams(){
         Map<String, Object> params = new HashMap<>();
         params.put("menu", MenuItemMap.MAIN);
         params.put("title", "Inventory");
+        return params;
+    }
+    private static Map<String, Object> adminMenuDefaultParams(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("menu", MenuItemMap.ADMIN);
+        params.put("title", "Admin and Security");
+        return params;
+    }
+    
+    private static Map<String, Object> inventoryMenuDefaultParams(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("menu", MenuItemMap.INVENTORY);
+        params.put("title", "Main menu");
         return params;
     }
 }

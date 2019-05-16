@@ -7,7 +7,6 @@ package com.bizstudio.security.repositories;
 
 import com.bizstudio.security.entities.UserRoleEntity;
 import com.bizstudio.exceptions.NonexistentEntityException;
-import com.bizstudio.security.entities.UserAccountEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

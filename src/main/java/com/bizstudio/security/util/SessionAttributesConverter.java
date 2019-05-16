@@ -5,8 +5,6 @@
  */
 package com.bizstudio.security.util;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,7 +12,6 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;

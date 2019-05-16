@@ -17,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.SimpleSession;
 
 /**
@@ -190,10 +189,7 @@ public class SessionEntity implements Serializable {
             return false;
         }
         SessionEntity other = (SessionEntity) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id)));
     }
 
     @Override

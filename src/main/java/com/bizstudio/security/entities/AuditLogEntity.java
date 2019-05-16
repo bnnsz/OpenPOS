@@ -156,10 +156,7 @@ public class AuditLogEntity implements Serializable {
             return false;
         }
         AuditLogEntity other = (AuditLogEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

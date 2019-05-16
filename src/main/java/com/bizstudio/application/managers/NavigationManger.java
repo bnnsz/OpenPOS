@@ -29,7 +29,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -42,7 +41,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Duration;
-import org.apache.shiro.SecurityUtils;
 
 /**
  *

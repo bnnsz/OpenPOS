@@ -8,7 +8,9 @@ package com.bizstudio.security.entities;
 import com.bizstudio.security.util.CredentialConverter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -41,6 +43,8 @@ public class UserAccountEntity implements Serializable {
 
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
     private List<PrincipalEntity> principals = new ArrayList<>();
+    
+    
 
     @OneToMany
     private List<UserRoleEntity> roles = new ArrayList<>();
@@ -48,6 +52,10 @@ public class UserAccountEntity implements Serializable {
     private Boolean enabled;
     @Column
     private Boolean system;
+    
+    private transient Map<String, String> principalsMap;
+    
+    private transient boolean selected;
 
     public UserAccountEntity() {
     }
@@ -113,6 +121,24 @@ public class UserAccountEntity implements Serializable {
      */
     public List<PrincipalEntity> getPrincipals() {
         return principals;
+    }
+    
+    /**
+     * @return the principals
+     */
+    public Map<String, String> getPrincipalsAsMap() {
+        if(principalsMap == null){
+            principalsMap = new HashMap<>();
+            for(PrincipalEntity p: principals){
+                principalsMap.put(p.getName(), p.getValue());
+            }
+        }
+        return principalsMap;
+    }
+    
+    
+    public String getPrincipal(String name){
+        return getPrincipalsAsMap().get(name);
     }
 
     /**
@@ -184,6 +210,20 @@ public class UserAccountEntity implements Serializable {
      */
     public void setSystem(Boolean system) {
         this.system = system;
+    }
+
+    /**
+     * @return the selected
+     */
+    public boolean isSelected() {
+        return selected;
+    }
+
+    /**
+     * @param selected the selected to set
+     */
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override

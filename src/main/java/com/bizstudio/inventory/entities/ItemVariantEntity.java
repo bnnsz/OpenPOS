@@ -8,10 +8,8 @@ package com.bizstudio.inventory.entities;
 import com.bizstudio.inventory.listeners.EntityListener;
 import com.bizstudio.security.entities.AbstractEntity;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -108,10 +106,7 @@ public class ItemVariantEntity extends AbstractEntity implements Serializable {
             return false;
         }
         ItemVariantEntity other = (ItemVariantEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

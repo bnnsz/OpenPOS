@@ -30,10 +30,21 @@ public class UserService {
     UserAccountRepository userRepository;
     UserPermissionRepository permissionRepository;
     UserRoleRepository roleRepository;
+    
+    static UserService instance;
 
     private UserService() {
         userRepository = new UserAccountRepository(PersistenceManger.getInstance().getDataEMF());
     }
+    
+    public static UserService getInstance(){
+        if(instance == null){
+            instance = new UserService();
+        }
+        return instance;
+    }
+    
+    
 
     public UserAccountEntity getUser(String username) throws ServiceException {
         return userRepository.findByUsername(username)

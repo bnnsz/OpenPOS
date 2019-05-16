@@ -5,10 +5,7 @@
  */
 package com.bizstudio.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  *
@@ -16,11 +13,13 @@ import java.util.function.Function;
  */
 public class Page<T> {
 
-    int totalPages;
-    long totalElements;
-    int number;
-    int size;
-    List<T> content;
+    private int totalPages;
+    private long totalElements;
+    private int number;
+    private int size;
+    private List<T> content;
+    
+    
 
     public Page(Pagination pagination, List<T> content) {
         this.number = pagination.pageNo;
@@ -35,7 +34,7 @@ public class Page<T> {
      *
      * @return
      */
-    boolean hasContent() {
+    public boolean hasContent() {
         return !content.isEmpty();
     }
 
@@ -44,8 +43,8 @@ public class Page<T> {
      *
      * @return
      */
-    boolean isFirst() {
-        return number == 1;
+    public boolean isFirst() {
+        return getNumber() == 0;
     }
 
     ;
@@ -55,8 +54,8 @@ public class Page<T> {
      *
      * @return
      */
-    boolean isLast() {
-        return number == totalPages;
+    public boolean isLast() {
+        return getNumber() + 1 == getTotalPages();
     }
 
     /**
@@ -64,7 +63,7 @@ public class Page<T> {
      *
      * @return if there is a next {@link Slice}.
      */
-    boolean hasNext() {
+    public boolean hasNext() {
         return !isLast();
     }
 
@@ -73,7 +72,7 @@ public class Page<T> {
      *
      * @return if there is a previous {@link Slice}.
      */
-    boolean hasPrevious() {
+    public boolean hasPrevious() {
         return !isFirst();
     }
 
@@ -84,8 +83,8 @@ public class Page<T> {
      * @return
      * @since 2.0
      */
-    PageRequest getPageable() {
-        return PageRequest.of(number, size, totalElements);
+    public PageRequest getPageable() {
+        return PageRequest.of(getNumber(), getSize(), getTotalElements());
     }
 
     /**
@@ -96,11 +95,15 @@ public class Page<T> {
      *
      * @return
      */
-    PageRequest nextPageable() {
+    public PageRequest nextPageable() {
         if (hasNext()) {
-            return PageRequest.of(number + 1, size, totalElements);
+            return PageRequest.of(getNumber() + 1, getSize(), getTotalElements());
         }
         return null;
+    }
+    
+    public PageRequest nextPageable(int next) {
+        return PageRequest.of(getNumber() + next, getSize(), getTotalElements());
     }
 
     /**
@@ -113,10 +116,54 @@ public class Page<T> {
      */
     PageRequest previousPageable() {
         if (hasPrevious()) {
-            return PageRequest.of(number - 1, size, totalElements);
+            return PageRequest.of(getNumber() - 1, getSize(), getTotalElements());
         }
         return null;
     }
+    
+    PageRequest previousPageable(int prev) {
+        if (hasPrevious()) {
+            return PageRequest.of(getNumber() - prev, getSize(), getTotalElements());
+        }
+        return null;
+    }
+
+    /**
+     * @return the totalPages
+     */
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    /**
+     * @return the totalElements
+     */
+    public long getTotalElements() {
+        return totalElements;
+    }
+
+    /**
+     * @return the number
+     */
+    public int getNumber() {
+        return number;
+    }
+
+    /**
+     * @return the size
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * @return the content
+     */
+    public List<T> getContent() {
+        return content;
+    }
+
+    
 
     public static class Pagination {
 
@@ -174,11 +221,9 @@ public class Page<T> {
 
         public Pagination getPagination(JpaRepository repository) {
             Pagination pagination = new Pagination();
-            if (PageRequest.this.getTotalElement() == null) {
-                pagination.pageNo = PageRequest.this.getPageNo();
-                pagination.pageSize = PageRequest.this.getPageSize();
-                pagination.totalElement = repository.getCount();
-            }
+            pagination.pageNo = PageRequest.this.getPageNo();
+            pagination.pageSize = PageRequest.this.getPageSize();
+            pagination.totalElement = repository.getCount();
             return pagination;
         }
     }

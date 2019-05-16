@@ -1,5 +1,6 @@
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\inventory\entities\ItemCategoryEntity.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\repositories\UserAccountRepository.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\UsersPage.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\HomePage.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\components\application\PageStack.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\inventory\listeners\EntityListener.java
@@ -37,9 +38,11 @@ C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\appli
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\MenuPage.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\managers\NavigationManger.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\managers\NetworkCommunicationManager.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\configs\MenuItemMap.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\OpenPOS.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\inventory\entities\ItemStockEntity.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\services\PersistenceManger.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\components\application\Pagination.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\entities\Notification.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\components\application\ApplicationTopBar.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\utils\Page.java
