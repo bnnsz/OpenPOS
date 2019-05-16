@@ -203,7 +203,7 @@ public class SecurityService extends AuthorizingRealm implements
     public SimpleSession readSession(Serializable sessionId) throws UnknownSessionException {
         SessionEntity findById = sessionRepository.findById((Long) sessionId);
         if (findById == null || findById == null) {
-            return null;
+            throw new UnknownSessionException("Session with id "+findById+" was not found");
         }
         return findById.toSession();
     }

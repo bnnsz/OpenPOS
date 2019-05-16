@@ -77,6 +77,7 @@ com\bizstudio\inventory\repositories\LocationRepository.class
 com\bizstudio\application\managers\NotificationManager.class
 com\bizstudio\security\entities\PrincipalEntity.class
 com\bizstudio\application\enums\NotificationState.class
+com\bizstudio\ui\models\User.class
 com\bizstudio\inventory\entities\LocationEntity.class
 com\bizstudio\enums\SortOrder.class
 com\bizstudio\inventory\listeners\EntityListener.class
