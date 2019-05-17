@@ -8,11 +8,14 @@ package com.bizstudio.ui.pages.application;
 import com.bizstudio.security.entities.UserAccountEntity;
 import com.bizstudio.security.services.UserService;
 import com.bizstudio.ui.components.application.Pagination;
+import com.bizstudio.ui.models.User;
 import com.bizstudio.utils.Page;
 import java.util.Map;
+import static java.util.stream.Collectors.toList;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -20,6 +23,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -43,82 +47,88 @@ public class UsersPage extends ApplicationPage {
     @FXML
     private Button createButton;
     @FXML
-    private TableView<UserAccountEntity> userTable;
+    private TableView<User> userTable;
     @FXML
-    private TableColumn<UserAccountEntity, Boolean> selectCol;
+    private TableColumn<User, Boolean> selectCol;
     @FXML
-    private TableColumn<UserAccountEntity, String> usernameCol;
+    private TableColumn<User, String> usernameCol;
     @FXML
-    private TableColumn<UserAccountEntity, String> nameCol;
+    private TableColumn<User, String> nameCol;
     @FXML
-    private TableColumn<UserAccountEntity, String> emailCol;
+    private TableColumn<User, String> emailCol;
     @FXML
     private HBox paneFooter;
-    
+
     private Pagination pagination;
 
     private UserService userService;
 
     public UsersPage() {
         userService = UserService.getInstance();
-        
+
     }
 
     private void initComponents() {
-        
+
         userTable.setRowFactory(tableView -> {
-            final TableRow<UserAccountEntity> row = new TableRow<>();
+            final TableRow<User> row = new TableRow<>();
             row.contextMenuProperty().bind(
                     Bindings.when(Bindings.isNotNull(row.itemProperty()))
                             .then(createContextMenu(row))
                             .otherwise((ContextMenu) null));
             return row;
         });
-        
-        nameCol.setCellValueFactory((Callback<CellDataFeatures<UserAccountEntity, String>, ObservableValue<String>>) p -> {
-            String firstname  = p.getValue().getPrincipal("firstname");
-            String lastname  = p.getValue().getPrincipal("lastname");
-            firstname = firstname == null? "": firstname;
-            lastname = lastname == null? "": lastname;
-            return new SimpleStringProperty((firstname + " " + lastname).trim());
-        });
-        usernameCol.setCellValueFactory((Callback<CellDataFeatures<UserAccountEntity, String>, ObservableValue<String>>) p -> {
-            return new SimpleStringProperty(p.getValue().getUsername());
-        });
-        emailCol.setCellValueFactory((Callback<CellDataFeatures<UserAccountEntity, String>, ObservableValue<String>>) p -> {
-            return new SimpleStringProperty(p.getValue().getPrincipal("email"));
-        });
-        
-        selectCol.setCellValueFactory((Callback<CellDataFeatures<UserAccountEntity, Boolean>, ObservableValue<Boolean>>) p -> {
-            return new SimpleBooleanProperty(p.getValue().isSelected());
-        });
+        userTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        selectCol.setCellFactory(new Callback<TableColumn<UserAccountEntity, Boolean>, TableCell<UserAccountEntity, Boolean>>() {
+        nameCol.setCellValueFactory(c -> c.getValue().getFullname());
+        usernameCol.setCellValueFactory(c -> c.getValue().getUsername());
+        emailCol.setCellValueFactory(c -> c.getValue().getEmail());
+        selectCol.setCellValueFactory(c -> c.getValue().getSelected());
+
+        selectCol.setCellFactory(new Callback<TableColumn<User, Boolean>, TableCell<User, Boolean>>() {
             @Override
-            public TableCell<UserAccountEntity, Boolean> call(TableColumn<UserAccountEntity, Boolean> param) {
-                return new CheckBoxTableCell<UserAccountEntity, Boolean>() {
+            public TableCell<User, Boolean> call(TableColumn<User, Boolean> param) {
+                CheckBoxTableCell<User, Boolean> checkBoxTableCell = new CheckBoxTableCell<User, Boolean>() {
                     {
                         setAlignment(Pos.CENTER);
                     }
-
+                    
                     @Override
                     public void updateItem(Boolean item, boolean empty) {
                         if (!empty) {
                             TableRow row = getTableRow();
 
                             if (row != null) {
-                                int rowNo = row.getIndex();
+                                Integer rowNo = row.getIndex();
                                 TableViewSelectionModel sm = getTableView().getSelectionModel();
                                 if (item) {
                                     sm.select(rowNo);
+                                    System.out.println("select "+rowNo);
+                                    userTable.getItems().forEach(u -> {
+                                        System.out.println("User "+u.getUsername()+" is selected? "+u.getSelected().getValue());
+                                    });
                                 } else {
                                     sm.clearSelection(rowNo);
+                                    System.out.println("unselect "+rowNo);
+                                    userTable.getItems().forEach(u -> {
+                                        System.out.println("User "+u.getUsername()+" is selected? "+u.getSelected().getValue());
+                                    });
                                 }
                             }
                         }
                         super.updateItem(item, empty);
                     }
                 };
+                
+                checkBoxTableCell.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                        checkBoxTableCell.getTableRow();
+                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    }
+                });
+                
+                return checkBoxTableCell;
             }
         });
         selectCol.setEditable(true);
@@ -138,8 +148,8 @@ public class UsersPage extends ApplicationPage {
         col.minWidthProperty().bind(userTable.widthProperty().multiply(width));
     }
 
-    private ContextMenu createContextMenu(TableRow<UserAccountEntity> row) {
-        UserAccountEntity user = row.getItem();
+    private ContextMenu createContextMenu(TableRow<User> row) {
+        User user = row.getItem();
         final ContextMenu rowMenu = new ContextMenu();
         MenuItem view = new MenuItem("More");
         view.setOnAction(event -> viewUser(user));
@@ -154,16 +164,16 @@ public class UsersPage extends ApplicationPage {
         return rowMenu;
     }
 
-    public void viewUser(UserAccountEntity user) {
-        System.out.println("View "+user.getUsername());
+    public void viewUser(User user) {
+        System.out.println("View " + user.getUsername());
     }
 
-    public void deactivateUser(UserAccountEntity user) {
-        System.out.println("deactivate "+user.getUsername());
+    public void deactivateUser(User user) {
+        System.out.println("deactivate " + user.getUsername());
     }
 
-    public void sendMessage(UserAccountEntity user) {
-        System.out.println("Send message to "+user.getUsername());
+    public void sendMessage(User user) {
+        System.out.println("Send message to " + user.getUsername());
     }
 
     @Override
@@ -173,13 +183,15 @@ public class UsersPage extends ApplicationPage {
         Page<UserAccountEntity> allUsers = userService.getAllUsers(Page.PageRequest.of(0, 10));
         pagination = new Pagination(allUsers, this::loadData);
         paneFooter.getChildren().add(pagination);
-        userTable.setItems(FXCollections.observableArrayList(allUsers.getContent()));
+        userTable.setItems(FXCollections.observableArrayList(allUsers.getContent().stream()
+                .map(User::new).collect(toList())));
     }
 
     private void loadData(Page.PageRequest request) {
         Page<UserAccountEntity> allUsers = userService.getAllUsers(request);
         userTable.getItems().clear();
-        userTable.getItems().addAll(allUsers.getContent());
+        userTable.getItems().addAll(allUsers.getContent().stream()
+                .map(User::new).collect(toList()));
         pagination.update(allUsers);
     }
 

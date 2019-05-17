@@ -23,42 +23,48 @@ import org.apache.shiro.session.Session;
  */
 public class OpenPOS extends Application {
 
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
     }
+
     @Override
     public void start(Stage stage) throws Exception {
 //        Parent root = FXMLLoader.load(getClass().getResource("/fxml/application/Application.fxml"));
-ApplicationContainer root = new ApplicationContainer();
+        ApplicationContainer root = new ApplicationContainer();
 
-Scene scene = new Scene(root);
-scene.getStylesheets().add("/styles/application/application.css");
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/styles/application/application.css");
 
-stage.setTitle("Open POS");
-stage.setScene(scene);
+        stage.setTitle("Open POS");
+        stage.setScene(scene);
 
-Environment env = new BasicIniEnvironment("classpath:shiro.ini");
-SecurityManager securityManager = env.getSecurityManager();
+        Environment env = new BasicIniEnvironment("classpath:shiro.ini");
+        SecurityManager securityManager = env.getSecurityManager();
 // Make the SecurityManager instance available to the entire application
 // via static memory:
-SecurityUtils.setSecurityManager(securityManager);
+        SecurityUtils.setSecurityManager(securityManager);
 
-scene.addEventFilter(EventType.ROOT, event -> {
-    if (event.getEventType() != MouseEvent.MOUSE_MOVED
-            && event.getEventType() != MouseEvent.MOUSE_ENTERED_TARGET
-            && event.getEventType() != MouseEvent.MOUSE_EXITED_TARGET) {
-        Session session = SecurityUtils.getSubject().getSession(false);
-        if (session != null) {
-            session.touch();
-        }
-    }
-    
-});
-stage.show();
+        scene.addEventFilter(EventType.ROOT, event -> {
+            if (event.getEventType() != MouseEvent.MOUSE_MOVED
+                    && event.getEventType() != MouseEvent.MOUSE_ENTERED_TARGET
+                    && event.getEventType() != MouseEvent.MOUSE_EXITED_TARGET) {
+                
+                try {
+                    Session session = SecurityUtils.getSubject().getSession(false);
+                    if (session != null) {
+                        session.touch();
+                    }
+                } catch (Exception e) {
+                    
+                }
+
+            }
+
+        });
+        stage.show();
 
     }
 

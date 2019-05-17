@@ -3,6 +3,7 @@ com\bizstudio\application\entities\NotificationAction.class
 com\bizstudio\security\util\SessionAttributesConverter.class
 com\bizstudio\security\entities\SessionEntity.class
 com\bizstudio\inventory\entities\AddressEntity.class
+com\bizstudio\ui\models\Role.class
 com\bizstudio\inventory\entities\ItemVariantEntity.class
 com\bizstudio\security\repositories\AuditLogRepository.class
 com\bizstudio\security\services\PersistenceManger.class

@@ -43,8 +43,6 @@ public class UserAccountEntity implements Serializable {
 
     @OneToMany(mappedBy = "userAccount", cascade = CascadeType.ALL)
     private List<PrincipalEntity> principals = new ArrayList<>();
-    
-    
 
     @OneToMany
     private List<UserRoleEntity> roles = new ArrayList<>();
@@ -52,9 +50,9 @@ public class UserAccountEntity implements Serializable {
     private Boolean enabled;
     @Column
     private Boolean system;
-    
+
     private transient Map<String, String> principalsMap;
-    
+
     private transient boolean selected;
 
     public UserAccountEntity() {
@@ -122,23 +120,23 @@ public class UserAccountEntity implements Serializable {
     public List<PrincipalEntity> getPrincipals() {
         return principals;
     }
-    
+
     /**
      * @return the principals
      */
     public Map<String, String> getPrincipalsAsMap() {
-        if(principalsMap == null){
+        if (principalsMap == null) {
             principalsMap = new HashMap<>();
-            for(PrincipalEntity p: principals){
+            for (PrincipalEntity p : principals) {
                 principalsMap.put(p.getName(), p.getValue());
             }
         }
         return principalsMap;
     }
-    
-    
-    public String getPrincipal(String name){
-        return getPrincipalsAsMap().get(name);
+
+    public String getPrincipal(String name) {
+        String p = getPrincipalsAsMap().get(name);
+        return p == null ? "" : p;
     }
 
     /**
@@ -181,7 +179,7 @@ public class UserAccountEntity implements Serializable {
      * @return the enabled
      */
     public boolean isEnabled() {
-        return enabled;
+        return enabled == null ? false : enabled;
     }
 
     /**
@@ -201,7 +199,14 @@ public class UserAccountEntity implements Serializable {
     /**
      * @return the system
      */
-    public boolean getSystem() {
+    public boolean isSystem() {
+        return system;
+    }
+
+    /**
+     * @return the system
+     */
+    public Boolean getSystem() {
         return system;
     }
 

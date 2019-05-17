@@ -34,10 +34,12 @@ C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\secur
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\security\enums\AuditLogAction.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\ApplicationContainer.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\components\login\UsernamePasswordInput.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\models\Role.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\managers\NotificationManager.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\pages\application\MenuPage.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\managers\NavigationManger.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\managers\NetworkCommunicationManager.java
+C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\ui\models\User.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\configs\MenuItemMap.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\application\OpenPOS.java
 C:\Users\obinna.asuzu\Documents\Github\OpenPOS\src\main\java\com\bizstudio\inventory\entities\ItemStockEntity.java
