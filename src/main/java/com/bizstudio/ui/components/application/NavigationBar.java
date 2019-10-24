@@ -15,9 +15,9 @@
  */
 package com.bizstudio.ui.components.application;
 
-import com.bizstudio.application.configs.MenuItemMap;
-import com.bizstudio.application.enums.NavigationRoute;
-import com.bizstudio.application.managers.NavigationManger;
+import com.bizstudio.core.configs.MenuItemMap;
+import com.bizstudio.core.enums.NavigationRoute;
+import com.bizstudio.core.managers.NavigationManger;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +31,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * FXML Controller class
@@ -43,8 +45,8 @@ public class NavigationBar extends VBox {
     ToggleGroup navToggles;
     @FXML
     Button backButton;
-
-    private final StackPane navContainer;
+    
+    private StackPane navContainer;
 
     public NavigationBar(StackPane navContainer) {
         FXMLLoader fxmlLoader = new FXMLLoader(
@@ -120,3 +122,10 @@ public class NavigationBar extends VBox {
     }
 
 }
+
+
+
+
+
+
+

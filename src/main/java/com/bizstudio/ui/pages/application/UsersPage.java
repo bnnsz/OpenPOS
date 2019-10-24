@@ -5,16 +5,13 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.security.entities.UserAccountEntity;
+import com.bizstudio.security.entities.data.UserAccountEntity;
 import com.bizstudio.security.services.UserService;
 import com.bizstudio.ui.components.application.Pagination;
 import com.bizstudio.ui.models.User;
-import com.bizstudio.utils.Page;
 import java.util.Map;
 import static java.util.stream.Collectors.toList;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,7 +23,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -34,11 +30,16 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author obinna.asuzu
  */
+@Component
 public class UsersPage extends ApplicationPage {
 
     @FXML
@@ -61,12 +62,10 @@ public class UsersPage extends ApplicationPage {
 
     private Pagination pagination;
 
+    @Autowired
     private UserService userService;
 
-    public UsersPage() {
-        userService = UserService.getInstance();
-
-    }
+    
 
     private void initComponents() {
 
@@ -180,14 +179,14 @@ public class UsersPage extends ApplicationPage {
     public void onPageCreate() {
         //TODO ADD MENU
         initComponents();
-        Page<UserAccountEntity> allUsers = userService.getAllUsers(Page.PageRequest.of(0, 10));
+        Page<UserAccountEntity> allUsers = userService.getAllUsers(PageRequest.of(0, 10));
         pagination = new Pagination(allUsers, this::loadData);
         paneFooter.getChildren().add(pagination);
         userTable.setItems(FXCollections.observableArrayList(allUsers.getContent().stream()
                 .map(User::new).collect(toList())));
     }
 
-    private void loadData(Page.PageRequest request) {
+    private void loadData(PageRequest request) {
         Page<UserAccountEntity> allUsers = userService.getAllUsers(request);
         userTable.getItems().clear();
         userTable.getItems().addAll(allUsers.getContent().stream()
@@ -218,3 +217,4 @@ public class UsersPage extends ApplicationPage {
     }
 
 }
+

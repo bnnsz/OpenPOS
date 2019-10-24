@@ -5,16 +5,13 @@
  */
 package com.bizstudio.inventory.repositories;
 
-import com.bizstudio.inventory.entities.ItemEntity;
-import com.bizstudio.utils.JpaRepository;
-import javax.persistence.EntityManagerFactory;
+import com.bizstudio.inventory.entities.data.ItemEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author obinna.asuzu
  */
-public class ItemRepository extends JpaRepository<ItemEntity, Long>{
-    public ItemRepository(EntityManagerFactory emf) {
-        super(emf, ItemEntity.class);
-    }
+public interface ItemRepository extends JpaRepository<ItemEntity, Long>{
 }
+

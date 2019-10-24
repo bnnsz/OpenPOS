@@ -5,18 +5,18 @@
  */
 package com.bizstudio.security.services;
 
-import com.bizstudio.application.managers.NavigationManger;
-import com.bizstudio.security.entities.CredentialEntity;
-import com.bizstudio.security.entities.SessionEntity;
-import com.bizstudio.security.entities.UserAccountEntity;
-import com.bizstudio.security.entities.UserRoleEntity;
-import com.bizstudio.security.repositories.SessionRepository;
-import com.bizstudio.security.repositories.UserAccountRepository;
-import com.bizstudio.security.repositories.UserRoleRepository;
-import com.bizstudio.exceptions.NonexistentEntityException;
-import com.bizstudio.security.entities.PrincipalEntity;
+import com.bizstudio.core.managers.NavigationManger;
+import com.bizstudio.core.utils.AutowireHelper;
+import com.bizstudio.security.entities.data.CredentialEntity;
+import com.bizstudio.security.entities.cache.SessionEntity;
+import com.bizstudio.security.entities.data.UserAccountEntity;
+import com.bizstudio.security.entities.data.UserRoleEntity;
+import com.bizstudio.security.repositories.cache.SessionRepository;
+import com.bizstudio.security.repositories.data.UserAccountRepository;
+import com.bizstudio.security.repositories.data.UserRoleRepository;
+import com.bizstudio.security.entities.data.PrincipalEntity;
 import com.bizstudio.security.enums.UserPermissions;
-import com.bizstudio.security.entities.Principal;
+import com.bizstudio.security.entities.data.Principal;
 import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.persistence.EntityManagerFactory;
+import javax.annotation.PostConstruct;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -51,36 +51,41 @@ import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ObinnaAsuzu
  */
+@Service
 public class SecurityService extends AuthorizingRealm implements
         RolePermissionResolver,
         PermissionResolver,
         SessionDAO,
         SessionListener {
 
+    @Autowired
     UserAccountRepository userRepository;
 
+    @Autowired
     UserRoleRepository roleRepository;
 
+    @Autowired
     SessionRepository sessionRepository;
+    
+    
 
     Gson gson = new Gson();
 
     public SecurityService() {
-        EntityManagerFactory cacheEMF = PersistenceManger.getInstance().getCacheEMF();
-        EntityManagerFactory dataEMF = PersistenceManger.getInstance().getDataEMF();
-        
-
-        userRepository = new UserAccountRepository(dataEMF);
-        roleRepository = new UserRoleRepository(dataEMF);
-
-        sessionRepository = new SessionRepository(cacheEMF);
-        initialiseSuperuser();
+//        AutowireHelper.autowire(this, userRepository,roleRepository,sessionRepository);
+//        initialiseSuperuser();
     }
+    
+    
+    
+    
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -109,6 +114,7 @@ public class SecurityService extends AuthorizingRealm implements
         return authorizationInfo;
     }
 
+    @PostConstruct
     public final void initialiseSuperuser() {
         if (!userRepository.findByUsername("superuser").isPresent()) {
             UserAccountEntity superuser = new UserAccountEntity();
@@ -191,7 +197,7 @@ public class SecurityService extends AuthorizingRealm implements
     public Serializable create(Session session) {
         if (session instanceof SimpleSession) {
             SessionEntity entity = SessionEntity.create((SimpleSession) session);
-            sessionRepository.create(entity);
+            sessionRepository.save(entity);
             ((SimpleSession) session).setId(entity.getId());
             return entity.getId();
         } else {
@@ -201,25 +207,22 @@ public class SecurityService extends AuthorizingRealm implements
 
     @Override
     public SimpleSession readSession(Serializable sessionId) throws UnknownSessionException {
-        SessionEntity findById = sessionRepository.findById((Long) sessionId);
-        if (findById == null || findById == null) {
-            throw new UnknownSessionException("Session with id "+findById+" was not found");
-        }
+        SessionEntity findById = sessionRepository.findById((Long) sessionId)
+                .orElseThrow(() -> new UnknownSessionException("Session with id "+sessionId+" was not found"));
+        
         return findById.toSession();
     }
 
     @Override
     public void update(Session session) throws UnknownSessionException {
         if (session instanceof SimpleSession) {
-            SessionEntity findById = sessionRepository.findById((Long) session.getId());
-            if (findById == null || findById == null) {
-                throw new UnknownSessionException("Session with the id " + (Long) session.getId() + " was not found");
-            }
+            SessionEntity findById = sessionRepository.findById((Long) session.getId())
+                .orElseThrow(() -> new UnknownSessionException("Session with id "+session.getId()+" was not found"));
             findById.updateSession((SimpleSession) session);
             System.out.println("----> Updates session");
             System.out.println("----> save user " + session.getAttribute("user"));
             try {
-                sessionRepository.edit(findById);
+                sessionRepository.save(findById);
             } catch (Exception ex) {
                 Logger.getLogger(SecurityService.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -231,8 +234,8 @@ public class SecurityService extends AuthorizingRealm implements
     @Override
     public void delete(Session session) {
         try {
-            sessionRepository.destroy((Long) session.getId());
-        } catch (NonexistentEntityException ex) {
+            sessionRepository.deleteById((Long) session.getId());
+        } catch (Exception ex) {
             Logger.getLogger(SecurityService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -294,3 +297,18 @@ public class SecurityService extends AuthorizingRealm implements
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

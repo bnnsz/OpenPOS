@@ -18,12 +18,14 @@ package com.bizstudio.ui.components.application;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
+import org.springframework.stereotype.Component;
 
 /**
  * FXML Controller class
  *
  * @author ObinnaAsuzu
  */
+@Component
 public class PageStack extends StackPane{
 
     public PageStack() {
@@ -41,3 +43,4 @@ public class PageStack extends StackPane{
     
     
 }
+

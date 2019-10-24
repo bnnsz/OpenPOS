@@ -5,9 +5,9 @@
  */
 package com.bizstudio.ui.components.util;
 
-import com.bizstudio.application.enums.NavigationRoute;
-import static com.bizstudio.application.managers.NavigationManger.getInstance;
-import com.bizstudio.utils.SvgLoader;
+import com.bizstudio.core.enums.NavigationRoute;
+import static com.bizstudio.core.managers.NavigationManger.getInstance;
+import com.bizstudio.core.utils.SvgLoader;
 import java.io.IOException;
 import java.util.Map;
 import javafx.event.EventHandler;
@@ -90,3 +90,5 @@ public class MenuItem extends Button {
 
     
 }
+
+

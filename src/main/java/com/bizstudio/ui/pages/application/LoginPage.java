@@ -15,13 +15,13 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.enums.NavigationRoute;
-import com.bizstudio.application.managers.NavigationManger;
-import com.bizstudio.security.entities.Principal;
+import com.bizstudio.core.enums.NavigationRoute;
+import com.bizstudio.core.managers.NavigationManger;
+import com.bizstudio.security.entities.data.Principal;
 import com.bizstudio.security.services.PinToken;
 import com.bizstudio.ui.components.login.PinLoginInput;
 import com.bizstudio.ui.components.login.UsernamePasswordInput;
-import com.bizstudio.utils.ApplicationMessageUtil;
+import com.bizstudio.core.utils.ApplicationMessageUtil;
 import com.jfoenix.controls.JFXCheckBox;
 import java.util.Map;
 import javafx.beans.value.ObservableValue;
@@ -36,12 +36,15 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * FXML Controller class
  *
  * @author ObinnaAsuzu
  */
+@Component
 public class LoginPage extends ApplicationPage {
 
     @FXML
@@ -153,3 +156,6 @@ public class LoginPage extends ApplicationPage {
     }
 
 }
+
+
+

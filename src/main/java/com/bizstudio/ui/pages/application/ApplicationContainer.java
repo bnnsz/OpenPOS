@@ -15,15 +15,14 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.entities.NotificationAction;
-import com.bizstudio.application.managers.NavigationManger;
-import com.bizstudio.application.managers.NotificationManager;
+import com.bizstudio.core.entities.data.NotificationAction;
+import com.bizstudio.core.managers.NavigationManger;
+import com.bizstudio.core.managers.NotificationManager;
 import com.bizstudio.ui.components.application.NavigationBar;
 import com.bizstudio.ui.components.util.Alert;
-import com.bizstudio.utils.ApplicationMessageUtil;
-import java.io.IOException;
+import com.bizstudio.core.utils.ApplicationMessageUtil;
+import java.net.URL;
 import java.time.Duration;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,19 +35,21 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.springframework.stereotype.Component;
 
 /**
  * FXML Controller class
  *
  * @author ObinnaAsuzu
  */
-public class ApplicationContainer extends AnchorPane {
+@Component
+public class ApplicationContainer extends AnchorPane implements Initializable{
 
     @FXML
     private AnchorPane AnchorPane;
@@ -59,27 +60,19 @@ public class ApplicationContainer extends AnchorPane {
     @FXML
     private VBox notificationContainer;
 
-    public ApplicationContainer() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/application/Application.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        fxmlLoader.setResources(ResourceBundle.getBundle("bundles.application.lang", new Locale("en")));
-
-        try {
-            fxmlLoader.load();
-            NavigationBar navigationBar = new NavigationBar(navContainer);
-            navContainer.getChildren().add(navigationBar);
-            mainContainer.getChildren().add(NavigationManger.getInstance(navigationBar).getStackPane());
-            navContainer.setManaged(false);
-            navContainer.setVisible(false);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        NavigationBar navigationBar = new NavigationBar(navContainer);
+        navContainer.getChildren().add(navigationBar);
+        mainContainer.getChildren().add(NavigationManger.getInstance(navigationBar).getStackPane());
+        navContainer.setManaged(false);
+        navContainer.setVisible(false);
 
         ApplicationMessageUtil.instantiate(this);
 
         initNotifications();
     }
+    
 
     private void initNotifications() {
         notificationContainer.setManaged(false);
@@ -189,4 +182,14 @@ public class ApplicationContainer extends AnchorPane {
 
     }
 
+    
+
 }
+
+
+
+
+
+
+
+

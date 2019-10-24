@@ -16,12 +16,14 @@
 package com.bizstudio.ui.pages.application;
 
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
  * FXML Controller class
  *
  * @author ObinnaAsuzu
  */
+@Component
 public class HomePage extends ApplicationPage {
 
     @Override
@@ -54,3 +56,4 @@ public class HomePage extends ApplicationPage {
     
 
 }
+

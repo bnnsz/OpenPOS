@@ -5,7 +5,7 @@
  */
 package com.bizstudio.ui.models;
 
-import com.bizstudio.security.entities.UserRoleEntity;
+import com.bizstudio.security.entities.data.UserRoleEntity;
 import com.bizstudio.security.enums.UserPermissions;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.LongProperty;

@@ -15,16 +15,23 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.enums.PageState;
-import com.bizstudio.application.handlers.NavigationHandler;
+import com.bizstudio.core.enums.PageState;
+import com.bizstudio.core.handlers.NavigationHandler;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author ObinnaAsuzu
  */
-public abstract class ApplicationPage extends HBox implements NavigationHandler{
+public abstract class ApplicationPage extends HBox implements NavigationHandler {
 
     private long pageID;
     private PageState pageState;
@@ -32,9 +39,6 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
     private boolean showNavigationBar = true;
     private ToggleButton navButton;
     private String title = getClass().getSimpleName();
-    
-    
-    
 
     /**
      * @return the pageID
@@ -119,16 +123,15 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
     public void setNavButton(ToggleButton navButton) {
         this.navButton = navButton;
     }
-    
-    
+
     public abstract void onPageCreate();
-    
+
     public abstract void onPageDestroy();
-    
+
     public abstract void onPageResume();
-    
+
     public abstract void onPagePause();
-    
+
     @Override
     public abstract boolean equals(Object object);
 
@@ -143,7 +146,25 @@ public abstract class ApplicationPage extends HBox implements NavigationHandler{
     public String toString() {
         return this.getClass().getSimpleName();
     }
-    
-    
+
+    @PostConstruct
+    public void load() {
+        
+        try {
+            String simpleName = getClass().getSimpleName();
+            System.out.println(String.format("Load page %s", simpleName));
+            String fxmlResource = String.format("/fxml/pages/%s.fxml", simpleName);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlResource));
+            fxmlLoader.setRoot(this);
+            fxmlLoader.setController(this);
+            fxmlLoader.setResources(ResourceBundle.getBundle("bundles.application.lang", new Locale("en")));
+            fxmlLoader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(ApplicationPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
+
+
+

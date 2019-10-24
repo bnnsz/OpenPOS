@@ -5,47 +5,37 @@
  */
 package com.bizstudio.security.services;
 
-import com.bizstudio.enums.Error;
-import com.bizstudio.exceptions.ServiceException;
-import com.bizstudio.security.entities.CredentialEntity;
-import com.bizstudio.security.entities.PrincipalEntity;
-import com.bizstudio.security.entities.UserAccountEntity;
-import com.bizstudio.security.repositories.UserAccountRepository;
-import com.bizstudio.security.repositories.UserPermissionRepository;
-import com.bizstudio.security.repositories.UserRoleRepository;
-import com.bizstudio.utils.Page;
-import com.bizstudio.utils.Page.PageRequest;
+import com.bizstudio.security.enums.Error;
+import com.bizstudio.core.exceptions.ServiceException;
+import com.bizstudio.security.entities.data.CredentialEntity;
+import com.bizstudio.security.entities.data.PrincipalEntity;
+import com.bizstudio.security.entities.data.UserAccountEntity;
+import com.bizstudio.security.repositories.data.UserAccountRepository;
+import com.bizstudio.security.repositories.data.UserPermissionRepository;
+import com.bizstudio.security.repositories.data.UserRoleRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import static java.util.stream.Collectors.toMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author obinna.asuzu
  */
+@Service
 public class UserService {
-    static UserService instance;
-    public static UserService getInstance(){
-        if(instance == null){
-            instance = new UserService();
-        }
-        return instance;
-    }
-
+    @Autowired
     UserAccountRepository userRepository;
+    @Autowired
     UserPermissionRepository permissionRepository;
+    @Autowired
     UserRoleRepository roleRepository;
     
-
-    private UserService() {
-        userRepository = new UserAccountRepository(PersistenceManger.getInstance().getDataEMF());
-    }
-    
-    
-    
-
     public UserAccountEntity getUser(String username) throws ServiceException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
@@ -162,3 +152,7 @@ public class UserService {
         return password == null ? null : password.getValue();
     }
 }
+
+
+
+

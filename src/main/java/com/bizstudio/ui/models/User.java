@@ -5,7 +5,7 @@
  */
 package com.bizstudio.ui.models;
 
-import com.bizstudio.security.entities.UserAccountEntity;
+import com.bizstudio.security.entities.data.UserAccountEntity;
 import java.util.Objects;
 import static java.util.stream.Collectors.toList;
 import javafx.beans.binding.Bindings;

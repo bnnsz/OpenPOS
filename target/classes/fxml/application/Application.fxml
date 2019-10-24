@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="com.bizstudio.ui.pages.application.ApplicationContainer" >
     <stylesheets>
         <URL value="@/styles/application/application.css" />
         <URL value="@/styles/application/Styles.css" />
@@ -25,3 +25,4 @@
          </padding></VBox>
     </children>
 </fx:root>
+

@@ -5,7 +5,6 @@
  */
 package com.bizstudio.ui.components.application;
 
-import com.bizstudio.utils.Page;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
@@ -22,6 +21,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * FXML Controller class
@@ -42,11 +43,11 @@ public class Pagination extends HBox {
 
     private Page page;
 
-    private final Consumer<Page.PageRequest> consumer;
+    private final Consumer<PageRequest> consumer;
 
     private final ToggleGroup paginationGroup;
 
-    public Pagination(Page page, Consumer<Page.PageRequest> consumer) {
+    public Pagination(Page page, Consumer<PageRequest> consumer) {
         this.page = page;
         this.consumer = consumer;
         this.paginationGroup = new ToggleGroup();
@@ -101,8 +102,9 @@ public class Pagination extends HBox {
         initiate();
     }
 
+    
     private void consume(int pageNo) {
-        consumer.accept(Page.PageRequest.of(pageNo, dropdown.getValue(), page.getTotalElements()));
+       consumer.accept(PageRequest.of(pageNo, dropdown.getValue()));
     }
 
     private ToggleButton createToggleButton(int pageNo) {
@@ -125,9 +127,12 @@ public class Pagination extends HBox {
         @Override
         public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
             if (newValue) {
-                consumer.accept(Page.PageRequest.of(pageNo, dropdown.getValue().intValue(), page.getTotalElements()));
+                consumer.accept(PageRequest.of(pageNo, dropdown.getValue().intValue()));
             }
         }
     }
 
 }
+
+
+

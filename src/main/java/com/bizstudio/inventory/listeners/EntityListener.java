@@ -5,9 +5,9 @@
  */
 package com.bizstudio.inventory.listeners;
 
-import com.bizstudio.security.entities.AuditLogEntity;
-import com.bizstudio.security.entities.AbstractEntity;
-import com.bizstudio.security.repositories.AuditLogRepository;
+import com.bizstudio.security.entities.data.AuditLogEntity;
+import com.bizstudio.security.entities.data.AbstractEntity;
+import com.bizstudio.security.repositories.data.AuditLogRepository;
 import com.bizstudio.security.enums.AuditLogAction;
 import static com.bizstudio.security.enums.AuditLogAction.*;
 import com.bizstudio.security.services.PersistenceManger;
@@ -17,6 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -24,11 +25,10 @@ import org.apache.shiro.SecurityUtils;
  */
 public class EntityListener {
 
+    @Autowired
     private AuditLogRepository controller;
 
-    public EntityListener() {
-        this.controller = new AuditLogRepository(PersistenceManger.getInstance().getDataEMF(), AuditLogEntity.class);
-    }
+    
 
     @PrePersist
     public void prePersist(AbstractEntity item) {
@@ -60,3 +60,5 @@ public class EntityListener {
         controller.save(log);
     }
 }
+
+

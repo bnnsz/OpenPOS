@@ -5,15 +5,17 @@
  */
 package com.bizstudio.ui.pages.application;
 
-import com.bizstudio.application.configs.MenuItemMap;
+import com.bizstudio.core.configs.MenuItemMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.layout.FlowPane;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author obinna.asuzu
  */
+@Component
 public class MenuPage extends ApplicationPage {
 
     @FXML
@@ -22,7 +24,6 @@ public class MenuPage extends ApplicationPage {
     public MenuPage() {
         setKeepInHistory(false);
         setShowNavigationBar(false);
-
     }
 
     @Override
@@ -44,18 +45,20 @@ public class MenuPage extends ApplicationPage {
 
     @Override
     public boolean equals(Object object) {
-        return object instanceof MenuPage && 
-                
-                (this.getTitle().equals(((MenuPage) object).getTitle()));
+        return object instanceof MenuPage
+                && (this.getTitle().equals(((MenuPage) object).getTitle()));
     }
 
     @Override
     public void onNavigateEvent(Map<String, Object> parameters) {
         setTitle((String) parameters.get("title"));
+        menuItems.getChildren().clear();
         MenuItemMap menu = (MenuItemMap) parameters.get("menu");
-        if (menuItems.getChildren().isEmpty()) {
-            menuItems.getChildren().addAll(menu.getMenuItems());
-        }
+        menu.getMenuItems().forEach(menuItem -> {
+            menuItems.getChildren().add(menuItem);
+        });
     }
 
 }
+
+

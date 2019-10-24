@@ -5,16 +5,13 @@
  */
 package com.bizstudio.inventory.repositories;
 
-import com.bizstudio.inventory.entities.LocationEntity;
-import com.bizstudio.utils.JpaRepository;
-import javax.persistence.EntityManagerFactory;
+import com.bizstudio.inventory.entities.data.LocationEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author obinna.asuzu
  */
-public class LocationRepository extends JpaRepository<LocationEntity, Long>{
-    public LocationRepository(EntityManagerFactory emf) {
-        super(emf, LocationEntity.class);
-    }
+public interface LocationRepository extends JpaRepository<LocationEntity, Long>{
 }
+
