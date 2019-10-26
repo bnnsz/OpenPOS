@@ -3,12 +3,12 @@
  */
 @import "colors.css";
 .nav-bar {
-    -fx-background-color: -fx-color-app-primary;
+    -fx-background-color: -theme-primary-background-dark;
 }
 
 .nav-button{
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: -theme-primary-foreground-dark;
     -fx-border-radius: 0px;
     -fx-background-radius: 0px;
     -fx-font-weight: lighter;
@@ -26,3 +26,4 @@
     -fx-text-fill: white;
     -fx-font-weight: lighter;
 }
+

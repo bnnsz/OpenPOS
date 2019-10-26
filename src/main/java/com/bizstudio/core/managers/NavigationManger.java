@@ -19,9 +19,9 @@ import com.bizstudio.core.enums.NavigationRoute;
 import static com.bizstudio.core.enums.NavigationRoute.*;
 import com.bizstudio.core.enums.PageState;
 import com.bizstudio.core.utils.AutowireHelper;
-import com.bizstudio.ui.components.application.NavigationBar;
-import com.bizstudio.ui.components.application.PageStack;
-import com.bizstudio.ui.pages.application.ApplicationPage;
+import com.bizstudio.view.components.application.NavigationBar;
+import com.bizstudio.view.components.application.PageStack;
+import com.bizstudio.view.pages.application.ApplicationPage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -304,6 +304,7 @@ public class NavigationManger {
         }
     }
 }
+
 
 
 

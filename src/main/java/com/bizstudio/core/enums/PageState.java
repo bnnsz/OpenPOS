@@ -25,5 +25,8 @@ public enum PageState {
     //Currently displaying page
     ACTIVE,
     //Puased page usally caused by navigation
-    PAUSED
+    PAUSED,
+    //If the page is nolonger in the page stack
+    INACTIVE
 }
+

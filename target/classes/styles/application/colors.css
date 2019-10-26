@@ -30,6 +30,10 @@ and open the template in the editor.
    -fx-color-error-light: #e74c3c;
    -fx-color-warn-light: #e67e22;
    -fx-color-info-light: #3498db;
+   
+   -fx-color-white: #ffffff;
+   -fx-color-red: #ff0000;
+   -fx-color-black: #000000;
 }
 
 .text-color-primary{
@@ -79,4 +83,6 @@ and open the template in the editor.
     -fx-background-color: -fx-color-info;
     -fx-text-fill: #FFF;
 }
+
+
 

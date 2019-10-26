@@ -43,17 +43,44 @@ limitations under the License.
     -fx-padding: 20;
 }
 
-.input-field{
+.input-field {
     -fx-border-radius: 20px;
     -fx-background-radius:20px;
-    /*-fx-effect: innershadow(one-pass-box, rgba(200,200,200,0.5), 4, 0.5, 1, 1);*/
     -fx-background-color:white;
+    -fx-border-color: -theme-primary-background-dark;
     -fx-pref-height: 35px;
     -fx-max-height: 35px; 
     -fx-min-height: 35px;
     -fx-font-size: 18px;
     -fx-padding: 10px;
 }
+
+.input-group {
+    -fx-border-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-background-radius:20px;
+    -fx-background-color:white;
+    -fx-border-color: -theme-primary-background-dark;
+    -fx-pref-height: 35px;
+    -fx-max-height: 35px; 
+    -fx-min-height: 35px;
+    -fx-font-size: 18px;
+    -fx-padding: 3px;
+}
+
+.input-group > .button {
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+    -fx-background-color: -theme-primary-background-dark;
+    -fx-text-fill: -theme-primary-foreground-dark;
+    -fx-min-width: 0px; 
+    -fx-min-height: 0px;
+}
+
+.input-group > .input {
+    -fx-background-color:transparent;
+}
+
 
 .input-label{
     -fx-text-fill: rgba(100,100,100,0.5);
@@ -87,8 +114,8 @@ limitations under the License.
 }
 
 .btn-default{
-    -fx-background-color: -fx-color-default;
-    -fx-text-fill: -fx-color-secondary;
+    -fx-background-color: -theme-primary-background-dark;
+    -fx-text-fill: -theme-primary-foreground-dark;
 }
 .btn-primary{
     -fx-background-color: -fx-color-primary;
@@ -299,3 +326,4 @@ limitations under the License.
 .data-table > .virtual-flow > .scroll-bar > .decrement-button{
     -fx-opacity: 0;
 }
+

@@ -6,7 +6,6 @@
 package com.bizstudio.security.services;
 
 import com.bizstudio.core.managers.NavigationManger;
-import com.bizstudio.core.utils.AutowireHelper;
 import com.bizstudio.security.entities.data.CredentialEntity;
 import com.bizstudio.security.entities.cache.SessionEntity;
 import com.bizstudio.security.entities.data.UserAccountEntity;
@@ -32,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -43,10 +43,14 @@ import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.permission.PermissionResolver;
 import org.apache.shiro.authz.permission.RolePermissionResolver;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -73,8 +77,6 @@ public class SecurityService extends AuthorizingRealm implements
 
     @Autowired
     SessionRepository sessionRepository;
-    
-    
 
     Gson gson = new Gson();
 
@@ -82,10 +84,6 @@ public class SecurityService extends AuthorizingRealm implements
 //        AutowireHelper.autowire(this, userRepository,roleRepository,sessionRepository);
 //        initialiseSuperuser();
     }
-    
-    
-    
-    
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -151,7 +149,7 @@ public class SecurityService extends AuthorizingRealm implements
                 throw new IncorrectCredentialsException("Incorrect credentials");
             }
             user = userRepository.findByUsername(uToken.getUsername());
-            System.out.println("----> "+user);
+            System.out.println("----> " + user);
         }
 
         if (!user.isPresent()) {
@@ -208,8 +206,8 @@ public class SecurityService extends AuthorizingRealm implements
     @Override
     public SimpleSession readSession(Serializable sessionId) throws UnknownSessionException {
         SessionEntity findById = sessionRepository.findById((Long) sessionId)
-                .orElseThrow(() -> new UnknownSessionException("Session with id "+sessionId+" was not found"));
-        
+                .orElseThrow(() -> new UnknownSessionException("Session with id " + sessionId + " was not found"));
+
         return findById.toSession();
     }
 
@@ -217,7 +215,7 @@ public class SecurityService extends AuthorizingRealm implements
     public void update(Session session) throws UnknownSessionException {
         if (session instanceof SimpleSession) {
             SessionEntity findById = sessionRepository.findById((Long) session.getId())
-                .orElseThrow(() -> new UnknownSessionException("Session with id "+session.getId()+" was not found"));
+                    .orElseThrow(() -> new UnknownSessionException("Session with id " + session.getId() + " was not found"));
             findById.updateSession((SimpleSession) session);
             System.out.println("----> Updates session");
             System.out.println("----> save user " + session.getAttribute("user"));
@@ -297,14 +295,6 @@ public class SecurityService extends AuthorizingRealm implements
     }
 
 }
-
-
-
-
-
-
-
-
 
 
 

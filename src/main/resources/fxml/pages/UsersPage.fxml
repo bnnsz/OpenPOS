@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -19,17 +18,16 @@
                <children>
                   <Button fx:id="createButton" mnemonicParsing="false" text="Create" />
                   <Separator mouseTransparent="true" opacity="0.0" HBox.hgrow="ALWAYS" />
-                  <HBox alignment="CENTER" styleClass="search">
+                  <HBox alignment="CENTER" styleClass="input-group">
                      <children>
-                        <TextField maxHeight="1.7976931348623157E308" promptText="SEARCH" styleClass="input">
-                           <effect>
-                              <InnerShadow color="#0000007b" height="5.0" radius="2.0" width="5.0" />
-                           </effect>
-                        </TextField>
-                        <Button maxHeight="35.0" minHeight="35.0" mnemonicParsing="false">
+                        <TextField maxHeight="1.7976931348623157E308" promptText="SEARCH" styleClass="input" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false">
                            <graphic>
-                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="searchIcon" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" />
                            </graphic>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </Button>
                      </children>
                   </HBox>

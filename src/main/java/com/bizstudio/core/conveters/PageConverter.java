@@ -5,7 +5,7 @@
  */
 package com.bizstudio.core.conveters;
 
-import com.bizstudio.ui.pages.application.ApplicationPage;
+import com.bizstudio.view.pages.application.ApplicationPage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.AttributeConverter;

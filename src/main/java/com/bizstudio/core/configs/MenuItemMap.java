@@ -6,8 +6,8 @@
 package com.bizstudio.core.configs;
 
 import com.bizstudio.core.enums.NavigationRoute;
-import com.bizstudio.ui.components.util.MenuItem;
-import static com.bizstudio.ui.components.util.MenuItem.menu;
+import com.bizstudio.view.components.util.MenuItem;
+import static com.bizstudio.view.components.util.MenuItem.menu;
 import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.function.Supplier;

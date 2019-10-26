@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 25, 2019, 10:23:15 AM
+    Author     : obinna.asuzu
+*/
+
+
+.root{
+    -fx-color-white: #ffffff;
+    -fx-color-red: #ff0000;
+    -fx-color-black: #000000;
+    -theme-primary-background-dark:#006666;
+    -theme-primary-foreground-dark:#ffffff;
+    -theme-primary-background-light:#00cccc;
+    -theme-primary-foreground-light:#000000;
+}
+
+

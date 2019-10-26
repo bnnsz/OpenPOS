@@ -32,8 +32,8 @@
 }
 
 .input-type-toggle{
-    -fx-background-color: -fx-color-default;
-    -fx-text-fill: -fx-color-secondary;
+    -fx-background-color: -theme-primary-background-dark;
+    -fx-text-fill: -theme-primary-foreground-dark;
     -fx-pref-width:  100px;
     -fx-max-width: 100px; 
     -fx-min-width: 50px; 
@@ -44,8 +44,8 @@
 
 
 .input-type-toggle:selected{
-    -fx-background-color: -fx-color-primary;
-    -fx-text-fill: whitesmoke;
+    -fx-background-color: -theme-primary-background-light;
+    -fx-text-fill: -theme-primary-foreground-light;
 }
 
 

@@ -5,7 +5,7 @@
  */
 package com.bizstudio.security.util;
 
-import com.bizstudio.ui.components.util.Alert;
+import com.bizstudio.view.components.util.Alert;
 import java.security.Key;
 import java.util.Base64;
 import java.util.logging.Level;

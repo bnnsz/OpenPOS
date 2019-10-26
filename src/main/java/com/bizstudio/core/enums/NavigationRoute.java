@@ -16,11 +16,11 @@
 package com.bizstudio.core.enums;
 
 import com.bizstudio.core.configs.MenuItemMap;
-import com.bizstudio.ui.pages.application.ApplicationPage;
-import com.bizstudio.ui.pages.application.HomePage;
-import com.bizstudio.ui.pages.application.LoginPage;
-import com.bizstudio.ui.pages.application.MenuPage;
-import com.bizstudio.ui.pages.application.UsersPage;
+import com.bizstudio.view.pages.application.ApplicationPage;
+import com.bizstudio.view.pages.application.HomePage;
+import com.bizstudio.view.pages.application.LoginPage;
+import com.bizstudio.view.pages.application.MenuPage;
+import com.bizstudio.view.pages.application.UsersPage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;

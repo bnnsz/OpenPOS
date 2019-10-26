@@ -56,8 +56,11 @@ public class UserAccountEntity implements Serializable {
     private transient boolean selected;
 
     public UserAccountEntity() {
+        
     }
 
+    
+    
     /**
      * @return the id
      */
@@ -236,4 +239,5 @@ public class UserAccountEntity implements Serializable {
         return (username + " => " + credentials.toString());
     }
 }
+
 
