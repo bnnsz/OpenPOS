@@ -5,8 +5,8 @@
  */
 package com.bizstudio.view.models;
 
-import com.bizstudio.security.entities.data.UserRoleEntity;
-import com.bizstudio.security.enums.UserPermissions;
+import com.bizstudio.security.entities.PrivilegeEntity;
+import com.bizstudio.security.entities.RoleEntity;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -22,13 +22,15 @@ import javafx.collections.FXCollections;
 public class Role {
     LongProperty id;
     StringProperty name;
-    ListProperty<UserPermissions> permissions;
+    ListProperty<PrivilegeEntity> permissions;
 
-    public Role(UserRoleEntity role) {
+    public Role(RoleEntity role) {
         id = new SimpleLongProperty(role.getId());
         name = new SimpleStringProperty(role.getName());
-        permissions = new SimpleListProperty<>(FXCollections.observableArrayList(role.getPermissions()));
+        permissions = new SimpleListProperty<>(FXCollections.observableArrayList(role.getPrivileges()));
     }
     
     
 }
+
+

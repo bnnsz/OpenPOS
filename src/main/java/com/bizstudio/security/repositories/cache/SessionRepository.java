@@ -5,7 +5,8 @@
  */
 package com.bizstudio.security.repositories.cache;
 
-import com.bizstudio.security.entities.cache.SessionEntity;
+
+import com.bizstudio.security.entities.SessionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -16,6 +17,7 @@ public interface SessionRepository extends JpaRepository<SessionEntity, Long>{
 
 
 }
+
 
 
 

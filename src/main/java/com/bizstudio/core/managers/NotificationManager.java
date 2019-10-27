@@ -5,7 +5,7 @@
  */
 package com.bizstudio.core.managers;
 
-import com.bizstudio.core.entities.data.Notification;
+import com.bizstudio.core.entities.Notification;
 import com.bizstudio.core.handlers.NotificationListener;
 import java.util.ArrayList;
 import java.util.List;

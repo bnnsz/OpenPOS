@@ -49,10 +49,8 @@ public class PinLoginInput extends VBox {
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
-            System.out.println("--pin");
             backImageView.setImage(SvgLoader.getInstance().loadSvgImage(ICON_PATH+"back.svg","-fx-color-black",true,300,300));
             clearImageView.setImage(SvgLoader.getInstance().loadSvgImage(ICON_PATH+"trash.svg","-fx-color-red",true,300,300));
-            System.out.println("--pin");
         } catch (IOException ex) {
             Logger.getLogger(PinLoginInput.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,6 +65,7 @@ public class PinLoginInput extends VBox {
     }
 
 }
+
 
 
 

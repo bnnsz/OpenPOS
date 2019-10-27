@@ -6,7 +6,7 @@
 package com.bizstudio.view.pages.application;
 
 import com.bizstudio.core.utils.SvgLoader;
-import com.bizstudio.security.entities.data.UserAccountEntity;
+import com.bizstudio.security.entities.UserEntity;
 import com.bizstudio.security.services.UserService;
 import com.bizstudio.view.components.application.Pagination;
 import com.bizstudio.view.models.FXTable;
@@ -124,7 +124,7 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
     public void onPageCreate() {
         //TODO ADD MENU
         initComponents();
-        Page<UserAccountEntity> allUsers = userService.getAllUsers(PageRequest.of(0, 10));
+        Page<UserEntity> allUsers = userService.getAllUsers(PageRequest.of(0, 10));
         pagination = new Pagination(allUsers, this::loadData);
         paneFooter.getChildren().add(pagination);
         userTable.setItems(FXCollections.observableArrayList(allUsers.getContent().stream()
@@ -132,7 +132,7 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
     }
 
     private void loadData(PageRequest request) {
-        Page<UserAccountEntity> allUsers = userService.getAllUsers(request);
+        Page<UserEntity> allUsers = userService.getAllUsers(request);
         userTable.getItems().clear();
         userTable.getItems().addAll(allUsers.getContent().stream()
                 .map(User::new).collect(toList()));

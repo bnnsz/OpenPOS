@@ -5,7 +5,7 @@
  */
 package com.bizstudio.inventory.repositories;
 
-import com.bizstudio.inventory.entities.data.ItemEntity;
+import com.bizstudio.inventory.entities.ItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

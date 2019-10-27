@@ -5,7 +5,7 @@
  */
 package com.bizstudio.security.repositories.data;
 
-import com.bizstudio.security.entities.data.AuditLogEntity;
+import com.bizstudio.security.entities.AuditLogEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

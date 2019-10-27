@@ -17,7 +17,7 @@ package com.bizstudio.view.pages.application;
 
 import com.bizstudio.core.enums.NavigationRoute;
 import com.bizstudio.core.managers.NavigationManger;
-import com.bizstudio.security.entities.data.Principal;
+import com.bizstudio.security.entities.Principal;
 import com.bizstudio.security.services.PinToken;
 import com.bizstudio.view.components.login.PinLoginInput;
 import com.bizstudio.view.components.login.UsernamePasswordInput;

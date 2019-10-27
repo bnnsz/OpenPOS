@@ -6,16 +6,16 @@
 package com.bizstudio.security.services;
 
 import com.bizstudio.core.managers.NavigationManger;
-import com.bizstudio.security.entities.data.CredentialEntity;
-import com.bizstudio.security.entities.cache.SessionEntity;
-import com.bizstudio.security.entities.data.UserAccountEntity;
-import com.bizstudio.security.entities.data.UserRoleEntity;
+import com.bizstudio.security.entities.CredentialEntity;
+import com.bizstudio.security.entities.SessionEntity;
+import com.bizstudio.security.entities.UserEntity;
+import com.bizstudio.security.entities.RoleEntity;
 import com.bizstudio.security.repositories.cache.SessionRepository;
-import com.bizstudio.security.repositories.data.UserAccountRepository;
-import com.bizstudio.security.repositories.data.UserRoleRepository;
-import com.bizstudio.security.entities.data.PrincipalEntity;
+import com.bizstudio.security.entities.PrincipalEntity;
 import com.bizstudio.security.enums.UserPermissions;
-import com.bizstudio.security.entities.data.Principal;
+import com.bizstudio.security.entities.Principal;
+import com.bizstudio.security.repositories.data.RoleEntityRepository;
+import com.bizstudio.security.repositories.data.UserEntityRepository;
 import com.google.gson.Gson;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +31,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -43,14 +42,10 @@ import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.permission.PermissionResolver;
 import org.apache.shiro.authz.permission.RolePermissionResolver;
-import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.UnknownSessionException;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -70,10 +65,10 @@ public class SecurityService extends AuthorizingRealm implements
         SessionListener {
 
     @Autowired
-    UserAccountRepository userRepository;
+    UserEntityRepository userRepository;
 
     @Autowired
-    UserRoleRepository roleRepository;
+    RoleEntityRepository roleRepository;
 
     @Autowired
     SessionRepository sessionRepository;
@@ -94,11 +89,11 @@ public class SecurityService extends AuthorizingRealm implements
         Set<String> roles = new TreeSet<>();
         userRepository.findByUsername(username).ifPresent(user -> {
             if (user.getRoles() != null && user.getRoles().isEmpty()) {
-                for (UserRoleEntity role : user.getRoles()) {
+                for (RoleEntity role : user.getRoles()) {
                     if (role != null) {
                         roles.add(role.getName());
-                        if (!role.getPermissions().isEmpty()) {
-                            role.getPermissions().forEach(permision -> {
+                        if (!role.getPrivileges().isEmpty()) {
+                            role.getPrivileges().forEach(permision -> {
                                 permisions.add(permision);
                             });
                         }
@@ -115,7 +110,7 @@ public class SecurityService extends AuthorizingRealm implements
     @PostConstruct
     public final void initialiseSuperuser() {
         if (!userRepository.findByUsername("superuser").isPresent()) {
-            UserAccountEntity superuser = new UserAccountEntity();
+            UserEntity superuser = new UserEntity();
             superuser.setUsername("superuser");
             superuser.setPin("123456");
             List<CredentialEntity> credentials = new ArrayList<>();
@@ -131,7 +126,7 @@ public class SecurityService extends AuthorizingRealm implements
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        Optional<UserAccountEntity> user = Optional.empty();
+        Optional<UserEntity> user = Optional.empty();
         if (token instanceof PinToken) {
             PinToken pToken = (PinToken) token;
             if (pToken.getPin() == null || pToken.getPin().length < 1) {
@@ -172,13 +167,15 @@ public class SecurityService extends AuthorizingRealm implements
 
     @Override
     public Collection<Permission> resolvePermissionsInRole(String roleString) {
-        UserRoleEntity role = roleRepository.findFirstByName(roleString);
         List<Permission> permisions = new ArrayList<>();
-        if (role != null && !role.getPermissions().isEmpty()) {
-            role.getPermissions().forEach(permision -> {
-                permisions.add(permision);
-            });
-        }
+        roleRepository.findFirstByName(roleString).ifPresent(role -> {
+            if (!role.getPrivileges().isEmpty()) {
+                role.getPrivileges().forEach(permision -> {
+                    permisions.add(permision);
+                });
+            }
+        });
+
         return permisions;
     }
 
@@ -295,9 +292,6 @@ public class SecurityService extends AuthorizingRealm implements
     }
 
 }
-
-
-
 
 
 

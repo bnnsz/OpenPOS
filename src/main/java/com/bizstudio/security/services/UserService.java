@@ -7,12 +7,12 @@ package com.bizstudio.security.services;
 
 import com.bizstudio.security.enums.Error;
 import com.bizstudio.core.exceptions.ServiceException;
-import com.bizstudio.security.entities.data.CredentialEntity;
-import com.bizstudio.security.entities.data.PrincipalEntity;
-import com.bizstudio.security.entities.data.UserAccountEntity;
-import com.bizstudio.security.repositories.data.UserAccountRepository;
-import com.bizstudio.security.repositories.data.UserPermissionRepository;
-import com.bizstudio.security.repositories.data.UserRoleRepository;
+import com.bizstudio.security.entities.CredentialEntity;
+import com.bizstudio.security.entities.PrincipalEntity;
+import com.bizstudio.security.entities.UserEntity;
+import com.bizstudio.security.repositories.data.PrivilegeEntityRepository;
+import com.bizstudio.security.repositories.data.RoleEntityRepository;
+import com.bizstudio.security.repositories.data.UserEntityRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,42 +30,42 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
-    UserAccountRepository userRepository;
+    UserEntityRepository userRepository;
     @Autowired
-    UserPermissionRepository permissionRepository;
+    PrivilegeEntityRepository permissionRepository;
     @Autowired
-    UserRoleRepository roleRepository;
+    RoleEntityRepository roleRepository;
     
-    public UserAccountEntity getUser(String username) throws ServiceException {
+    public UserEntity getUser(String username) throws ServiceException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
     }
 
     public Map<String, String> getUserProfile(String username) throws Exception {
-        UserAccountEntity user = userRepository.findByUsername(username)
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
-        return user.getPrincipals().stream().collect(toMap(PrincipalEntity::getName, PrincipalEntity::getValue));
+        return user.getPrincipals().stream().collect(toMap(PrincipalEntity::getKey, PrincipalEntity::getValue));
     }
 
-    public UserAccountEntity registerUser(
+    public UserEntity registerUser(
             String username,
             String firstname,
             String lastname,
             String email,
             String phone,
             List<String> roles) throws Exception {
-        UserAccountEntity user = createUser(username, firstname, lastname, email, phone, roles);
+        UserEntity user = createUser(username, firstname, lastname, email, phone, roles);
         return user;
     }
 
-    public UserAccountEntity createUser(
+    public UserEntity createUser(
             String username,
             String firstname,
             String lastname,
             String email,
             String phone,
             List<String> roles) throws Exception {
-        UserAccountEntity user = new UserAccountEntity();
+        UserEntity user = new UserEntity();
         user.setUsername(username);
 
         Map<String, String> principles = new HashMap<>();
@@ -79,7 +79,7 @@ public class UserService {
             user.setPrincipal(entry.getKey(), entry.getValue());
         });
 
-        if (!userRepository.findByUsernameOrEmail(username, email).isEmpty()) {
+        if (!userRepository.findByUsernameOrEmailOrPhone(username, email, phone).isEmpty()) {
             throw new ServiceException(Error.user_exist);
         };
 
@@ -88,7 +88,7 @@ public class UserService {
     }
 
     public boolean deactivateUser(String username) throws ServiceException {
-        UserAccountEntity user = userRepository.findByUsername(username)
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
         if (user.getSystem()) {
             throw new ServiceException(Error.cannot_deactivate_sys_user);
@@ -98,23 +98,23 @@ public class UserService {
         return true;
     }
 
-    public List<UserAccountEntity> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public Page<UserAccountEntity> getAllUsers(PageRequest pageRequest) {
+    public Page<UserEntity> getAllUsers(PageRequest pageRequest) {
         return userRepository.findAll(pageRequest);
     }
 
-    public Page<UserAccountEntity> getAllUsers(String search,PageRequest pageRequest) {
+    public Page<UserEntity> getAllUsers(String search,PageRequest pageRequest) {
         if (search != null && !search.trim().isEmpty()) {
             return userRepository.searchByCriteria(search,  pageRequest);
         }
         return userRepository.findAll(pageRequest);
     }
 
-    public UserAccountEntity updateUserProfile(String username, Map<String, String> principles) throws ServiceException {
-        UserAccountEntity user = userRepository.findByUsername(username)
+    public UserEntity updateUserProfile(String username, Map<String, String> principles) throws ServiceException {
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
         principles.entrySet().forEach(entry -> {
             user.setPrincipal(entry.getKey(), entry.getValue());
@@ -123,7 +123,7 @@ public class UserService {
     }
 
     public boolean changePassword(String username, String oldPassword, String newPassword) throws ServiceException {
-        UserAccountEntity user = userRepository.findByUsername(username)
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
 
         Optional<CredentialEntity> credential = user.getCredentials()
@@ -145,13 +145,17 @@ public class UserService {
     }
     
     
-    private String getPassword(UserAccountEntity user){
+    private String getPassword(UserEntity user){
         CredentialEntity password = user.getCredentials()
                 .stream().filter(c -> c.getName().equals("password"))
                 .findFirst().orElse(null);
         return password == null ? null : password.getValue();
     }
 }
+
+
+
+
 
 
 

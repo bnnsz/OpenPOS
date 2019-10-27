@@ -15,7 +15,7 @@
  */
 package com.bizstudio.view.pages.application;
 
-import com.bizstudio.core.entities.data.NotificationAction;
+import com.bizstudio.core.entities.NotificationAction;
 import com.bizstudio.core.managers.NavigationManger;
 import com.bizstudio.core.managers.NotificationManager;
 import com.bizstudio.view.components.application.NavigationBar;

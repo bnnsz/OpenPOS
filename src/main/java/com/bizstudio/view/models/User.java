@@ -5,7 +5,7 @@
  */
 package com.bizstudio.view.models;
 
-import com.bizstudio.security.entities.data.UserAccountEntity;
+import com.bizstudio.security.entities.UserEntity;
 import static java.util.stream.Collectors.toList;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -36,7 +36,7 @@ public class User{
     private final BooleanProperty selectedProperty;
     private final ListProperty<Role> rolesProperty;
 
-    public User(UserAccountEntity user) {
+    public User(UserEntity user) {
         idProperty = new SimpleLongProperty(user.getId());
         usernameProperty = new SimpleStringProperty(user.getUsername());
         firstnameProperty = new SimpleStringProperty(user.getPrincipal("firstname"));

@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.core.handlers;
-
-import com.bizstudio.core.entities.Notification;
+package com.bizstudio.inventory.entities;
 
 /**
  *
  * @author ObinnaAsuzu
  */
-@FunctionalInterface
-public interface NotificationListener {
-    public void handle(Notification notification);
+public enum ItemAttrModifierType {
+    NONE,FLAT,PERCENT
 }

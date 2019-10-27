@@ -5,7 +5,7 @@
  */
 package com.bizstudio.inventory.repositories;
 
-import com.bizstudio.inventory.entities.data.LocationEntity;
+import com.bizstudio.inventory.entities.LocationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
