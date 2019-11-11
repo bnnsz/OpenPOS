@@ -46,6 +46,8 @@ public class RoleEntity extends AbstractEntity implements Serializable {
 
     public RoleEntity() {
     }
+    
+    
 
     public RoleEntity(String name, boolean system) {
         this.name = name;
@@ -151,6 +153,7 @@ public class RoleEntity extends AbstractEntity implements Serializable {
     }
 
 }
+
 
 
 

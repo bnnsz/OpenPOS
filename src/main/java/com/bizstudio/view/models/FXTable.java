@@ -5,14 +5,13 @@
  */
 package com.bizstudio.view.models;
 
+import com.jfoenix.controls.JFXCheckBox;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
@@ -33,15 +32,20 @@ public interface FXTable<T> {
             CheckBoxTableCell<T, Boolean> checkBoxTableCell = new CheckBoxTableCell<T, Boolean>() {
                 {
                     setAlignment(Pos.CENTER);
+                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 }
 
                 @Override
                 public void updateItem(Boolean item, boolean empty) {
+                    super.updateItem(item, empty);
                     if (!empty) {
                         TableRow row = getTableRow();
                         if (row != null) {
                             Integer rowNo = row.getIndex();
                             TableView.TableViewSelectionModel sm = getTableView().getSelectionModel();
+                            JFXCheckBox checkBox = new JFXCheckBox();
+                            checkBox.setSelected(item);
+                            setGraphic(checkBox);
                             if (item) {
                                 sm.select(rowNo);
                             } else {
@@ -49,7 +53,7 @@ public interface FXTable<T> {
                             }
                         }
                     }
-                    super.updateItem(item, empty);
+
                 }
             };
 
@@ -88,8 +92,9 @@ public interface FXTable<T> {
         col.maxWidthProperty().bind(getTable().widthProperty().multiply(width));
         col.minWidthProperty().bind(getTable().widthProperty().multiply(width));
     }
-    
+
     public TableView<T> getTable();
 }
+
 
 

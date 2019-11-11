@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.view.components.application;
+package com.bizstudio.view.pages.application.components;
 
 import java.io.IOException;
 import java.util.List;
@@ -111,8 +111,8 @@ public class Pagination extends HBox {
         ToggleButton button = new ToggleButton(pageNo + "");
         button.setSelected(page.getNumber() + 1 == pageNo);
         button.selectedProperty().addListener(new OnSelectListener(pageNo));
+        button.getStyleClass().addAll("btn","btn-default","btn-outline");
         button.setToggleGroup(paginationGroup);
-        button.getStyleClass().add("btn-flat");
         return button;
     }
 
@@ -133,6 +133,10 @@ public class Pagination extends HBox {
     }
 
 }
+
+
+
+
 
 
 

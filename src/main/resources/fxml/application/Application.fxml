@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="com.bizstudio.view.pages.application.ApplicationContainer" >
+<fx:root id="AnchorPane" minWidth="500.0" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bizstudio.view.pages.application.ApplicationContainer">
     <stylesheets>
         <URL value="@/styles/application/application.css" />
         <URL value="@/styles/application/Styles.css" />
     </stylesheets>
     <children>
-        <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox minWidth="500.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
             <StackPane fx:id="navContainer" maxHeight="1.7976931348623157E308" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-            <AnchorPane fx:id="mainContainer" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <AnchorPane fx:id="mainContainer" minWidth="430.0" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
       <VBox fx:id="notificationContainer" maxHeight="1.7976931348623157E308" maxWidth="500.0" prefWidth="300.0" spacing="10.0" style="-fx-background-color: greentransparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -25,4 +25,3 @@
          </padding></VBox>
     </children>
 </fx:root>
-

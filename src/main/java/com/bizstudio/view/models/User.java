@@ -5,7 +5,9 @@
  */
 package com.bizstudio.view.models;
 
+import com.bizstudio.security.entities.RoleEntity;
 import com.bizstudio.security.entities.UserEntity;
+import java.util.ArrayList;
 import static java.util.stream.Collectors.toList;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -23,7 +25,8 @@ import javafx.collections.ObservableList;
  *
  * @author obinna.asuzu
  */
-public class User{
+public class User {
+
     private final LongProperty idProperty;
     private final StringProperty usernameProperty;
     private final StringProperty firstnameProperty;
@@ -42,8 +45,8 @@ public class User{
         firstnameProperty = new SimpleStringProperty(user.getPrincipal("firstname"));
         lastnameProperty = new SimpleStringProperty(user.getPrincipal("lastname"));
         othernamesProperty = new SimpleStringProperty(user.getPrincipal("othernames"));
-        fullnameProperty = new SimpleStringProperty((getFirstname() + " "+ getLastname()).trim());
-        fullnameProperty.bind(Bindings.concat(firstnameProperty," ",lastnameProperty));
+        fullnameProperty = new SimpleStringProperty((getFirstname() + " " + getLastname()).trim());
+        fullnameProperty.bind(Bindings.concat(firstnameProperty, " ", lastnameProperty));
         emailProperty = new SimpleStringProperty(user.getPrincipal("email"));
         phoneProperty = new SimpleStringProperty(user.getPrincipal("phone"));
         enabledProperty = new SimpleBooleanProperty(user.isEnabled());
@@ -53,6 +56,22 @@ public class User{
                         .getRoles().stream()
                         .map(Role::new)
                         .collect(toList())));
+    }
+
+    public User() {
+        idProperty = new SimpleLongProperty(0);
+        usernameProperty = new SimpleStringProperty("");
+        firstnameProperty = new SimpleStringProperty("");
+        lastnameProperty = new SimpleStringProperty("");
+        othernamesProperty = new SimpleStringProperty("");
+        fullnameProperty = new SimpleStringProperty("");
+        fullnameProperty.bind(Bindings.concat(firstnameProperty, " ", lastnameProperty));
+        emailProperty = new SimpleStringProperty("");
+        phoneProperty = new SimpleStringProperty("");
+        enabledProperty = new SimpleBooleanProperty(false);
+        selectedProperty = new SimpleBooleanProperty(false);
+        rolesProperty = new SimpleListProperty<>(FXCollections
+                .observableArrayList(new ArrayList<>()));
     }
 
     /**
@@ -257,12 +276,21 @@ public class User{
         return getRolesProperty();
     }
 
-    
+    public UserEntity toEntity() {
+        UserEntity entity = new UserEntity();
+        entity.setId(getId());
+        entity.setUsername(getUsername());
+        entity.setPrincipal("firstname", getFirstname());
+        entity.setPrincipal("lastname", getFirstname());
+        entity.setPrincipal("othernames", getFirstname());
+        entity.setPrincipal("email", getFirstname());
+        entity.setPrincipal("phone", getFirstname());
+        entity.setEnabled(isEnabled());
+        entity.setRoles(getRoles().stream()
+                .map(role -> role.toEntity())
+                .collect(toList()));
+        return entity;
+    }
 
-    
-    
 }
-
-
-
 

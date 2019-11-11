@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bizstudio.view.pages.application;
+package com.bizstudio.view.pages.login;
 
 import com.bizstudio.core.enums.NavigationRoute;
 import com.bizstudio.core.managers.NavigationManger;
 import com.bizstudio.security.entities.Principal;
 import com.bizstudio.security.services.PinToken;
-import com.bizstudio.view.components.login.PinLoginInput;
-import com.bizstudio.view.components.login.UsernamePasswordInput;
+import com.bizstudio.view.pages.login.components.PinLoginInput;
+import com.bizstudio.view.pages.login.components.UsernamePasswordInput;
 import com.bizstudio.core.utils.ApplicationMessageUtil;
+import com.bizstudio.view.pages.application.ApplicationPage;
 import com.jfoenix.controls.JFXCheckBox;
 import java.util.Map;
 import javafx.beans.value.ObservableValue;

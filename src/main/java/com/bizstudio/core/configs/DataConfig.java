@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories(
         basePackages = {
+            "com.bizstudio.core.repositories",
             "com.bizstudio.inventory.repositories",
             "com.bizstudio.security.repositories.data"
         }
@@ -42,6 +43,7 @@ public class DataConfig {
                 .build();
     }
 }
+
 
 
 

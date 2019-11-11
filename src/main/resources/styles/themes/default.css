@@ -17,6 +17,26 @@ and open the template in the editor.
     -theme-primary-foreground-dark:#ffffff;
     -theme-primary-background-light:#00cccc;
     -theme-primary-foreground-light:#000000;
+    
+    -theme-secondary-background-dark:#bc5100;
+    -theme-secondary-foreground-dark:#ffffff;
+    -theme-secondary-background-light:#ffb04c;
+    -theme-secondary-foreground-light:#000000;
+    
+    -theme-danger-background-dark:#c62828;
+    -theme-danger-foreground-dark:#ffffff;
+    -theme-danger-background-light:#ff5f52;
+    -theme-danger-foreground-light:#000000;
+    
+    -theme-warn-background-dark:#b53d00;
+    -theme-warn-foreground-dark:#ffffff;
+    -theme-warn-background-light:#ff9d3f;
+    -theme-warn-foreground-light:#000000;
+    
+    -theme-info-background-dark:#004c8c;
+    -theme-info-foreground-dark:#ffffff;
+    -theme-info-background-light:#58a5f0;
+    -theme-info-foreground-light:#000000;
 }
 
 

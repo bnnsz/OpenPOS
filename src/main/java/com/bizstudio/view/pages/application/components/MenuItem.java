@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.view.components.util;
+package com.bizstudio.view.pages.application.components;
 
 import com.bizstudio.core.enums.NavigationRoute;
 import static com.bizstudio.core.managers.NavigationManger.getInstance;

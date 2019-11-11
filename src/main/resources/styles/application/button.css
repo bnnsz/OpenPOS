@@ -1,0 +1,137 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 11, 2019, 4:04:33 PM
+    Author     : obinna.asuzu
+*/
+
+.btn{
+    -btn-color:-theme-primary-background-dark;
+    -btn-font-color:-theme-primary-foreground-dark;  
+    -fx-pref-height: 30px;
+}
+
+.btn-flat{
+    -fx-background-color:-btn-color;
+    -fx-text-fill: -btn-font-color;
+    -fx-focus-transversable: false;
+    -fx-background-width: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(50,50,50,0.3), 3, 0, 0, 0);
+}
+
+.btn-outline {
+    -fx-background-color: white;
+    -fx-text-fill: -btn-color;
+    -fx-border-color: -btn-color;
+}
+
+.btn-round{
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+}
+
+.btn-round.btn-first{
+    -fx-border-radius: 20 0 0 20;
+    -fx-background-radius: 20 0 0 20;
+}
+
+.btn-round.btn-last{
+    -fx-border-radius: 0 20 20 0;
+    -fx-background-radius: 0 20 20 0;
+}
+
+.btn-sm{
+    -fx-pref-width:  200px;
+    -fx-pref-height: 25px;
+    -fx-max-width: 300px; 
+    -fx-min-width: 50px; 
+    -fx-max-height: 30px; 
+    -fx-min-height: 30px;
+    -fx-font-size: 12px;
+}
+
+.btn-lg{
+    -fx-pref-width:  200px;
+    -fx-pref-height: 40px;
+    -fx-max-width: 300px; 
+    -fx-min-width: 50px; 
+    -fx-max-height: 40px; 
+    -fx-min-height: 40px;
+    -fx-font-size: 18px;
+}
+
+/*Color based styles*/
+
+.btn-default{
+    -btn-color:-theme-primary-background-dark;
+    -btn-font-color:-theme-primary-foreground-dark;        
+}
+
+.btn-default:selected{
+    -btn-color:-theme-secondary-background-dark;
+    -btn-font-color:-theme-secondary-foreground-dark;        
+}
+
+.btn-danger{
+    -btn-color:-theme-danger-background-dark;
+    -btn-font-color:-theme-danger-foreground-dark;  
+}
+.btn-danger:selected{
+    -btn-color:-theme-danger-background-light;
+    -btn-font-color:-theme-danger-foreground-light;   
+}
+
+.btn-warn {
+    -btn-color:-theme-warn-background-dark;
+    -btn-font-color:-theme-warn-foreground-dark;  
+}
+
+.btn-warn:selected{
+    -btn-color:-theme-warn-background-light;
+    -btn-font-color:-theme-warn-foreground-light;   
+}
+
+.btn-info{
+    -btn-color:-theme-info-background-dark;
+    -btn-font-color:-theme-info-foreground-dark;    
+}
+
+.btn-info:selected{
+    -btn-color:-theme-info-background-light;
+    -btn-font-color:-theme-info-foreground-light;    
+}
+
+/*Button group*/
+
+
+.btn-outline:top > .tab-container .tab-label{
+    -fx-text-fill: -btn-color;
+}
+
+.btn-flat:top > .tab-container .tab-label{
+    -fx-text-fill: -btn-font-color;
+}
+
+.btn:top {
+    -fx-border-insets: 0px 2px 0px 3px;
+    -fx-background-insets: 0px 2px 0px 3px;
+    -fx-opaque-insets: 0px 2px 0px 3px;
+    -fx-margin:5px;
+    -fx-pref-height: 35px;
+    -fx-min-height: 30px;
+    -fx-font-size: 12px;
+}
+
+
+.btn:top > .tab-container .tab-label{
+    -fx-alignment: CENTER;
+    -fx-text-alignment:center;
+    -fx-content-display: center;
+    -fx-pref-width: 100px;
+    -fx-min-width: 100px; 
+    -fx-border-color: transparent;
+}
+

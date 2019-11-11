@@ -10,10 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root alignment="CENTER" prefHeight="601.0" prefWidth="978.0" styleClass="mainPanel" type="HBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <stylesheets>
-        <URL value="@/styles/pages/loginpage.css" />
-    </stylesheets>
+<fx:root alignment="CENTER" prefHeight="601.0" prefWidth="978.0" stylesheets="@/styles/pages/loginpage.css" styleClass="mainPanel" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES">
@@ -46,6 +43,8 @@
                         <String fx:value="btn" />
                         <String fx:value="btn-default" />
                         <String fx:value="btn-lg" />
+                        <String fx:value="btn-round" />
+                        <String fx:value="btn-flat" />
                      </styleClass>
                   </Button>
                </children></VBox>
@@ -54,4 +53,3 @@
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="200.0" HBox.hgrow="ALWAYS" />
    </children>
 </fx:root>
-

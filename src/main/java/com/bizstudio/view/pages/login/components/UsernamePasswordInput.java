@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.view.components.login;
+package com.bizstudio.view.pages.login.components;
 
 import com.bizstudio.view.pages.handlers.InputAuthentcationHandler;
 import java.io.IOException;

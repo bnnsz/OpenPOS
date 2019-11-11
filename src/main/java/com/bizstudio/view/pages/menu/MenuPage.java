@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.view.pages.application;
+package com.bizstudio.view.pages.menu;
 
 import com.bizstudio.core.configs.MenuItemMap;
+import com.bizstudio.view.pages.application.ApplicationPage;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.layout.FlowPane;

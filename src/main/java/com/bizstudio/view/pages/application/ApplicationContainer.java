@@ -18,9 +18,10 @@ package com.bizstudio.view.pages.application;
 import com.bizstudio.core.entities.NotificationAction;
 import com.bizstudio.core.managers.NavigationManger;
 import com.bizstudio.core.managers.NotificationManager;
-import com.bizstudio.view.components.application.NavigationBar;
-import com.bizstudio.view.components.util.Alert;
+import com.bizstudio.view.pages.application.components.NavigationBar;
+import com.bizstudio.view.pages.application.components.Alert;
 import com.bizstudio.core.utils.ApplicationMessageUtil;
+import com.bizstudio.view.pages.application.components.PageStack;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ResourceBundle;
@@ -64,7 +65,12 @@ public class ApplicationContainer extends AnchorPane implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         NavigationBar navigationBar = new NavigationBar(navContainer);
         navContainer.getChildren().add(navigationBar);
-        mainContainer.getChildren().add(NavigationManger.getInstance(navigationBar).getStackPane());
+        PageStack stackPane = NavigationManger.getInstance(navigationBar).getStackPane();
+        mainContainer.getChildren().add(stackPane);
+        AnchorPane.setBottomAnchor(stackPane, 0.0);
+        AnchorPane.setTopAnchor(stackPane, 0.0);
+        AnchorPane.setLeftAnchor(stackPane, 0.0);
+        AnchorPane.setRightAnchor(stackPane, 0.0);
         navContainer.setManaged(false);
         navContainer.setVisible(false);
 
@@ -185,6 +191,8 @@ public class ApplicationContainer extends AnchorPane implements Initializable{
     
 
 }
+
+
 
 
 

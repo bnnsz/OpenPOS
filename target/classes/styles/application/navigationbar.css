@@ -3,7 +3,7 @@
  */
 @import "colors.css";
 .nav-bar {
-    -fx-background-color: -theme-primary-background-dark;
+    -fx-background-color: transparent;
 }
 
 .nav-button{
@@ -26,4 +26,5 @@
     -fx-text-fill: white;
     -fx-font-weight: lighter;
 }
+
 

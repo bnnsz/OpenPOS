@@ -15,7 +15,7 @@
     src: url('../../fonts/opensan/OpenSans-Regular.ttf');
 }
 
-@import "colors.css";
+@import "../application/Styles.css";
 
 .mainPanel {
     -fx-background-image: url("../../images/pages/login/background.jpg") ;
@@ -63,3 +63,7 @@
     -fx-border-radius: 0;
     -fx-background-radius: 0;
 }
+
+
+
+

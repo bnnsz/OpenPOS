@@ -58,8 +58,9 @@ public class EntityListener {
         } catch (Exception e) {
             log.setUsername("anonymous");
         }
-        repository.save(log);
+        if (repository != null) {
+            repository.save(log);
+        }
     }
 }
-
 

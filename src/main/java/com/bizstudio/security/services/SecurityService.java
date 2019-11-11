@@ -107,22 +107,7 @@ public class SecurityService extends AuthorizingRealm implements
         return authorizationInfo;
     }
 
-    @PostConstruct
-    public final void initialiseSuperuser() {
-        if (!userRepository.findByUsername("superuser").isPresent()) {
-            UserEntity superuser = new UserEntity();
-            superuser.setUsername("superuser");
-            superuser.setPin("123456");
-            List<CredentialEntity> credentials = new ArrayList<>();
-            credentials.add(new CredentialEntity("password", "admin", superuser));
-            superuser.setCredentials(credentials);
-
-            List<PrincipalEntity> principals = new ArrayList<>();
-            principals.add(new PrincipalEntity("username", superuser.getUsername(), superuser));
-            superuser.setPrincipals(principals);
-            userRepository.save(superuser);
-        }
-    }
+   
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
@@ -292,6 +277,7 @@ public class SecurityService extends AuthorizingRealm implements
     }
 
 }
+
 
 
 

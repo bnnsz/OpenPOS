@@ -5,7 +5,7 @@
  */
 package com.bizstudio.core.utils;
 
-import com.bizstudio.view.components.util.Alert;
+import com.bizstudio.view.pages.application.components.Alert;
 import com.bizstudio.view.pages.application.ApplicationContainer;
 
 /**

@@ -3,31 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bizstudio.view.pages.application;
+package com.bizstudio.view.pages.users;
 
 import com.bizstudio.core.utils.SvgLoader;
 import com.bizstudio.security.entities.UserEntity;
 import com.bizstudio.security.services.UserService;
-import com.bizstudio.view.components.application.Pagination;
+import com.bizstudio.view.pages.application.components.Pagination;
 import com.bizstudio.view.models.FXTable;
+import com.bizstudio.view.models.Role;
 import com.bizstudio.view.models.User;
+import com.bizstudio.view.pages.application.ApplicationPage;
+import com.bizstudio.view.pages.users.components.CreateUser;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static java.util.stream.Collectors.toList;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -59,6 +61,10 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
     private TableColumn<User, String> emailCol;
     @FXML
     private HBox paneFooter;
+    @FXML
+    private VBox detailsPanel;
+    @FXML
+    private VBox tablePanel;
 
     private Pagination pagination;
 
@@ -70,7 +76,7 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
 
     private void initComponents() {
 
-        searchIcon.setImage(SvgLoader.getInstance().loadSvgImage("/images/application/icons/svg/search.svg", true));
+        searchIcon.setImage(SvgLoader.getInstance().loadSvgImage("/images/application/icons/svg/search.svg","-theme-primary-foreground-dark", true));
 
         userTable.setRowFactory(getRowFactory(createContextMenu()));
         userTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -90,16 +96,58 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
         setWidth(nameCol, 0.4);
         setWidth(emailCol, 0.3);
 
+        detailsPanel.setManaged(false);
+        detailsPanel.setVisible(false);
+
+        detailsPanel.managedProperty().addListener((ov, oldValue, isManaged) -> {
+            if (isManaged && getWidth() < 620) {
+                tablePanel.setManaged(false);
+                tablePanel.setVisible(false);
+            } else {
+                tablePanel.setManaged(true);
+                tablePanel.setVisible(true);
+            }
+        });
+
+        
+
+        widthProperty().addListener((ov, oldValue, newValue) -> {
+            if (newValue.doubleValue() < 620 && detailsPanel.isManaged()) {
+                tablePanel.setManaged(false);
+                tablePanel.setVisible(false);
+            } else if (newValue.doubleValue() >= 620 && !tablePanel.isManaged()) {
+                tablePanel.setManaged(true);
+                tablePanel.setVisible(true);
+            }
+        });
+
+        createButton.setOnAction(action -> {
+            createUser();
+        });
+
     }
 
     @Override
     public TableView<User> getTable() {
         return userTable;
     }
-    
-    
-    
-    
+
+    private void createUser() {
+        CreateUser createUserView = new CreateUser();
+        createUserView.onSave(u -> {
+            this.createUser(u);
+        });
+
+        createUserView.onCancle(() -> {
+
+        });
+        detailsPanel.getChildren().clear();
+        detailsPanel.getChildren().add(createUserView);
+        detailsPanel.setManaged(true);
+        detailsPanel.setVisible(true);
+
+    }
+
     private Map<String, Consumer<User>> createContextMenu() {
         Map<String, Consumer<User>> menu = new HashMap<>();
         menu.put("More", user -> viewUser(user));
@@ -161,7 +209,27 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
 
     }
 
+    private void createUser(User user) {
+        try {
+            UserEntity createdUser = userService.createUser(
+                    user.getUsername(),
+                    user.getFirstname(),
+                    user.getLastname(),
+                    user.getOthernames(),
+                    user.getEmail(),
+                    user.getPhone(),
+                    user.getRoles().stream().map(Role::getName).collect(toList()));
+            userTable.getItems().add(new User(createdUser));
+        } catch (Exception ex) {
+            Logger.getLogger(UsersPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
+
+
+
+
 
 
 

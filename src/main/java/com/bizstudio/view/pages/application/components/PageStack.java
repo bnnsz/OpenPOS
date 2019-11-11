@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bizstudio.view.components.application;
+package com.bizstudio.view.pages.application.components;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;

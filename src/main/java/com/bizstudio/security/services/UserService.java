@@ -9,16 +9,19 @@ import com.bizstudio.security.enums.Error;
 import com.bizstudio.core.exceptions.ServiceException;
 import com.bizstudio.security.entities.CredentialEntity;
 import com.bizstudio.security.entities.PrincipalEntity;
+import com.bizstudio.security.entities.RoleEntity;
 import com.bizstudio.security.entities.UserEntity;
 import com.bizstudio.security.repositories.data.PrivilegeEntityRepository;
 import com.bizstudio.security.repositories.data.RoleEntityRepository;
 import com.bizstudio.security.repositories.data.UserEntityRepository;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import static java.util.stream.Collectors.toMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -29,13 +32,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserService {
+
     @Autowired
     UserEntityRepository userRepository;
     @Autowired
     PrivilegeEntityRepository permissionRepository;
     @Autowired
     RoleEntityRepository roleRepository;
-    
+
+    @Autowired
+    Environment env;
+
     public UserEntity getUser(String username) throws ServiceException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
@@ -51,10 +58,11 @@ public class UserService {
             String username,
             String firstname,
             String lastname,
+            String othernames,
             String email,
             String phone,
             List<String> roles) throws Exception {
-        UserEntity user = createUser(username, firstname, lastname, email, phone, roles);
+        UserEntity user = createUser(username, firstname, lastname, othernames, email, phone, roles);
         return user;
     }
 
@@ -62,6 +70,7 @@ public class UserService {
             String username,
             String firstname,
             String lastname,
+            String othernames,
             String email,
             String phone,
             List<String> roles) throws Exception {
@@ -72,8 +81,15 @@ public class UserService {
         principles.put("username", username);
         principles.put("firstname", firstname);
         principles.put("lastname", lastname);
+        principles.put("othernames", othernames);
         principles.put("email", email);
         principles.put("phone", phone);
+
+        List<CredentialEntity> credentials = new ArrayList<>();
+        CredentialEntity password = new CredentialEntity("password", env.getProperty("application.default.password"), user);
+        password.setExpired(Boolean.TRUE);
+        credentials.add(password);
+        user.setCredentials(credentials);
 
         principles.entrySet().forEach(entry -> {
             user.setPrincipal(entry.getKey(), entry.getValue());
@@ -102,13 +118,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<RoleEntity> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
     public Page<UserEntity> getAllUsers(PageRequest pageRequest) {
         return userRepository.findAll(pageRequest);
     }
 
-    public Page<UserEntity> getAllUsers(String search,PageRequest pageRequest) {
+    public Page<UserEntity> getAllUsers(String search, PageRequest pageRequest) {
         if (search != null && !search.trim().isEmpty()) {
-            return userRepository.searchByCriteria(search,  pageRequest);
+            return userRepository.searchByCriteria(search, pageRequest);
         }
         return userRepository.findAll(pageRequest);
     }
@@ -134,8 +154,8 @@ public class UserService {
             password.setExpired(false);
             user.getCredentials().add(password);
         } else if (oldPassword.equals(credential.get().getValue())) {
-            user.getCredentials().forEach(cr ->{
-                if(cr.getName().equals("password")){
+            user.getCredentials().forEach(cr -> {
+                if (cr.getName().equals("password")) {
                     cr.setValue(newPassword);
                     cr.setExpired(false);
                 }
@@ -143,20 +163,12 @@ public class UserService {
         }
         return newPassword.equals(getPassword(userRepository.save(user)));
     }
-    
-    
-    private String getPassword(UserEntity user){
+
+    private String getPassword(UserEntity user) {
         CredentialEntity password = user.getCredentials()
                 .stream().filter(c -> c.getName().equals("password"))
                 .findFirst().orElse(null);
         return password == null ? null : password.getValue();
     }
 }
-
-
-
-
-
-
-
 

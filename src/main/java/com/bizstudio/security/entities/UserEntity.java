@@ -154,14 +154,13 @@ public class UserEntity extends AbstractEntity implements Serializable {
      * @param value
      */
     public void setPrincipal(String key, String value) {
-        boolean[] found = {false};
         for (PrincipalEntity p : this.principals) {
             if (p.getKey() != null && p.getKey().equals(key)) {
                 p.setValue(value);
-                principals.add(new PrincipalEntity(this, null, key, value));
-                break;
+                return;
             }
         }
+        principals.add(new PrincipalEntity(this, null, key, value));
     }
 
     /**
@@ -239,6 +238,9 @@ public class UserEntity extends AbstractEntity implements Serializable {
         return (username + " => " + credentials.toString());
     }
 }
+
+
+
 
 
 
