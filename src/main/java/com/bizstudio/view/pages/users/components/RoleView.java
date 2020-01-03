@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -27,7 +29,7 @@ public class RoleView extends HBox {
 
     private static String ICON_PATH = "/images/application/icons/svg/";
 
-    private static String ICON_CLASS = "-theme-primary-foreground-dark";
+    private static String ICON_CLASS = "-theme-danger-background-dark";
 
     @FXML
     Button removeButton;
@@ -36,10 +38,11 @@ public class RoleView extends HBox {
     @FXML
     Label nameLabel;
     Role role;
+    BooleanProperty writeProperty;
     
     Consumer<Role> callback;
 
-    public RoleView(Role role) {
+    public RoleView(Role role, BooleanProperty writeProperty) {
 
         try {
             String fxmlResource = "/fxml/components/user/RoleView.fxml";
@@ -48,15 +51,19 @@ public class RoleView extends HBox {
             fxmlLoader.setController(this);
             fxmlLoader.load();
             this.role = role;
+            this.writeProperty = writeProperty;
             initializeComponents();
         } catch (IOException ex) {
-            Logger.getLogger(CreateUser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     private void initializeComponents() {
         nameLabel.setText(role.getName());
         removeButtonIcon.setImage(SvgLoader.getInstance().loadSvgImage(ICON_PATH + "trash.svg", ICON_CLASS, true));
+        removeButton.managedProperty().bind(writeProperty);
+        removeButton.visibleProperty().bind(writeProperty);
         removeButton.setOnAction(action -> {
             callback.accept(role);
             ((Pane) getParent()).getChildren().remove(this);
@@ -68,6 +75,11 @@ public class RoleView extends HBox {
     }
 
 }
+
+
+
+
+
 
 
 

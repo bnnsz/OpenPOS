@@ -13,8 +13,9 @@ import com.bizstudio.view.models.FXTable;
 import com.bizstudio.view.models.Role;
 import com.bizstudio.view.models.User;
 import com.bizstudio.view.pages.application.ApplicationPage;
-import com.bizstudio.view.pages.users.components.CreateUser;
+import com.bizstudio.view.pages.users.components.UserView;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -76,7 +77,7 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
 
     private void initComponents() {
 
-        searchIcon.setImage(SvgLoader.getInstance().loadSvgImage("/images/application/icons/svg/search.svg","-theme-primary-foreground-dark", true));
+        searchIcon.setImage(SvgLoader.getInstance().loadSvgImage("/images/application/icons/svg/search.svg", "-theme-primary-foreground-dark", true));
 
         userTable.setRowFactory(getRowFactory(createContextMenu()));
         userTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -109,8 +110,6 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
             }
         });
 
-        
-
         widthProperty().addListener((ov, oldValue, newValue) -> {
             if (newValue.doubleValue() < 620 && detailsPanel.isManaged()) {
                 tablePanel.setManaged(false);
@@ -133,7 +132,7 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
     }
 
     private void createUser() {
-        CreateUser createUserView = new CreateUser();
+        UserView createUserView = UserView.create();
         createUserView.onSave(u -> {
             this.createUser(u);
         });
@@ -157,7 +156,14 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
     }
 
     public void viewUser(User user) {
-        System.out.println("View " + user.getUsername());
+        UserView userView = UserView.view(user);
+        userView.onUpdate(u -> {
+            this.updateUser(u);
+        });
+        detailsPanel.getChildren().clear();
+        detailsPanel.getChildren().add(userView);
+        detailsPanel.setManaged(true);
+        detailsPanel.setVisible(true);
     }
 
     public void deactivateUser(User user) {
@@ -225,14 +231,24 @@ public class UsersPage extends ApplicationPage implements FXTable<User> {
         }
     }
 
+    private void updateUser(User user) {
+        try {
+            Map<String, String> principles = new HashMap<>();
+            String username = user.getUsername();
+
+            principles.put("firstname", user.getFirstname());
+            principles.put("lastname", user.getLastname());
+            principles.put("othernames", user.getOthernames());
+            principles.put("email", user.getEmail());
+            principles.put("phone", user.getPhone());
+            List<String> roles = user.getRoles().stream().map(r -> r.getName()).collect(toList());
+            userService.updateUserProfile(username, principles, roles);
+        } catch (Exception ex) {
+            Logger.getLogger(UsersPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
-
-
-
-
-
-
-
 
 
 

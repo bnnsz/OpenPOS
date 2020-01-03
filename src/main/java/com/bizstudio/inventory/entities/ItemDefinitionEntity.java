@@ -25,12 +25,15 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @EntityListeners(EntityListener.class)
-public class ItemEntity extends AbstractEntity implements Serializable {
+public class ItemDefinitionEntity extends AbstractEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column
+    private String code;
     
     @Column
     private String name;
@@ -46,6 +49,9 @@ public class ItemEntity extends AbstractEntity implements Serializable {
 
     @OneToMany(mappedBy = "item")
     private List<ItemVariantEntity> variants = new ArrayList<>();
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Override
     public Long getId() {
@@ -54,6 +60,20 @@ public class ItemEntity extends AbstractEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the code
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * @param code the code to set
+     */
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**
@@ -126,6 +146,20 @@ public class ItemEntity extends AbstractEntity implements Serializable {
         this.variants = variants;
     }
 
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -136,10 +170,10 @@ public class ItemEntity extends AbstractEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemEntity)) {
+        if (!(object instanceof ItemDefinitionEntity)) {
             return false;
         }
-        ItemEntity other = (ItemEntity) object;
+        ItemDefinitionEntity other = (ItemDefinitionEntity) object;
         return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
@@ -151,5 +185,7 @@ public class ItemEntity extends AbstractEntity implements Serializable {
     
 
 }
+
+
 
 

@@ -14,12 +14,16 @@ import com.bizstudio.security.entities.UserEntity;
 import com.bizstudio.security.repositories.data.PrivilegeEntityRepository;
 import com.bizstudio.security.repositories.data.RoleEntityRepository;
 import com.bizstudio.security.repositories.data.UserEntityRepository;
+import com.bizstudio.view.models.User;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -65,7 +69,7 @@ public class UserService {
         UserEntity user = createUser(username, firstname, lastname, othernames, email, phone, roles);
         return user;
     }
-
+    
     public UserEntity createUser(
             String username,
             String firstname,
@@ -73,7 +77,7 @@ public class UserService {
             String othernames,
             String email,
             String phone,
-            List<String> roles) throws Exception {
+            List<String> roleNames) throws Exception {
         UserEntity user = new UserEntity();
         user.setUsername(username);
 
@@ -99,6 +103,8 @@ public class UserService {
             throw new ServiceException(Error.user_exist);
         };
 
+        List<RoleEntity> roles = roleRepository.findByNameIn(roleNames);
+        user.setRoles(roles);
         userRepository.save(user);
         return user;
     }
@@ -133,15 +139,21 @@ public class UserService {
         return userRepository.findAll(pageRequest);
     }
 
-    public UserEntity updateUserProfile(String username, Map<String, String> principles) throws ServiceException {
+    public UserEntity updateUserProfile(String username, Map<String, String> principles, List<String> roleNames) throws ServiceException {
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
         principles.entrySet().forEach(entry -> {
             user.setPrincipal(entry.getKey(), entry.getValue());
         });
+        List<RoleEntity> roles = roleRepository.findByNameIn(roleNames);
+        user.getRoles().removeIf(role -> roles.stream().noneMatch(r -> r.getId() == role.getId()));
+        user.getRoles().addAll(
+                roles.stream()
+                        .filter(role -> user.getRoles().stream().noneMatch(r -> r.getId() == role.getId()))
+                        .collect(toSet()));
         return userRepository.save(user);
     }
-
+    
     public boolean changePassword(String username, String oldPassword, String newPassword) throws ServiceException {
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ServiceException(Error.user_not_exist));
@@ -171,4 +183,23 @@ public class UserService {
         return password == null ? null : password.getValue();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -33,7 +33,7 @@ public class ItemVariantEntity extends AbstractEntity implements Serializable {
     private Long id;
 
     @ManyToOne
-    private ItemEntity item;
+    private ItemDefinitionEntity itemDefinition;
     
     @OneToMany(mappedBy = "variant")
     private List<ItemAttributeEntity> attributes = new ArrayList<>();
@@ -51,17 +51,17 @@ public class ItemVariantEntity extends AbstractEntity implements Serializable {
     }
 
     /**
-     * @return the item
+     * @return the itemDefinition
      */
-    public ItemEntity getItem() {
-        return item;
+    public ItemDefinitionEntity getItemDefinition() {
+        return itemDefinition;
     }
     
     /**
-     * @param item the item to set
+     * @param itemDefinition the itemDefinition to set
      */
-    public void setItem(ItemEntity item) {
-        this.item = item;
+    public void setItemDefinition(ItemDefinitionEntity itemDefinition) {
+        this.itemDefinition = itemDefinition;
     }
 
     /**

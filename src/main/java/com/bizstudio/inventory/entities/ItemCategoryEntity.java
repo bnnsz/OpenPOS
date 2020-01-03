@@ -5,7 +5,6 @@
  */
 package com.bizstudio.inventory.entities;
 
-
 import com.bizstudio.core.components.EntityListener;
 import com.bizstudio.security.entities.AbstractEntity;
 import java.io.Serializable;
@@ -13,9 +12,11 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -26,16 +27,18 @@ import javax.persistence.OneToMany;
 @EntityListeners(EntityListener.class)
 public class ItemCategoryEntity extends AbstractEntity implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
-    @OneToMany(mappedBy = "category")
-    private List<ItemEntity> items;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     @Column
     private String name;
+    @ManyToOne
+    ItemCategoryEntity parent;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    private List<ItemCategoryEntity> children;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Override
     public Long getId() {
@@ -45,8 +48,8 @@ public class ItemCategoryEntity extends AbstractEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-     /**
+
+    /**
      * @return the name
      */
     public String getName() {
@@ -58,6 +61,34 @@ public class ItemCategoryEntity extends AbstractEntity implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the children
+     */
+    public List<ItemCategoryEntity> getChildren() {
+        return children;
+    }
+
+    /**
+     * @param children the children to set
+     */
+    public void setChildren(List<ItemCategoryEntity> children) {
+        this.children = children;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -82,8 +113,9 @@ public class ItemCategoryEntity extends AbstractEntity implements Serializable {
         return "com.bizstudio.inventory.entities.ItemCategoryEntity[ id=" + id + " ]";
     }
 
-   
-    
 }
+
+
+
 
 

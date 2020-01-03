@@ -56,11 +56,9 @@ public class UserEntity extends AbstractEntity implements Serializable {
     private transient boolean selected;
 
     public UserEntity() {
-        
+
     }
 
-    
-    
     /**
      * @return the id
      */
@@ -238,11 +236,5 @@ public class UserEntity extends AbstractEntity implements Serializable {
         return (username + " => " + credentials.toString());
     }
 }
-
-
-
-
-
-
 
 

@@ -5,13 +5,13 @@
  */
 package com.bizstudio.inventory.repositories;
 
-import com.bizstudio.inventory.entities.ItemEntity;
+import com.bizstudio.inventory.entities.ItemDefinitionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author obinna.asuzu
  */
-public interface ItemRepository extends JpaRepository<ItemEntity, Long>{
+public interface ItemRepository extends JpaRepository<ItemDefinitionEntity, Long>{
 }
 
