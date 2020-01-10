@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,10 +36,10 @@ public class ItemVariantEntity extends AbstractEntity implements Serializable {
     @ManyToOne
     private ItemDefinitionEntity itemDefinition;
     
-    @OneToMany(mappedBy = "variant")
+    @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
     private List<ItemAttributeEntity> attributes = new ArrayList<>();
     
-    @OneToMany(mappedBy = "variant")
+    @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
     private List<ItemStockEntity> stocks = new ArrayList<>();
 
     @Override
@@ -115,4 +116,6 @@ public class ItemVariantEntity extends AbstractEntity implements Serializable {
     }
 
 }
+
+
 

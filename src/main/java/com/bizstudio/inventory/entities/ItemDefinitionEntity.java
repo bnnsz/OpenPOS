@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -13,6 +13,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class ItemDefinitionEntity extends AbstractEntity implements Serializable
     @OneToMany
     private List<ItemPropEntity> properties = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     private List<ItemVariantEntity> variants = new ArrayList<>();
     
     @Column(columnDefinition = "TEXT")
@@ -185,6 +186,8 @@ public class ItemDefinitionEntity extends AbstractEntity implements Serializable
     
 
 }
+
+
 
 
 

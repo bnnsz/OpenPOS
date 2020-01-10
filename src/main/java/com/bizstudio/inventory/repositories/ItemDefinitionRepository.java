@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author obinna.asuzu
  */
-public interface ItemRepository extends JpaRepository<ItemDefinitionEntity, Long>{
+public interface ItemDefinitionRepository extends JpaRepository<ItemDefinitionEntity, Long>{
+    
 }
+
 

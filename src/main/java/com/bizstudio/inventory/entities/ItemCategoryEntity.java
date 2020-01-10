@@ -34,7 +34,7 @@ public class ItemCategoryEntity extends AbstractEntity implements Serializable {
     @Column
     private String name;
     @ManyToOne
-    ItemCategoryEntity parent;
+    private ItemCategoryEntity parent;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     private List<ItemCategoryEntity> children;
     @Column(columnDefinition = "TEXT")
@@ -61,6 +61,20 @@ public class ItemCategoryEntity extends AbstractEntity implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the parent
+     */
+    public ItemCategoryEntity getParent() {
+        return parent;
+    }
+
+    /**
+     * @param parent the parent to set
+     */
+    public void setParent(ItemCategoryEntity parent) {
+        this.parent = parent;
     }
 
     /**

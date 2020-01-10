@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,23 +30,21 @@ public class LocationEntity extends AbstractEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     @Column
     private String name;
-    
     @Column
     private String phoneNumber;
     
     @OneToOne
     private AddressEntity address;
     
-    @OneToMany(mappedBy = "parentLocation")
+    @OneToMany(mappedBy = "parentLocation", fetch = FetchType.LAZY)
     private List<LocationEntity> subLocations;
     
     @ManyToOne
     private LocationEntity parentLocation;
     
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
     private List<ItemStockEntity> stocks;
     
     @Override
@@ -164,3 +163,8 @@ public class LocationEntity extends AbstractEntity implements Serializable {
     }
     
 }
+
+
+
+
+
